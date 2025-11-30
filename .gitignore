@@ -1,0 +1,5 @@
+venv/
+venv_win/
+skeleton_code/save/
+skeleton_code/results/
+skeleton_code/embeddings/

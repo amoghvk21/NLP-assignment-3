@@ -3,3 +3,6 @@ venv_win/
 skeleton_code/save/
 skeleton_code/results/
 skeleton_code/embeddings/
+skeleton_code/__pycache__/
+skeleton_code/pos_tagging/__pycache__/
+.vscode/

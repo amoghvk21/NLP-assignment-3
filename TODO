@@ -1,8 +1,5 @@
 - None for initial_guesses and continue_training
 - check train_EM_log()
-- HMMClasifier.viterbi() and viterbi_log() indexing 
-    e.g. -1 or not in optimal_path.append()
-    lots of other indexing issues
 
 - map_tags() inner function in test_kmeans() function in kmeans_pipeline
 - need to understand subword pooling in generate_bert_embeddings()
@@ -10,8 +7,17 @@
 - Need to make sure i am minimising for loops and use matricies
     - Esp in viterbi - there is a triple for loop
 
-- go through viterbi_log and use this to implement viterbi (both in hmm.py)
 
 - num_clusters
 
-- remove all alpha and betas
+- remove all alpha and betas and gammas and xi and thetas
+
+- be careful of only saving tensors with torch.load
+- use joblib to store sklearn models
+
+- remove comments that say as per paper 
+
+
+EVAL IN KMEANS NEEDS TO USE BATCHING AND SO RECODE KMEANS.INFERENCE TO ALLOW FOR BATCHES
+
+reduce comments

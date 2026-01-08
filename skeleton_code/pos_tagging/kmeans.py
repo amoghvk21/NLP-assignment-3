@@ -16,34 +16,29 @@ warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
 # Set up logger
 logger = logging.getLogger()
 
-BERT_MODEL_NAME = "google-bert/bert-base-uncased"
-
 class KMeansClassifier(BaseUnsupervisedClassifier):
-    def __init__(self, num_clusters, device: torch.device):
+    def __init__(self, num_clusters, device: torch.device, bert_model: AutoModel, tokenizer: AutoTokenizer):
         """
         Initialize K-means classifier
         
         Args:
             num_clusters: Number of clusters (should match number of POS tags)
             device: Device to run model on
+            bert_model: Pre-loaded BERT model
+            tokenizer: Pre-loaded BERT tokenizer
         
         Store: 
             - num_clusters (int)
             - device: Device to run model on
             - kmeans_model (sklearn.cluster.KMeans) - will be set in train()
-            - bert_model: BERT model loaded once and reused for inference
-            - tokenizer: BERT tokenizer loaded once and reused for inference
+            - bert_model: BERT model reused for inference
+            - tokenizer: BERT tokenizer reused for inference
         """
         self.num_clusters = num_clusters
         self.device = device
         self.kmeans_model = None  # Will be set in train()
-        
-        # Load BERT model and tokenizer once during initialisation
-        logger.info(f"Loading BERT model and tokenizer: {BERT_MODEL_NAME}")
-        self.bert_model = AutoModel.from_pretrained(BERT_MODEL_NAME).to(self.device)
-        self.tokenizer = AutoTokenizer.from_pretrained(BERT_MODEL_NAME)
-        self.bert_model.eval()
-        logger.info("BERT model and tokenizer loaded successfully")
+        self.bert_model = bert_model
+        self.tokenizer = tokenizer
     
     def train(self, embeddings_tensor: torch.Tensor) -> None:
         """
@@ -165,7 +160,7 @@ class KMeansClassifier(BaseUnsupervisedClassifier):
                 f"Inference: Expected {len(word_list)} word embeddings, "
                 f"got {len(word_embeddings)}. Mismatch between words and embeddings."
             )
-            # This deals with fixing this error 
+            # This deals with fixing this error TODO remove if not needed
             """
             logger.warning(
                 f"Inference: Expected {len(word_list)} word embeddings,", 

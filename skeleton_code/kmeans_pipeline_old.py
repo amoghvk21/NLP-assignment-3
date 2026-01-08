@@ -4,7 +4,6 @@ import logging
 import csv
 from datasets import Dataset
 import os
-import pickle
 from sklearn.cluster import KMeans
 from datasets import DatasetDict
 from tqdm import tqdm
@@ -63,8 +62,7 @@ def generate_bert_embeddings(
     word_to_embedding = {}
     if cache_path and os.path.isfile(cache_path):
         logger.info(f"Loading word embeddings from cache: {cache_path}")
-        with open(cache_path, "rb") as f:
-            word_to_embedding = pickle.load(f)
+        word_to_embedding = torch.load(cache_path, map_location=device)
         logger.info(f"Cache loaded successfully. Found {len(word_to_embedding)} word embeddings.")
     
     # 1b. If not, generate BERT embeddings for all unique words
@@ -128,14 +126,13 @@ def generate_bert_embeddings(
                         
                         word_to_embedding[word] = word_emb.cpu()
                         pbar.update(1)
-        # 2c. Save the word_to_embedding dictionary to disk as cache (using pickle for tensors)
+        # 2c. Save the word_to_embedding dictionary to disk as cache
         if cache_path:
             try:
-                with open(cache_path, "wb") as f:
-                    pickle.dump(word_to_embedding, f)
+                torch.save(word_to_embedding, cache_path)
                 logger.info(f"Word embeddings cached to {cache_path}.")
             except Exception as e:
-                logger.warning(f"Pickle cache failed: {e}. Not caching word embeddings.")
+                logger.warning(f"Cache save failed: {e}. Not caching word embeddings.")
 
     # 3. Building embeddings for all unique words
     # Sorting for consistent ordering.
@@ -178,8 +175,7 @@ def train(
     # 3. Handles saving
     if save_path is not None:
         logger.info(f"Saving K-means model to {save_path}")
-        with open(save_path, "wb") as f:
-            pickle.dump(kmeans, f)
+        torch.save(kmeans, save_path)
     else:
         logger.warning("No save path provided. K-means model not saved")
     
@@ -227,8 +223,8 @@ def eval(
             )
         # Load K-means model
         logger.info(f"Loading K-means model from {load_path}")
-        with open(load_path, "rb") as f:
-            kmeans = pickle.load(f)
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        kmeans = torch.load(load_path, map_location=device)
 
     # Evaluate
     num_samples = len(dataset_split)

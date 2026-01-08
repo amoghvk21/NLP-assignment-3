@@ -4,7 +4,6 @@ import logging
 import csv
 from datasets import Dataset
 import os
-import pickle
 from sklearn.cluster import KMeans
 from datasets import DatasetDict
 from tqdm import tqdm
@@ -24,7 +23,7 @@ def generate_bert_embeddings(
     word_embedding_path: str,
     batch_size: int = 32,
     device: str = None
-) -> tuple[list[torch.Tensor], torch.Tensor]:
+) -> tuple[list[torch.Tensor], torch.Tensor, AutoModel, AutoTokenizer]:
     """
     Generate context-dependent BERT embeddings for words from PTB sentences.
     
@@ -40,6 +39,8 @@ def generate_bert_embeddings(
     Returns:
         all_word_embeddings: List of tensors, each containing word embeddings for one sentence
         embeddings_tensor: Stacked tensor of all word embeddings (for clustering)
+        bert_model: Loaded BERT model (always loaded, for reuse)
+        tokenizer: Loaded BERT tokenizer (always loaded, for reuse)
     
     Steps:
         1. Check if a cache file containing word embeddings exists on disk.
@@ -69,19 +70,19 @@ def generate_bert_embeddings(
     # 1a. Check if a cache file containing word embeddings exists on disk.
     if word_embedding_path and os.path.isfile(word_embedding_path):
         logger.info(f"Loading contextual embeddings from cache: {word_embedding_path}")
-        with open(word_embedding_path, "rb") as f:
-            all_word_embeddings = pickle.load(f)
+        all_word_embeddings = torch.load(word_embedding_path, map_location=device)
         logger.info(f"Cache loaded successfully. Found {len(all_word_embeddings)} sentences.")
+    
+    # Always load BERT model and tokenizer (required for KMeansClassifier)
+    logger.info(f"Loading BERT model: {BERT_MODEL_NAME}")
+    bert_model = AutoModel.from_pretrained(BERT_MODEL_NAME).to(device)
+    tokenizer = AutoTokenizer.from_pretrained(BERT_MODEL_NAME)
+    bert_model.eval()
+    logger.info("BERT model and tokenizer loaded successfully")
     
     # 1b. If not cached, generate BERT embeddings for all sentences
     if not all_word_embeddings:
         logger.info("No cache found. Generating context-dependent BERT embeddings.")
-        
-        # i. Load the BERT model and tokeniser
-        logger.info(f"Loading BERT model: {BERT_MODEL_NAME}")
-        model = AutoModel.from_pretrained(BERT_MODEL_NAME).to(device)
-        tokenizer = AutoTokenizer.from_pretrained(BERT_MODEL_NAME)
-        model.eval()
         
         # Stores embeddings split by sentence
         all_word_embeddings = []
@@ -111,7 +112,7 @@ def generate_bert_embeddings(
                     batch_word_ids = [encoded.word_ids(batch_index=i) for i in range(len(batch_words))]   # TODO: Check
                     
                     # Pass through BERT to get contextualised embeddings
-                    outputs = model(**tokens)
+                    outputs = bert_model(**tokens)
                     hidden_states = outputs.last_hidden_state  # (batch_size, seq_len, hidden_dim)
                     
                     # For each sentence in batch, extract word embeddings
@@ -170,7 +171,7 @@ def generate_bert_embeddings(
                                 f"Sentence {i+j}: Expected {len(words)} word embeddings,", 
                                 f"got {len(word_embeddings)}. Padding/truncating."
                             )
-                            # This deals with fixing this error 
+                            # This deals with fixing this error TODO remove if not needed
                             """
                             logger.warning(
                                 f"Sentence {i+j}: Expected {len(words)} word embeddings,", 
@@ -197,11 +198,10 @@ def generate_bert_embeddings(
         # 1c. Save the all_word_embeddings list to cache
         if word_embedding_path:
             try:
-                with open(word_embedding_path, "wb") as f:
-                    pickle.dump(all_word_embeddings, f)
+                torch.save(all_word_embeddings, word_embedding_path)
                 logger.info(f"Contextual embeddings cached to {word_embedding_path}.")
             except Exception as e:
-                logger.warning(f"Pickle cache failed: {e}. Not caching word embeddings to {word_embedding_path}.")
+                logger.warning(f"Cache save failed: {e}. Not caching word embeddings to {word_embedding_path}.")
 
     # 2. Flatten all sentence embeddings into a single tensor for clustering
     # Each element in all_word_embeddings is (sentence_len, hidden_dim)
@@ -213,14 +213,16 @@ def generate_bert_embeddings(
         embeddings_tensor = torch.empty((0, 768))
         logger.warning("No embeddings generated!")
 
-    # 3. Return embeddings list and flattened tensor
-    return all_word_embeddings, embeddings_tensor
+    # 3. Return embeddings list, flattened tensor, and BERT model/tokenizer
+    return all_word_embeddings, embeddings_tensor, bert_model, tokenizer
 
 
 def train(
     embeddings_tensor: torch.Tensor,
     num_clusters: int,
     device: torch.device,
+    bert_model: AutoModel,
+    tokenizer: AutoTokenizer,
     save_path: str = None
 ) -> None:
     """
@@ -230,20 +232,24 @@ def train(
         embeddings_tensor: Tensor of shape (total_word_tokens, hidden_dim) containing all contextual embeddings
         num_clusters: Number of clusters (matches number of POS tags)
         device: Device to run model on
+        bert_model: Pre-loaded BERT model
+        tokenizer: Pre-loaded BERT tokenizer
         save_path: Path to save the model
 
     Steps:
-        1. Creates KMeansClassifier instance (model/tokenizer loaded internally)
+        1. Creates KMeansClassifier instance (with BERT model/tokenizer)
         2. Calls its train() method with embeddings tensor
         3. Handles saving
     """
 
     logger.info("Training K-means on contextual embeddings")
 
-    # 1. Creates KMeansClassifier instance
+    # 1. Creates KMeansClassifier instance with BERT model/tokenizer
     kmeans = KMeansClassifier(
         num_clusters=num_clusters,
-        device=device
+        device=device,
+        bert_model=bert_model,
+        tokenizer=tokenizer
     )
     
     # 2. Calls its train() method that handles fitting
@@ -252,8 +258,7 @@ def train(
     # 3. Saves the model
     if save_path is not None:
         logger.info(f"Saving K-means model to {save_path}")
-        with open(save_path, "wb") as f:
-            pickle.dump(kmeans, f)
+        torch.save(kmeans, save_path)
     else:
         logger.warning("No save path provided. K-means model not saved")
     
@@ -294,8 +299,8 @@ def eval(
         raise ValueError("load_path must be provided for evaluation")
             
     logger.info(f"Loading K-means model from {load_path}")
-    with open(load_path, "rb") as f:
-        kmeans = pickle.load(f)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    kmeans = torch.load(load_path, map_location=device, weights_only=False)
 
     # Evaluate
     num_samples = len(dataset_split)
@@ -477,7 +482,7 @@ def train_and_test(
 
     # 2. Generate/load context-dependent BERT embeddings for all sentences
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    all_word_embeddings, embeddings_tensor = generate_bert_embeddings(
+    all_word_embeddings, embeddings_tensor, bert_model, tokenizer = generate_bert_embeddings(
         sentences,
         word_embedding_path=word_embedding_path,
         batch_size=32,
@@ -506,7 +511,9 @@ def train_and_test(
             embeddings_tensor=embeddings_tensor,
             num_clusters=len(tag_mapping),
             device=device,
-            save_path=save_path,
+            bert_model=bert_model,
+            tokenizer=tokenizer,
+            save_path=save_path
         )
 
         # 5. Evaluate K-means model

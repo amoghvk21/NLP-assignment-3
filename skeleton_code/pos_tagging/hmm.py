@@ -91,6 +91,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         for i in range(mat.size(0)):
             if torch.sum(mat[i]) == 0:
                 continue
+            # log(count/sum(count))
             mat[i] = torch.log(mat[i]) - torch.log(torch.sum(mat[i]))
         return mat
 
@@ -107,7 +108,9 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             tags = sentence["tags"]
 
             # Update initial probabilities
-            self.transition_prob[0, tags[0]] += 1
+            # Changed this due to the 0th col being the start state probs
+            # so the actual tags start from + 1
+            self.transition_prob[0, tags[0] + 1] += 1
 
             for i in range(len(input_ids)):
                 # Update transition probabilities
@@ -131,7 +134,9 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             tags = sentence["tags"]
 
             # Update initial probabilities
-            self.transition_prob[0, tags[0]] += 1
+            # Changed this due to the 0th col being the start state probs
+            # so the actual tags start from + 1
+            self.transition_prob[0, tags[0] + 1] += 1
 
             for i in range(len(input_ids)):
                 # Update transition probabilities
@@ -185,14 +190,18 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         for i in range(num_iter):
             logger.info(f"Soft EM iteration {i + 1}/{num_iter}")
 
-            # Soft count accumulators (float!)
+            # Soft count accumulators (float)
             soft_trans_counts = torch.full(
                 [self.num_states + 1, self.num_states + 1],
-                fill_value=0.0, dtype=torch.float32
+                fill_value=self.epsilon,
+                dtype=torch.float32
             )
+            soft_trans_counts[:, 0] = 0.0 # Impossible to transition to start state
+            
             soft_emit_counts = torch.full(
                 [self.num_states, self.num_obs],
-                fill_value=0.0, dtype=torch.float32
+                fill_value=self.epsilon,
+                dtype=torch.float32
             )
 
             for sentence in tqdm(inputs, desc=f"Soft EM E-step"):
@@ -209,10 +218,6 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 soft_trans_counts += trans_expected
                 soft_emit_counts += emit_expected
 
-            # No zero probabilities
-            soft_trans_counts = soft_trans_counts + self.epsilon
-            soft_emit_counts = soft_emit_counts + self.epsilon
-            
             # 5. M-step: update parameters from soft counts (use log version for log_scale)
             self.transition_prob = self._normalize_log(soft_trans_counts)
             self.emission_prob = self._normalize_log(soft_emit_counts)
@@ -275,19 +280,19 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 if len(input_ids) == 0:
                     continue
                 
-                path = self.viterbi_log(input_ids)  # hidden state indices (1-indexed: 1..N)
+                path = self.viterbi_log(input_ids)  # hidden state indices (0 indexed)
 
                 # Handle initial transition and emission for first token as special case due to start state and no emissions
-                # path[0] is 1-indexed (1..N) so convert to 0-indexed for emission_counts (0..N-1)
+                # path[0] is 0-indexed (0..N-1)
                 # emissions are 0 indexed (0..N-1) as the dimensions are (N, M)
-                transition_counts[0, path[0]] += 1     # initial transition; 0 due to start state
-                emission_counts[path[0]-1, input_ids[0]] += 1    # emission for first token (convert 1-indexed to 0-indexed)
+                transition_counts[0, path[0] + 1] += 1     # initial transition; 0 due to start state
+                emission_counts[path[0], input_ids[0]] += 1    # emission for first token (0-indexed)
 
                 for t in range(1, len(input_ids)):
-                    # path and transitions are 1-indexed
-                    transition_counts[path[t-1], path[t]] += 1
-                    # emissions are 0 indexed (0..N-1) so minus 1
-                    emission_counts[path[t]-1, input_ids[t]] += 1
+                    # path and transitions are 0-indexed
+                    transition_counts[path[t-1] + 1, path[t] + 1] += 1
+                    # emissions are 0 indexed (0..N-1)
+                    emission_counts[path[t], input_ids[t]] += 1  # emissino doesnt have start state
 
             # M-step: update parameters from hard counts
             self.transition_prob = self._normalize_log(transition_counts)
@@ -335,7 +340,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         global_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1)
         global_emit_stats = torch.zeros(self.num_states, self.num_obs)
 
-        k = 0  # Counter of updates performed
+        k = 0  # Counter of updates performed - used for eta function
 
         for epoch in range(num_iter):
             logger.info(f"Stepwise EM epoch {epoch + 1}/{num_iter}")
@@ -503,6 +508,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             # gamma[:, t] is probability for each pos tag (all hidden states) at this step (for word at time t)
             emit_expected[:, observation] += gamma[:, t]
 
+
+
         # Accumulate soft transition counts (xi)
         # Xi stores how likely to transition from pos tag (state) s to pos tag (state) s_prime at time t
         # Initial transition (from start state to all states)
@@ -518,7 +525,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
         # Transitions between states (vectorised over all time steps)
         # Prepare emission for all next observations: (T-1, num_states)
-        observations = torch.tensor(input_ids[1:])                   # (T-1,)
+        observations = torch.tensor(input_ids[1:], dtype=torch.long)                   # (T-1,)
         emission = self.emission_prob[:, observations].T             # (T-1, num_states)
 
         # Reshaping all
@@ -555,42 +562,46 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         if seq_len == 0:
             return []
 
-        V = torch.zeros(N + 1, seq_len + 1)
+        V = torch.zeros(N, seq_len)
         path = {}   # Dictionary to store the optimal path for each state at each time step
-        V[:, 0] = self.transition_prob[0, :]  # Initial probabilities of going from start state to each other state
+
+        # init 
+        V[:, 0] = self.transition_prob[0, 1:] * self.emission_prob[:, input_ids[0]]  # Initial probabilities of going from start state to each other state
 
         # Complete code here
 
-        for t in range(1, seq_len + 1):  # Skip the first time step
-            # prev_V shape (N,)
-            prev_V = V[1:, t-1]
+        # transition_matrix shape (N, N)
+        transitions = self.transition_prob[1:, 1:] # from 1...N to 1...N
 
-            # transition_matrix shape (N, N)
-            transition = self.transition_prob[1:, 1:] # from 1...N to 1...N
+        for t in range(1, seq_len):  # Skip the first time step
+            # prev_V shape (N, 1)
+            prev_V = V[:, t-1].reshape(-1, 1)
 
-            # emission shape (N,) for token at t-1
-            emission = self.emission_prob[:, input_ids[t-1]]
+            # emission shape (1, N) for token at t-1
+            emission = self.emission_prob[:, input_ids[t]].reshape(1, -1)
 
             # For each current state y (index 0..N-1), calculate:
             #   V[y, t] = max_{y'} V[y', t-1] * trans[y', y] * emit[y, x_t]
             #   path[y, t] = argmax_{y'} (above)
-            scores = prev_V.unsqueeze(1) * transition * emission.unsqueeze(0)  # (N, N)
+            scores = prev_V * transitions * emission
 
             # Column-wise max and argmax operations
-            V[1:, t], argmax_x = torch.max(scores, dim=0)
+            best_scores, best_prev_indices = torch.max(scores, dim=0)
+            V[:, t] = best_scores
 
             # path dict stores backpointers: for each state y at time t, store previous state (1..N, t)
-            for y in range(1, N+1):  # y is 1..N
-                path[(y, t)] = argmax_x[y-1] + 1  # store as state index 1..N
+            for y in range(N):  # y is 1..N
+                path[(y, t)] = best_prev_indices[y].item()  # store as state index 1..N
 
         # Backtrace to find the optimal path
-        optimal_path = []
-        last_state = (torch.argmax(V[1:, len(input_ids)]) + 1).item()
-        optimal_path.append(last_state - 1)  # manually add the first state index
+        last_state = torch.argmax(V[:, -1]).item()
+        optimal_path = [last_state]
 
-        for t in range(len(input_ids), 1, -1):
-            last_state = path[last_state.item(), t]
-            optimal_path.insert(0, last_state.item()) # prepend the state index
+        current_state = last_state
+        for t in range(seq_len - 1, 0, -1):
+            current_state = path[current_state, t]
+            optimal_path.insert(0, current_state) # prepend the state index
+
 
         return optimal_path
 
@@ -602,48 +613,51 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         assert self.log_scale
 
         seq_len = len(input_ids)
-        N = self.num_states  # number of hidden states
+        N = self.num_states
 
         # Handle empty sequences
         if seq_len == 0:
             return []
 
-        # V is (N+1, seq_len+1)
-        V = torch.full((N + 1, seq_len + 1), float("-inf"))
-        path = {}
-        V[:, 0] = self.transition_prob[0, :]  # Initiial probs of going from start state to each other state
+        V = torch.full((N, seq_len), float('-inf'))
+        path = {}   # Dictionary to store the optimal path for each state at each time step
+
+        # init 
+        V[:, 0] = self.transition_prob[0, 1:] + self.emission_prob[:, input_ids[0]]  # Initial probabilities of going from start state to each other state
 
         # Complete code here
 
-        for t in range(1, seq_len + 1):  # Skip the first time step
-            # prev_V shape (N,)
-            prev_V = V[1:, t-1]
-            
-            # transition_matrix shape (N, N)
-            transition = self.transition_prob[1:, 1:] # from 1...N to 1...N
+        # transition_matrix shape (N, N)
+        transitions = self.transition_prob[1:, 1:] # from 1...N to 1...N
 
-            # emission shape (N,) for token at t-1
-            emission = self.emission_prob[:, input_ids[t-1]]
+        for t in range(1, seq_len):  # Skip the first time step
+            # prev_V shape (N, 1)
+            prev_V = V[:, t-1].reshape(-1, 1)
+
+            # emission shape (1, N) for token at t-1
+            emission = self.emission_prob[:, input_ids[t]].reshape(1, -1)
 
             # For each current state y (index 0..N-1), calculate:
-            #     max_x { prev_V[x] + transition[x, y] + emission[y] }
-            # (N, 1) + (N, N) + (1, N) -> (N, N)
-            scores = prev_V.reshape(-1, 1) + transition + emission.reshape(1, -1)
+            #   V[y, t] = max_{y'} V[y', t-1] * trans[y', y] * emit[y, x_t]
+            #   path[y, t] = argmax_{y'} (above)
+            scores = prev_V + transitions + emission
 
             # Column-wise max and argmax operations
-            V[1:, t], argmax_x = torch.max(scores, dim=0)
+            best_scores, best_prev_indices = torch.max(scores, dim=0)
+            V[:, t] = best_scores
 
             # path dict stores backpointers: for each state y at time t, store previous state (1..N, t)
-            for y in range(1, N+1):  # y is 1..N
-                path[(y, t)] = argmax_x[y-1] + 1  # store as state index 1..N
+            for y in range(N):  # y is 1..N
+                path[(y, t)] = best_prev_indices[y].item()  # store as state index 1..N
 
         # Backtrace to find the optimal path
-        optimal_path = []
-        last_state = torch.argmax(V[1:, -1]) + 1 # V stores index 1...N for real states
-        optimal_path.append(last_state.item()) # manually add the first state index
+        last_state = torch.argmax(V[:, -1]).item()
+        optimal_path = [last_state]
 
-        for t in range(len(input_ids), 1, -1):
-            last_state = path[last_state.item(), t]
-            optimal_path.insert(0, last_state.item()) # prepend the state index
+        current_state = last_state
+        for t in range(seq_len - 1, 0, -1):
+            current_state = path[current_state, t]
+            optimal_path.insert(0, current_state) # prepend the state index
+
 
         return optimal_path

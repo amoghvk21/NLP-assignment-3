@@ -72,7 +72,7 @@ def train_hmm_stage(
         t_path = ".".join(t_path)
         eval_hmm(
             dataset_splits["test"].select(
-                range(round(len(dataset_splits["test"]) * 0.05))
+                range(round(len(dataset_splits["test"])))
             ),
             hmm=hmm,
             res_path=t_path,
@@ -107,30 +107,30 @@ def eval_hmm(
     normalized_vi_sum = 0.0
     true_labels = torch.tensor([])
     pred_labels = torch.tensor([])
-    for i, example in enumerate(tqdm(dataset_split, "HMM testing", num_samples)):
-        input_ids = example["input_ids"]
-        forms = example["form"]
-        true_tags = example["tags"]
-        pred_tags = hmm.inference(input_ids)
-        # TODO: what tokenizer is used to get ptb-train.conllu???
-        sentence = " ".join(forms)
+    # for i, example in enumerate(tqdm(dataset_split, "HMM testing", num_samples)):
+    #     input_ids = example["input_ids"]
+    #     forms = example["form"]
+    #     true_tags = example["tags"]
+    #     pred_tags = hmm.inference(input_ids)
+    #     # TODO: what tokenizer is used to get ptb-train.conllu???
+    #     sentence = " ".join(forms)
 
-        # Compute per-example V-measure and VI
-        homo_score, comp_score, v_score = calculate_v_measure(true_tags, pred_tags)
-        vi, normalized_vi = calculate_variation_of_information(true_tags, pred_tags)
+    #     # Compute per-example V-measure and VI
+    #     homo_score, comp_score, v_score = calculate_v_measure(true_tags, pred_tags)
+    #     vi, normalized_vi = calculate_variation_of_information(true_tags, pred_tags)
 
-        homo_sum += homo_score
-        comp_sum += comp_score
-        v_score_sum += v_score
-        vi_sum += vi
-        normalized_vi_sum += normalized_vi
-        results.append(
-            [i + 1, sentence, vi, normalized_vi, homo_score, comp_score, v_score]
-        )
+    #     homo_sum += homo_score
+    #     comp_sum += comp_score
+    #     v_score_sum += v_score
+    #     vi_sum += vi
+    #     normalized_vi_sum += normalized_vi
+    #     results.append(
+    #         [i + 1, sentence, vi, normalized_vi, homo_score, comp_score, v_score]
+    #     )
 
-        # Record true and predicted labels for computing whole-dataset V-measure and VI
-        true_labels = torch.hstack([true_labels, torch.tensor(true_tags)])
-        pred_labels = torch.hstack([pred_labels, torch.tensor(pred_tags)])
+    #     # Record true and predicted labels for computing whole-dataset V-measure and VI
+    #     true_labels = torch.hstack([true_labels, torch.tensor(true_tags)])
+    #     pred_labels = torch.hstack([pred_labels, torch.tensor(pred_tags)])
 
     # Compute whole-dataset V-measure and VI
     logger.info("Computing whole-dataset V-measure")
@@ -142,13 +142,13 @@ def eval_hmm(
         true_labels.tolist(), pred_labels.tolist()
     )
 
-    print(
-        f"| Homogeneity score: {homo_score_whole}\n"
-        f"| Completeness score: {comp_score_whole}\n"
-        f"| V-measure: {v_score_whole}\n"
-        f"| Variation of information: {vi_whole}\n"
-        f"| Normalized VI: {normalized_vi_whole}\n"
-    )
+    # print(
+    #     f"| Homogeneity score: {homo_score_whole}\n"
+    #     f"| Completeness score: {comp_score_whole}\n"
+    #     f"| V-measure: {v_score_whole}\n"
+    #     f"| Variation of information: {vi_whole}\n"
+    #     f"| Normalized VI: {normalized_vi_whole}\n"
+    # )
 
     # Save results to CSV
     logger.info(f"Saving results to {res_path}")

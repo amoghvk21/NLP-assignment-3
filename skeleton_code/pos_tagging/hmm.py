@@ -93,12 +93,16 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         epochs: int = 5,
         method: str = "mle",
         continue_training=False,
+        initial_guesses=None,
     ) -> None:
         if method == "mle":
             self.train_logmle(inputs)
         elif method == "EM":
             self.train_EM_log(
-                inputs, num_iter=epochs, continue_training=continue_training
+                inputs,
+                num_iter=epochs,
+                continue_training=continue_training,
+                initial_guesses=initial_guesses
             )
         elif method == "sEM":
             self.train_sEM(
@@ -106,10 +110,14 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 num_iter=epochs,
                 eta_fn=lambda k: (k + 2) ** (-1.0),
                 continue_training=continue_training,
+                initial_guesses=initial_guesses
             )
         elif method == "hardEM":
             self.train_EM_hard_log(
-                inputs, num_iter=epochs, continue_training=continue_training
+                inputs,
+                num_iter=epochs,
+                continue_training=continue_training,
+                initial_guesses=initial_guesses
             )
         else:
             raise ValueError("Invalid training method name")
@@ -242,6 +250,9 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         if not continue_training:
             if initial_guesses is not None:
                 self.transition_prob, self.emission_prob = initial_guesses
+                # Ensure tensors are on the correct device
+                self.transition_prob = self.transition_prob.to(self.device)
+                self.emission_prob = self.emission_prob.to(self.device)
             else:
                 self.reset_logspace()
         
@@ -306,6 +317,9 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         if not continue_training:
             if initial_guesses is not None:
                 self.transition_prob, self.emission_prob = initial_guesses
+                # Ensure tensors are on the correct device
+                self.transition_prob = self.transition_prob.to(self.device)
+                self.emission_prob = self.emission_prob.to(self.device)
             else:
                 self.reset_logspace()
         
@@ -372,6 +386,9 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         if not continue_training:
             if initial_guesses is not None:
                 self.transition_prob, self.emission_prob = initial_guesses
+                # Ensure tensors are on the correct device
+                self.transition_prob = self.transition_prob.to(self.device)
+                self.emission_prob = self.emission_prob.to(self.device)
             else:
                 self.reset_logspace()
         

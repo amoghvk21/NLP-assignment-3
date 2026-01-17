@@ -72,6 +72,14 @@ def arg_parsing():
         help="path to load or save the BERT outputs for K-means method, use `.pt`.",
         metavar="PATH",
     )
+    argparser.add_argument(
+        "--initial-guesses",
+        dest="initial_guesses",
+        type=_valid_dir_or_file_path,
+        default=None,
+        help="path to load initial guesses from (HMM model checkpoint with transition_prob and emission_prob). use `.pt`.",
+        metavar="PATH",
+    )
     args = argparser.parse_args()
     args = vars(args)
     return args

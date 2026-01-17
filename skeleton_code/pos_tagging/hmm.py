@@ -36,6 +36,11 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         # TODO: optimize training by using UNK token
 
     def reset_logspace(self):
+        """
+        Reset the model parameters with 1 + (random noise * 0.1)
+        Makes sure low variance
+
+        """
 
         transition_init = torch.ones(self.num_states + 1, self.num_states + 1) + (torch.rand(self.num_states + 1, self.num_states + 1) * 0.1)
         transition_init = transition_init / transition_init.sum(dim=1, keepdim=True)
@@ -99,28 +104,38 @@ class HMMClassifier(BaseUnsupervisedClassifier):
     def inference(self, input_ids) -> list:
         return self.viterbi_log(input_ids)
 
+
     @staticmethod
     def _normalize(mat):
-        for i in range(mat.size(0)):
-            if torch.sum(mat[i]) == 0:
-                continue
-            mat[i] = mat[i] / torch.sum(mat[i])
-        return mat
+        row_sums = mat.sum(dim=1, keepdim=True)
+
+        mask_zero = (row_sums == 0)
+
+        if mask_zero.any():
+            logger.error(f"Fixed {mask_zero.sum().item()} rows with 0 sum (set to 1.0)")
+        
+        row_sums[mask_zero] = 1.0    # so that the denominator is 1 and not 0.    so the row of 0s stays 0s and isnt divided by 0
+        
+        return mat / row_sums
+
 
     @staticmethod
     def _log_normalize(log_matrix):
         return log_matrix - torch.logsumexp(log_matrix, dim=-1, keepdim=True)
+        
 
     @staticmethod
-    def _normalize_log(mat):
-        for i in range(mat.size(0)):
-            if torch.sum(mat[i]) == 0:
-                logger.error("I HAVE FIXED AND MADE WHOLE ROW -INF")
-                mat[i] = float('-inf')
-                continue
-            # log(count/sum(count))
-            mat[i] = torch.log(mat[i]) - torch.log(torch.sum(mat[i]))
-        return mat
+    def _log_normalize(mat):
+        row_sums = mat.sum(dim=1, keepdim=True)  # (num_states + 1, 1)
+        
+        mask_zero = (row_sums == 0)    # (num_states + 1,)
+        
+        if mask_zero.any():
+            logger.error(f"Fixed {mask_zero.sum().item()} rows with 0 sum (set to -inf)")
+
+        row_sums[mask_zero] = 1.0  # as log(1) = 0    so we do log(row sum) - log(1)   =    log(0) - log(1)   =    -inf  - 0   =    -inf
+        
+        return torch.log(mat) - torch.log(row_sums)
 
     def train_mle(self, inputs: Dataset):
         """

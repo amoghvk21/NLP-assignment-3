@@ -13,4 +13,4 @@ python -m main train-test hmm-mle xpos --save-path ./save/hmm-mle-xpos.pt --res-
 
 
 
-python -m main train-test hmm-EM upos --max-epochs 50 1 --save-path ./save/hmm-em-upos/hmm-em-upos.pt --res-path ./results/hmm-em-upos/hmm-em-upos.csv
+python -m main train-test hmm-EM upos --max-epochs 100 1 --save-path ./save/hmm-em-upos/hmm-em-upos.pt --res-path ./results/hmm-em-upos/hmm-em-upos.csv

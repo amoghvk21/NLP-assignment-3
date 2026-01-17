@@ -35,14 +35,39 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         self.cnt = 0  # Number of updates in sEM
         # TODO: optimize training by using UNK token
 
-    def reset(self):
+    def reset_logspace(self):
+
+        transition_init = torch.ones(self.num_states + 1, self.num_states + 1) + (torch.rand(self.num_states + 1, self.num_states + 1) * 0.1)
+        transition_init = transition_init / transition_init.sum(dim=1, keepdim=True)
+        
+        transition_init[:, 0] = 0.0
+        if transition_init[0].sum() > 0:
+            transition_init[0] = transition_init[0] / transition_init[0].sum()
+            
+        emission_init = torch.ones(self.num_states, self.num_obs) + (torch.rand(self.num_states, self.num_obs) * 0.1)
+        emission_init = emission_init / emission_init.sum(dim=1, keepdim=True)
+
+        self.transition_prob = torch.log(transition_init)
+        self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
+        self.emission_prob = torch.log(emission_init)
+        self.log_scale = True
+
+
+    def reset_uniform(self, log_space: bool):
         self.transition_prob = torch.full(
             [self.num_states + 1, self.num_states + 1], self.epsilon
         )
         self.transition_prob[:, 0] = 0.0
+
         self.emission_prob = torch.full([self.num_states, self.num_obs], self.epsilon)
-        self.log_scale = False
-        self.cnt = 0
+        
+        self.log_scale = log_space
+
+        if log_space:
+            self.transition_prob = torch.log(self.transition_prob)
+            self.transition_prob[:, 0] = float("-inf")
+            self.emission_prob = torch.log(self.emission_prob)
+
 
     def train(
         self,
@@ -90,6 +115,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
     def _normalize_log(mat):
         for i in range(mat.size(0)):
             if torch.sum(mat[i]) == 0:
+                logger.error("I HAVE FIXED AND MADE WHOLE ROW -INF")
+                mat[i] = float('-inf')
                 continue
             # log(count/sum(count))
             mat[i] = torch.log(mat[i]) - torch.log(torch.sum(mat[i]))
@@ -99,8 +126,13 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         """
         Supervised training by MLE
         """
+        logger.info("Resetting model to uniform probs")
+        self.reset_uniform(log_space=False)
+
         logger.info("Running MLE")
+
         assert not self.log_scale
+
         for sentence in tqdm(inputs, "MLE training", len(inputs)):
             # Tokens should have been tokenized
             input_ids = sentence["input_ids"]
@@ -125,8 +157,14 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
     def train_logmle(self, inputs: Dataset):
         """Train with MLE algorithm using log likelihood to avoid underflow"""
+        
+        logger.info("Resetting model to uniform probs")
+        self.reset_uniform(log_space=False)
+        
         logger.info("Running log-scale MLE")
+        
         assert not self.log_scale
+
         for sentence in tqdm(inputs, "Log-MLE training", len(inputs)):
             # Tokens should have been tokenized
             input_ids = sentence["input_ids"]
@@ -161,31 +199,20 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         Train an HMM with the standard EM algorithm
         """
 
-        # If not continuing training, reset to clean state
+        # stage 1 or not using staged training
         if not continue_training:
-            self.reset()
-        # If continuing training but probabilities are in regular space then convert to log space
-        elif not self.log_scale:
+            if initial_guesses is not None:
+                self.transition_prob, self.emission_prob = initial_guesses
+            else:
+                self.reset_logspace()
+        
+        if not self.log_scale:
             self.transition_prob = torch.log(self.transition_prob + self.epsilon)
             self.emission_prob = torch.log(self.emission_prob + self.epsilon)
             self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
-        
-        self.log_scale = True
+            self.log_scale = True
 
         # Complete your code here
-
-        # If initial_guesses is provided, use as initialisation; otherwise, randomize
-        if initial_guesses is not None and not continue_training:
-            self.transition_prob, self.emission_prob = initial_guesses
-        elif not continue_training:
-            # Uniform initialisation in log-space, with epsilon for smoothing
-            self.transition_prob = torch.log(
-                torch.full([self.num_states + 1, self.num_states + 1], fill_value=self.epsilon)
-            )
-            self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
-            self.emission_prob = torch.log(
-                torch.full([self.num_states, self.num_obs], fill_value=self.epsilon)
-            )
 
         for i in range(num_iter):
             logger.info(f"Soft EM iteration {i + 1}/{num_iter}")
@@ -234,32 +261,20 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         Train an HMM with the hard EM algorithm (also called Viterbi EM)
         """
 
-        # If not continuing training, reset to clean state
+        # stage 1 or not using staged training
         if not continue_training:
-            self.reset()
-        # If continuing training but probabilities are in regular space then convert to log space
-        elif not self.log_scale:
+            if initial_guesses is not None:
+                self.transition_prob, self.emission_prob = initial_guesses
+            else:
+                self.reset_logspace()
+        
+        if not self.log_scale:
             self.transition_prob = torch.log(self.transition_prob + self.epsilon)
             self.emission_prob = torch.log(self.emission_prob + self.epsilon)
             self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
-        
-        self.log_scale = True
+            self.log_scale = True
 
         # Complete your code here
-
-        # If initial_guesses is provided then use it
-        if initial_guesses is not None and not continue_training:
-            self.transition_prob, self.emission_prob = initial_guesses
-        # otherwise randomise
-        elif not continue_training:
-            # Uniform initialisation in log-space, with epsilon for smoothing
-            self.transition_prob = torch.log(
-                torch.full([self.num_states + 1, self.num_states + 1], fill_value=self.epsilon)
-            )
-            self.transition_prob[:, 0] = float("-inf")  # Cant transition to start state
-            self.emission_prob = torch.log(
-                torch.full([self.num_states, self.num_obs], fill_value=self.epsilon)
-            )
 
         for iter in range(num_iter):
             logger.info(f"Hard EM iteration {iter+1}/{num_iter}")
@@ -311,30 +326,18 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         Train an HMM with a stepwise online EM algorithm
         """
 
-        # If not continuing training, reset to clean state
+        # stage 1 or not using staged training
         if not continue_training:
-            self.reset()
-        # If continuing training but probabilities are in regular space then convert to log space
-        elif not self.log_scale:
+            if initial_guesses is not None:
+                self.transition_prob, self.emission_prob = initial_guesses
+            else:
+                self.reset_logspace()
+        
+        if not self.log_scale:
             self.transition_prob = torch.log(self.transition_prob + self.epsilon)
             self.emission_prob = torch.log(self.emission_prob + self.epsilon)
             self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
-
-        self.log_scale = True
-
-        # If initial_guesses is provided then use it
-        if initial_guesses is not None and not continue_training:
-            self.transition_prob, self.emission_prob = initial_guesses
-        # otherwise randomise
-        elif not continue_training:
-            # Uniform initialisation in log-space, with epsilon for smoothing
-            self.transition_prob = torch.log(
-                torch.full([self.num_states + 1, self.num_states + 1], fill_value=self.epsilon)
-            )
-            self.transition_prob[:, 0] = float("-inf")  # Cant transition to start state
-            self.emission_prob = torch.log(
-                torch.full([self.num_states, self.num_obs], fill_value=self.epsilon)
-            )
+            self.log_scale = True
 
         # Initialise
         global_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1)
@@ -602,7 +605,6 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             current_state = path[current_state, t]
             optimal_path.insert(0, current_state) # prepend the state index
 
-
         return optimal_path
 
 
@@ -658,6 +660,5 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         for t in range(seq_len - 1, 0, -1):
             current_state = path[current_state, t]
             optimal_path.insert(0, current_state) # prepend the state index
-
 
         return optimal_path

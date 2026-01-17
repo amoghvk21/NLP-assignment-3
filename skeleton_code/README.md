@@ -5,13 +5,17 @@ HMM and K-means on the PoS tagging problem.
 
 ## Introduction
 
-This project implements the following algorithms:
+This project implements the following models and algorithms:
 
 - Hidden Markov Model (HMM) + Expectation-Maximization (EM) algorithms:
-  - Standard EM (EM) (the classic EM algorithm)
+  - Standard EM (EM) (the classic soft EM algorithm)
   - Stochastic EM (sEM)
   - Viterbi-EM (hard-EM)
-  - Maximal Likelihood Estimation (MLE) (supervised learning)
+  - Maximal Likelihood Estimation (MLE) (supervised learning) - Already implemented
+
+- Neural HMM
+
+- K-means over BERT Embeddings
 
 HMM models employ log scale parameters to avoid underflow.
 
@@ -20,29 +24,46 @@ HMM models employ log scale parameters to avoid underflow.
 To train and test HMM with EM for 10 epochs and validate every 5 epochs on UPOS tags:
 
 ```python
+cd skeleton_code
 python -m main train-test hmm-EM upos --max-epochs 2 5 --save-path ./save/path.pt --res-path ./result/path.csv
 ```
 
 Use `--subset` argument to specify the maximum rows of data to be used.
 
+Use `--initial-guesses` argument to specify a `.pt` hmm model to use as the starting point for training
+
 To check more argument usage, run `python -m main --help`.
+
+FYI: I will be training using staged training for each epoch so that:
+- Each stage is saved
+- I get metrics for the entire dataset for each epoch
+  - So that I can draw graphs (each stage evals on whole dataset rather than 5%)
 
 ## Repository structure
 
 ```
 .
-│  argparser.py                 # argument parser
-│  hmm_pipeline.py              # HMM training and testing pipelines
-│  logging_nlp.py               # logger setup
-│  main.py                      # main
-│  preprocess_dataset.py        # dataset loading and preprocessing
-│  ptb-train.conllu             # Penn Treebank subset dataset
-│  python-requirement.txt       # python package requirements
-│  README.md
-│  utils.py                     # auxiliary functions
-│
-└─pos_tagging
-   │  base.py
-   │  hmm.py                    # HMM model
-   └─__init__.py
+|  AmoghVishwakarmaReport2526.pdf      # my report
+|  requirements.txt                    # python requirements
+|  experiments.sh                      # all experiments ran for the report
+|  Neural HMM Paper (Tran et al.).pdf  # Paper for Neural HMM implementation
+|  Online EM Paper.pdf                 # Paper for SEM implementation
+└─skeleton_code
+    │  argparser.py                    # argument parser
+    │  hmm_pipeline.py                 # HMM training and testing pipelines
+    │  kmeans_pipeline.py              # K-meand with BERT embeddings training and testing pipelines
+    │  logging_nlp.py                  # logger setup
+    │  main.py                         # main
+    │  nhmm_pipeline.py                # Neural HMM training and testing pipelines
+    │  preprocess_dataset.py           # dataset loading and preprocessing
+    │  ptb-train.conllu                # Penn Treebank subset dataset
+    │  README.md
+    |  results_parser.ipynb            # notebook to generate graphs displayed in the report
+    │  utils.py                        # auxiliary functions
+    └─pos_tagging
+        │  base.py
+        │  hmm.py                      # HMM model
+        │  kmeans.py                   # K-means model
+        │  nhmm.py                     # Neural HMM model
+        └─__init__.py
 ```

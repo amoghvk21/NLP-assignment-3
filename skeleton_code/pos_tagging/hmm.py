@@ -12,7 +12,7 @@ from pos_tagging.base import BaseUnsupervisedClassifier
 logger = logging.getLogger()
 
 class HMMClassifier(BaseUnsupervisedClassifier):
-    def __init__(self, num_states, num_obs):
+    def __init__(self, num_states, num_obs, device=None):
         """
         For N hidden states and M observations,
             transition_prob: (N+1) * (N+1), with [0, :] as initial probabilities
@@ -21,16 +21,29 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         Parameters:
             num_states: number of hidden states
             num_obs: number of observations
+            device: torch.device to use ('cuda', 'cpu', or None for auto-detect)
         """
         self.num_states = num_states
         self.num_obs = num_obs
+        
+        # Device handling: auto-detect CUDA if available, otherwise use CPU
+        if device is None:
+            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        else:
+            self.device = device
+
+        # MANUAL DEVICE SETTING TO CPU
+        self.device = torch.device('cpu')
+
+        logger.info(f"Using device: {self.device}")
+        
         # Initialized to epsilon, so allowing unseen transition/emission to have p>0
         self.epsilon = 1e-5
         self.transition_prob = torch.full(
-            [self.num_states + 1, self.num_states + 1], self.epsilon
+            [self.num_states + 1, self.num_states + 1], self.epsilon, device=self.device
         )
         self.transition_prob[:, 0] = 0.0
-        self.emission_prob = torch.full([self.num_states, self.num_obs], self.epsilon)
+        self.emission_prob = torch.full([self.num_states, self.num_obs], self.epsilon, device=self.device)
         self.log_scale = False
         self.cnt = 0  # Number of updates in sEM
         # TODO: optimize training by using UNK token
@@ -42,14 +55,14 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
         """
 
-        transition_init = torch.ones(self.num_states + 1, self.num_states + 1) + (torch.rand(self.num_states + 1, self.num_states + 1) * 0.1)
+        transition_init = torch.ones(self.num_states + 1, self.num_states + 1, device=self.device) + (torch.rand(self.num_states + 1, self.num_states + 1, device=self.device) * 0.1)
         transition_init = transition_init / transition_init.sum(dim=1, keepdim=True)
         
         transition_init[:, 0] = 0.0
         if transition_init[0].sum() > 0:
             transition_init[0] = transition_init[0] / transition_init[0].sum()
             
-        emission_init = torch.ones(self.num_states, self.num_obs) + (torch.rand(self.num_states, self.num_obs) * 0.1)
+        emission_init = torch.ones(self.num_states, self.num_obs, device=self.device) + (torch.rand(self.num_states, self.num_obs, device=self.device) * 0.1)
         emission_init = emission_init / emission_init.sum(dim=1, keepdim=True)
 
         self.transition_prob = torch.log(transition_init)
@@ -60,11 +73,11 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
     def reset_uniform(self, log_space: bool):
         self.transition_prob = torch.full(
-            [self.num_states + 1, self.num_states + 1], self.epsilon
+            [self.num_states + 1, self.num_states + 1], self.epsilon, device=self.device
         )
         self.transition_prob[:, 0] = 0.0
 
-        self.emission_prob = torch.full([self.num_states, self.num_obs], self.epsilon)
+        self.emission_prob = torch.full([self.num_states, self.num_obs], self.epsilon, device=self.device)
         
         self.log_scale = log_space
 
@@ -247,14 +260,16 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             soft_trans_counts = torch.full(
                 [self.num_states + 1, self.num_states + 1],
                 fill_value=self.epsilon,
-                dtype=torch.float32
+                dtype=torch.float32,
+                device=self.device
             )
             soft_trans_counts[:, 0] = 0.0 # Impossible to transition to start state
             
             soft_emit_counts = torch.full(
                 [self.num_states, self.num_obs],
                 fill_value=self.epsilon,
-                dtype=torch.float32
+                dtype=torch.float32,
+                device=self.device
             )
 
             for sentence in tqdm(inputs, desc=f"Soft EM E-step"):
@@ -305,13 +320,13 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         for iter in range(num_iter):
             logger.info(f"Hard EM iteration {iter+1}/{num_iter}")
             transition_counts = torch.full(
-                [self.num_states + 1, self.num_states + 1], self.epsilon     # + 1 due to start state
+                [self.num_states + 1, self.num_states + 1], self.epsilon, device=self.device     # + 1 due to start state
             )
 
             # emissions are 0 indexed
             transition_counts[:, 0] = 0.0    # Impossible to transition to the start state
             emission_counts = torch.full(
-                [self.num_states, self.num_obs], self.epsilon    # no start state as start state has no emissions
+                [self.num_states, self.num_obs], self.epsilon, device=self.device    # no start state as start state has no emissions
             )
 
             for sentence in tqdm(inputs, desc="hard EM"):
@@ -367,12 +382,12 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             self.log_scale = True
 
         # Initialise
-        global_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1)
-        global_emit_stats = torch.zeros(self.num_states, self.num_obs)
+        global_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1, device=self.device)
+        global_emit_stats = torch.zeros(self.num_states, self.num_obs, device=self.device)
 
         # Allocating memory here and zeroing at each batch for efficiency
-        batch_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1)
-        batch_emit_stats = torch.zeros(self.num_states, self.num_obs)
+        batch_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1, device=self.device)
+        batch_emit_stats = torch.zeros(self.num_states, self.num_obs, device=self.device)
 
         k = 0  # Counter of batches performed - used for eta function
 
@@ -448,12 +463,12 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         T = len(input_ids)
         if T == 0:
             # Return empty tensor for empty sequence
-            return torch.zeros(self.num_states, 0)
+            return torch.zeros(self.num_states, 0, device=self.device)
         
         num_states = self.num_states
         
         # log_alpha shape: (num_states, T)
-        log_alpha = torch.zeros(num_states, T)
+        log_alpha = torch.zeros(num_states, T, device=self.device)
         
         # Initialisation for t=0
         # log_alpha[:, 0] = log P(y_0 = s, x_0 | theta)
@@ -497,12 +512,12 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         T = len(input_ids)
         if T == 0:
             # Return empty tensor for empty sequence
-            return torch.zeros(self.num_states, 0)
+            return torch.zeros(self.num_states, 0, device=self.device)
         
         num_states = self.num_states
 
         # log_beta shape: (num_states, T)
-        log_beta = torch.zeros(num_states, T)
+        log_beta = torch.zeros(num_states, T, device=self.device)
         
         # Initialization: log_beta[:, T-1] = log(1) = 0
 
@@ -540,8 +555,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         # Handle empty sequences
         if T == 0:
             return (
-                torch.zeros(self.num_states + 1, self.num_states + 1),
-                torch.zeros(self.num_states, self.num_obs)
+                torch.zeros(self.num_states + 1, self.num_states + 1, device=self.device),
+                torch.zeros(self.num_states, self.num_obs, device=self.device)
             )
         
         # Run forward-backward
@@ -552,8 +567,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         logZ = torch.logsumexp(log_alpha[:, T - 1], dim=0)
         
         # Initialize expected counts
-        trans_expected = torch.zeros(self.num_states + 1, self.num_states + 1)
-        emit_expected = torch.zeros(self.num_states, self.num_obs)
+        trans_expected = torch.zeros(self.num_states + 1, self.num_states + 1, device=self.device)
+        emit_expected = torch.zeros(self.num_states, self.num_obs, device=self.device)
 
 
         
@@ -584,7 +599,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
         # Transitions between states (vectorised over all time steps)
         # Prepare emission for all next observations: (T-1, num_states)
-        observations = torch.tensor(input_ids[1:], dtype=torch.long)                   # (T-1,)
+        observations = torch.tensor(input_ids[1:], dtype=torch.long, device=self.device)                   # (T-1,)
         emission = self.emission_prob[:, observations].T             # (T-1, num_states)
 
         # Reshaping all
@@ -621,7 +636,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         if seq_len == 0:
             return []
 
-        V = torch.zeros(N, seq_len)
+        V = torch.zeros(N, seq_len, device=self.device)
         path = {}   # Dictionary to store the optimal path for each state at each time step
 
         # init 
@@ -677,7 +692,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         if seq_len == 0:
             return []
 
-        V = torch.full((N, seq_len), float('-inf'))
+        V = torch.full((N, seq_len), float('-inf'), device=self.device)
         path = {}   # Dictionary to store the optimal path for each state at each time step
 
         # init 

@@ -62,7 +62,6 @@ def train_hmm_stage(
             t_path = save_path.split(".")
             t_path.insert(-1, f"{i}")
             t_path = ".".join(t_path)
-            # logger.warning(f"NOT Saving HMM model to {t_path}")
             logger.info(f"Saving HMM model to {t_path}")
             torch.save(hmm, t_path)
         else:
@@ -72,9 +71,10 @@ def train_hmm_stage(
         t_path.insert(-1, f"{i}")
         t_path = ".".join(t_path)
         eval_hmm(
-            dataset_splits["test"].select(
-                range(round(len(dataset_splits["test"]) * 0.05))
-            ),
+            # dataset_splits["test"].select(
+            #     range(round(len(dataset_splits["test"]) * 0.05))   # 1992 samples (10 seconds)
+            # ),
+            dataset_splits["test"],
             hmm=hmm,
             res_path=t_path,
         )
@@ -96,7 +96,9 @@ def eval_hmm(
             )
         # Load HMM parameters
         logger.info(f"Loading HMM model from {load_path}")
-        hmm: HMMClassifier = torch.load(load_path)
+        hmm: HMMClassifier = torch.load(load_path, weights_only=False)
+
+    logger.warning(f"Eval on {len(dataset_split)} dataset samples")
 
     # Evaluate
     num_samples = len(dataset_split)

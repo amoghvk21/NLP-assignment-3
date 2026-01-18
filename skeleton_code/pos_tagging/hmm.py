@@ -356,17 +356,31 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 
                 path = self.viterbi_log(input_ids)  # hidden state indices (0 indexed)
 
-                # Handle initial transition and emission for first token as special case due to start state and no emissions
-                # path[0] is 0-indexed (0..N-1)
-                # emissions are 0 indexed (0..N-1) as the dimensions are (N, M)
-                transition_counts[0, path[0] + 1] += 1     # initial transition; 0 due to start state
-                emission_counts[path[0], input_ids[0]] += 1    # emission for first token (0-indexed)
+                # Conver to tensors
+                input_ids_tensor = torch.tensor(input_ids, device=self.device, dtype=torch.long)
+                path_tensor = torch.tensor(path, device=self.device, dtype=torch.long)
 
-                for t in range(1, len(input_ids)):
-                    # path and transitions are 0-indexed
-                    transition_counts[path[t-1] + 1, path[t] + 1] += 1
-                    # emissions are 0 indexed (0..N-1)
-                    emission_counts[path[t], input_ids[t]] += 1  # emissino doesnt have start state
+                # emission_counts[path[t], input_ids[t]] += 1    for all t in [0, len-1] at once
+                emission_counts.index_put_(
+                    (path_tensor, input_ids_tensor), 
+                    torch.tensor(1.0, device=self.device), 
+                    accumulate=True
+                )
+                
+                # from_indices = [0, path[0]+1, path[1]+1, ... path[T-1]+1]   +1 due to start state at index 0 and path being zero indexed
+                start_idx = torch.tensor([0], device=self.device, dtype=torch.long)
+                from_indices = torch.cat([start_idx, path_tensor[:-1] + 1])    # dont need last state as doesnt transition to anything
+                
+                # to_indices = [path[0]+1, path[1]+1, ... path[T]+1]   +1 due to path being zero indexed
+                to_indices = path_tensor + 1
+
+                # transition_counts[from_indices, to_indices] += 1    for all t in [0, len-1] at once
+                transition_counts.index_put_(
+                    (from_indices, to_indices),
+                    torch.tensor(1.0, device=self.device),
+                    accumulate=True
+                )
+
 
             # M-step: update parameters from hard counts
             self.transition_prob = self._normalize_log(transition_counts)

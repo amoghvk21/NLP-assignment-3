@@ -23,3 +23,12 @@ EVAL IN KMEANS NEEDS TO USE BATCHING AND SO RECODE KMEANS.INFERENCE TO ALLOW FOR
 reduce comments
 
 randomize -> randomise
+
+
+
+ask prof:
+- do we need to talk about MLE 
+- word count limit 
+- do we need to talk about metrics, their formula
+- do we need to talk about the model and its implementation
+- Changing alpha in code without having command line access

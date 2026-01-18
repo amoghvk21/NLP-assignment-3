@@ -217,7 +217,7 @@ def train_and_test(
         logger.info(f"Loading initial guesses from {initial_guesses_path}")
         hmm_model = torch.load(initial_guesses_path, weights_only=False)
         initial_guesses = (hmm_model.transition_prob, hmm_model.emission_prob)
-        logger.info("Initial guesses loaded successfully (assuming log space)")
+        logger.info("Initial guesses loaded successfully")
     
     # Load and wrap PTB dataset
     sentences, upos_set, xpos_set = load_ptb_dataset(line_num=subset)

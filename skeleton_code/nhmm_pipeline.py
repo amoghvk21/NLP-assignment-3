@@ -275,7 +275,8 @@ def train_and_test(
 
     dataset_splits = DatasetDict({"train": dataset, "test": dataset})
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cpu")
 
     # 3. Train NHMM model (needs gradients, so no torch.no_grad())
     model = train(
@@ -341,7 +342,9 @@ def test(
 
     dataset_splits = DatasetDict({"train": dataset, "test": dataset})
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    device = torch.device("cpu")
     
     # Reconstruct model for evaluation
     # Note: This requires the same vocab and tag_mapping used during training

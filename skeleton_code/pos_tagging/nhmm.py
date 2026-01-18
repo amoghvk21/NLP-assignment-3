@@ -158,7 +158,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         Returns:
             log_prob: Scalar tensor with log probability
         """
-        state_tensor = torch.tensor(state).to(self.device)
+        state_tensor = torch.tensor(state, device=self.device)
         logits = self.emission_net(state_tensor)    # (vocab_size,)
         log_probs = F.log_softmax(logits, dim=0) # turn into log probs
         return log_probs[word_idx]
@@ -171,29 +171,33 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             log_E_matrix: Tensor of shape (num_states, vocab_size) with emission log probabilities
         """
         
-        all_state_indicies = torch.arange(self.num_states).to(self.device)
+        all_state_indicies = torch.arange(self.num_states, device=self.device)
         logits = self.emission_net(all_state_indicies)   # Pass it in all states at once
         log_E_matrix = F.log_softmax(logits, dim=1)  # normalise across columns
         return log_E_matrix
 
-    def _forward_log(self, input_ids: List[int]) -> torch.Tensor:
+    def _forward_log(
+        self, 
+        input_ids: torch.Tensor,
+        log_T_matrix: torch.Tensor,
+        log_E_matrix: torch.Tensor,
+        initial_log_probs: torch.Tensor
+    ) -> torch.Tensor:
         """
         Compute forward probabilities in log space
 
         Args:
             input_ids: List of word indices
+            log_T_matrix: Precomputed transition log matrix (num_states, num_states)
+            log_E_matrix: Precomputed emission log matrix (num_states, vocab_size)
+            initial_log_probs: Precomputed initial log probabilities (num_states,)
 
         Returns:
             log_alpha: Tensor of shape (num_states, T) where log_alpha[s, t] = log P(x_1...x_t, y_t = s | theta)
         """
-        T = len(input_ids)
+        T = input_ids.size(0)
         if T == 0:
-            return torch.zeros(self.num_states, 0).to(self.device)
-
-        # Get all matricies
-        log_T_matrix = self._get_transition_log_matrix()       # (num_states, num_states): log_T_matrix[i, j] = log P(j | i)
-        log_E_matrix = self._get_emission_log_matrix()         # (num_states, vocab_size): log_E_matrix[s, v] = log P(v | s)
-        initial_log_probs = self._get_initial_log_probs()      # (num_states,)
+            return torch.zeros(self.num_states, 0, device=self.device)
 
         log_alpha = torch.zeros(self.num_states, T, device=self.device)
         
@@ -208,27 +212,30 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         
         return log_alpha
     
-    def _backward_log(self, input_ids: List[int]) -> torch.Tensor:
+    def _backward_log(
+        self,
+        input_ids: torch.Tensor,
+        log_T_matrix: torch.Tensor,
+        log_E_matrix: torch.Tensor
+    ) -> torch.Tensor:
         """
         Compute backward probabilities in log space using neural networks.
         
         Args:
             input_ids: List of word indices
+            log_T_matrix: Precomputed transition log matrix (num_states, num_states)
+            log_E_matrix: Precomputed emission log matrix (num_states, vocab_size)
             
         Returns:
             log_beta: Tensor of shape (num_states, T) where
                 log_beta[s, t] = log P(x_{t+1}...x_T | y_t = s, theta)
         """
-        T = len(input_ids)
+        T = input_ids.size(0)
         if T == 0:
-            return torch.zeros(self.num_states, 0).to(self.device)
+            return torch.zeros(self.num_states, 0, device=self.device)
 
         log_beta = torch.zeros(self.num_states, T, device=self.device)
         # Initialization: log_beta[:, T-1] = log(1) = 0 (already initialized)
-
-        # Get all matricies
-        log_T_matrix = self._get_transition_log_matrix()  # (num_states, num_states): log_T_matrix[i, j] = log P(j | i)
-        log_E_matrix = self._get_emission_log_matrix()    # (num_states, vocab_size): log_E_matrix[s, v] = log P(v | s)
 
         # Backward recursion
         for t in range(T - 2, -1, -1):
@@ -248,12 +255,21 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
 
         return log_beta
     
-    def _forward_backward(self, input_ids: List[int]) -> tuple:
+    def _forward_backward(
+        self,
+        input_ids: torch.Tensor,
+        log_T_matrix: torch.Tensor,
+        log_E_matrix: torch.Tensor,
+        initial_log_probs: torch.Tensor
+    ) -> tuple:
         """
         Compute forward-backward probabilities and posteriors.
         
         Args:
             input_ids: List of word indices
+            log_T_matrix: Precomputed transition log matrix (num_states, num_states)
+            log_E_matrix: Precomputed emission log matrix (num_states, vocab_size)
+            initial_log_probs: Precomputed initial log probabilities (num_states,)
             
         Returns:
             log_alpha: Forward probabilities (num_states, T)
@@ -262,20 +278,20 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             log_xi: Transition posteriors (T-1, num_states, num_states)
             logZ: Log probability of sequence
         """
-        T = len(input_ids)
+        T = input_ids.size(0)
         num_states = self.num_states
         device = self.device
         if T == 0:
             return (
-                torch.zeros(num_states, 0).to(device),
-                torch.zeros(num_states, 0).to(device),
-                torch.zeros(num_states, 0).to(device),
-                torch.zeros(0, num_states, num_states).to(device),
-                torch.tensor(0.0).to(device)
+                torch.zeros(num_states, 0, device=device),
+                torch.zeros(num_states, 0, device=device),
+                torch.zeros(num_states, 0, device=device),
+                torch.zeros(0, num_states, num_states, device=device),
+                torch.tensor(0.0, device=device)
             )
         
-        log_alpha = self._forward_log(input_ids)  # (num_states, T)
-        log_beta = self._backward_log(input_ids)  # (num_states, T)
+        log_alpha = self._forward_log(input_ids, log_T_matrix, log_E_matrix, initial_log_probs)  # (num_states, T)
+        log_beta = self._backward_log(input_ids, log_T_matrix, log_E_matrix)  # (num_states, T)
         
         # Compute normalizer (log probability of the sequence) - just sum the last column to get all states
         logZ = torch.logsumexp(log_alpha[:, T - 1], dim=0)
@@ -287,12 +303,8 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         # Compute transition posteriors: xi[t, s, s'] = log P(y_t = s, y_{t+1} = s' | x)
         # prob at some time t, prob of from state s to state s'
 
-        # Get transition and emission log matrices
-        log_T_matrix = self._get_transition_log_matrix()  # (num_states, num_states)
-        log_E_matrix = self._get_emission_log_matrix()    # (num_states, vocab_size)
-
         # Prepare emission for all next observations: (T-1, num_states)
-        next_obs = torch.tensor(input_ids[1:], device=device)  # (T-1,)
+        next_obs = input_ids[1:]  # (T-1,)
         emission = log_E_matrix[:, next_obs].T  # (T-1, num_states)
 
         log_alpha_t = log_alpha[:, :T-1].T.reshape(T-1, num_states, 1)      # (T-1, num_states, 1)
@@ -318,7 +330,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         max_epochs: int = 5,
         lr: float = 0.001, 
         minibatch_size: int = 256,
-        max_inner_loops: int = 6,
+        max_inner_loops: int = 1,              # 6
         convergence_threshold: float = 1e-4,
         max_grad_norm: float = 5.0,
         max_sentence_length: int = 40,
@@ -351,6 +363,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         logger.info(f"Learning rate: {lr}")
         logger.info(f"Minibatch size: {minibatch_size}, Max inner loops: {max_inner_loops}")
         logger.info(f"Gradient clipping: {max_grad_norm}, Max sentence length: {max_sentence_length}")
+        logger.info(f"Device: {self.device}")
         
         # Use Adam optimizer with specified learning rate
         optimizer = torch.optim.Adam(self.parameters(), lr=lr)
@@ -363,21 +376,32 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
                 filtered_dataset.append(example)
         logger.info(f"Filtered dataset: {len(filtered_dataset)} sentences (max length {max_sentence_length})")
         
-        for epoch in range(max_epochs):
-            total_loss = 0.0
+        # for epoch in range(max_epochs):
+        for epoch in tqdm(range(max_epochs), desc="Total Training", leave=False):
+            total_loss = torch.tensor(0.0, device=self.device)
             num_batches = 0
             
             # Process in minibatches
-            for batch_start in tqdm(range(0, len(filtered_dataset), minibatch_size), desc=f"Epoch {epoch+1}/{max_epochs}"):
+            for batch_start in tqdm(
+                range(0, len(filtered_dataset), minibatch_size),
+                desc=f"  Epoch {epoch+1}/{max_epochs}",
+                leave=False
+            ):
                 batch_end = min(batch_start + minibatch_size, len(filtered_dataset))
                 batch = filtered_dataset[batch_start:batch_end]
                 
                 prev_log_prob = None
+                # for inner_iter in tqdm(range(max_inner_loops), desc="  Inner loop", leave=False):
                 for inner_iter in range(max_inner_loops):
-                    batch_loss = 0.0
-                    total_log_prob = 0.0
+                    batch_loss = torch.tensor(0.0, device=self.device)
+                    total_log_prob = torch.tensor(0.0, device=self.device)
                     
                     optimizer.zero_grad()
+                    
+                    # PRECOMPUTE matrices once for all sentences in this batch
+                    log_T_matrix = self._get_transition_log_matrix()  # (num_states, num_states)   log_T_matrix[i, j] = log P(j | i) 
+                    log_E_matrix = self._get_emission_log_matrix()    # (num_states, vocab_size)   log_E_matrix[s, v] = log P(v | s)
+                    initial_log_probs = self._get_initial_log_probs()  # (num_states,)
                     
                     # Process each sentence in batch
                     for example in batch:
@@ -386,16 +410,22 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
                             continue
                         
                         # Convert words to indices (with digit normalization)
-                        input_ids = [self._get_word_idx(word) for word in forms]
+                        input_ids = torch.tensor(
+                            [self._get_word_idx(word) for word in forms],
+                            dtype=torch.long,
+                            device=self.device
+                        )
                         
-                        # Forward-backward to get posteriors
-                        log_alpha, log_beta, log_gamma, log_xi, logZ = self._forward_backward(input_ids)
+                        # Forward-backward to get posteriors using precomputed matrices
+                        log_alpha, log_beta, log_gamma, log_xi, logZ = self._forward_backward(
+                            input_ids, log_T_matrix, log_E_matrix, initial_log_probs
+                        )
                         
                         # Compute expected log-likelihood (negative log-likelihood as loss)
                         # Loss = -log P(x) = -logZ   - we are maximising the prob of seeing the observed sequence
                         loss = -logZ
                         batch_loss += loss
-                        total_log_prob += logZ.item()
+                        total_log_prob += logZ
                     
                     # Average loss over batch
                     avg_batch_loss = batch_loss / len(batch)
@@ -410,30 +440,30 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
                     
                     # stop if log prob change < convergence_threshold
                     if prev_log_prob is not None:
-                        log_prob_change = abs(total_log_prob - prev_log_prob)    # difference between the 2 losses
-                        if log_prob_change < convergence_threshold:
-                            logger.debug(f"Converged at inner iter {inner_iter+1}: log prob change = {log_prob_change:.6f}")
+                        log_prob_change_tensor = torch.abs(total_log_prob - prev_log_prob)
+                        if log_prob_change_tensor.item() < convergence_threshold:
+                            logger.debug(f"Converged at inner iter {inner_iter+1}")
                             break
                     
                     prev_log_prob = total_log_prob
                 
-                total_loss += avg_batch_loss.item()
+                total_loss += avg_batch_loss
                 num_batches += 1
             
-            avg_loss = total_loss / num_batches if num_batches > 0 else 0.0
-            logger.info(f"Epoch {epoch+1}/{max_epochs}: Average loss = {avg_loss:.4f}")
+            # avg_loss = total_loss / num_batches if num_batches > 0 else 0.0
+            # logger.info(f"Epoch {epoch+1}/{max_epochs}: Average loss = {avg_loss:.4f}")
     
-    def viterbi_log(self, input_ids: List[int]) -> List[int]:
+    def viterbi_log(self, input_ids: torch.Tensor) -> List[int]:
         """
         Run Viterbi algorithm to find most likely state sequence.
         
         Args:
-            input_ids: List of word indices
+            input_ids: Tensor of word indices
             
         Returns:
             path: List of state indices (0-indexed) for most likely path
         """
-        T = len(input_ids)
+        T = input_ids.size(0)
         S = self.num_states
 
         if T == 0:
@@ -446,15 +476,14 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         backpointers = torch.zeros((S, T), dtype=torch.long, device=device)
 
         # Precompute all emissions for the sequence
-        log_E_matrix = self._get_emission_log_matrix().to(device)  # (num_states, vocab_size)
-        input_ids_tensor = torch.tensor(input_ids, dtype=torch.long, device=device)
-        emission_log_probs = log_E_matrix[:, input_ids_tensor].T  # (T, num_states)
+        log_E_matrix = self._get_emission_log_matrix()  # (num_states, vocab_size)
+        emission_log_probs = log_E_matrix[:, input_ids].T  # (T, num_states)
 
         # Precompute all state transition log probs as a matrix
-        transition_log_probs = self._get_transition_log_matrix().to(device)  # (S, S)
+        transition_log_probs = self._get_transition_log_matrix()  # (S, S)
 
         # Initialization
-        initial_log_probs = self._get_initial_log_probs().to(device)  # (S,)
+        initial_log_probs = self._get_initial_log_probs()  # (S,)
 
         V[:, 0] = initial_log_probs + emission_log_probs[0]
 
@@ -496,7 +525,11 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             List of predicted state ids (0-indexed)
         """
         # Convert words to indices
-        word_ids = [self._get_word_idx(word) for word in words]
+        word_ids = torch.tensor(
+            [self._get_word_idx(word) for word in words],
+            dtype=torch.long,
+            device=self.device
+        )
 
         return self.viterbi_log(word_ids)
     

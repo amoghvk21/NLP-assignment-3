@@ -48,26 +48,57 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         self.cnt = 0  # Number of updates in sEM
         # TODO: optimize training by using UNK token
 
+    # def reset_logspace(self):
+    #     """
+    #     Reset the model parameters with 1 + (random noise * 0.1)
+    #     Makes sure low variance
+
+    #     """
+
+    #     transition_init = torch.ones(self.num_states + 1, self.num_states + 1, device=self.device) + (torch.rand(self.num_states + 1, self.num_states + 1, device=self.device) * 0.1)
+    #     transition_init = transition_init / transition_init.sum(dim=1, keepdim=True)
+        
+    #     transition_init[:, 0] = 0.0
+    #     if transition_init[0].sum() > 0:
+    #         transition_init[0] = transition_init[0] / transition_init[0].sum()
+            
+    #     emission_init = torch.ones(self.num_states, self.num_obs, device=self.device) + (torch.rand(self.num_states, self.num_obs, device=self.device) * 0.1)
+    #     emission_init = emission_init / emission_init.sum(dim=1, keepdim=True)
+
+    #     self.transition_prob = torch.log(transition_init)
+    #     self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
+    #     self.emission_prob = torch.log(emission_init)
+    #     self.log_scale = True
+    
+
     def reset_logspace(self):
         """
-        Reset the model parameters with 1 + (random noise * 0.1)
-        Makes sure low variance
+        Reset the model parameters using samples from the Dirichlet distribution.
 
+        Sample each row of matricies from this dist
         """
 
-        transition_init = torch.ones(self.num_states + 1, self.num_states + 1, device=self.device) + (torch.rand(self.num_states + 1, self.num_states + 1, device=self.device) * 0.1)
-        transition_init = transition_init / transition_init.sum(dim=1, keepdim=True)
-        
-        transition_init[:, 0] = 0.0
-        if transition_init[0].sum() > 0:
-            transition_init[0] = transition_init[0] / transition_init[0].sum()
-            
-        emission_init = torch.ones(self.num_states, self.num_obs, device=self.device) + (torch.rand(self.num_states, self.num_obs, device=self.device) * 0.1)
-        emission_init = emission_init / emission_init.sum(dim=1, keepdim=True)
+        alpha = 0.5
 
-        self.transition_prob = torch.log(transition_init)
-        self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
-        self.emission_prob = torch.log(emission_init)
+        
+        dist_trans = torch.distributions.Dirichlet(
+            torch.full((self.num_states + 1,), alpha, device=self.device)
+        )
+        trans_linear = dist_trans.sample((self.num_states + 1,))
+        trans_linear = trans_linear + self.epsilon
+        trans_linear = trans_linear / trans_linear.sum(dim=1, keepdim=True)
+        self.transition_prob = torch.log(trans_linear)
+        self.transition_prob[:, 0] = float("-inf")     # cant transition to the start state
+
+        dist_emit = torch.distributions.Dirichlet(
+            torch.full((self.num_obs,), alpha, device=self.device)
+        )
+        emit_linear = dist_emit.sample((self.num_states,))
+        emit_linear = emit_linear + self.epsilon
+        emit_linear = emit_linear / emit_linear.sum(dim=1, keepdim=True)
+        self.emission_prob = torch.log(emit_linear)
+
+        
         self.log_scale = True
 
 
@@ -267,7 +298,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         # Complete your code here
 
         for i in range(num_iter):
-            logger.info(f"Soft EM iteration {i + 1}/{num_iter}")
+            logger.info(f"Soft EM iteration {i + 1}/{num_iter} with Dirichlet Distribution")
 
             # Soft count accumulators (float)
             soft_trans_counts = torch.full(

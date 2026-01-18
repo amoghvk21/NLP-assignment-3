@@ -27,7 +27,7 @@ python -m main train-test hmm-hardEM upos --max-epochs 20 1 --save-path ./save/h
 python -m main train-test hmm-hardEM xpos --max-epochs 20 1 --save-path ./save/hmm-hard-em-xpos/hmm-hard-em-xpos.pt --res-path ./results/hmm-hard-em-xpos/hmm-hard-em-xpos.csv
 
 # HMM Hard EM train and test upos 20 epocs with initial guess from sEM (hmm-hard-em-upos_2)
-python -m main train-test hmm-hardEM upos --max-epochs 20 1 --save-path ./save/hmm-hard-em-upos_2/hmm-hard-em-upos_2.pt --res-path ./results/hmm-hard-em-upos_2/hmm-hard-em-upos_2.csv --initial-guess ./save/hmm-sem-upos/hmm-sem.0.pt 
+PUT COMMAND HERE TO RUN SEM FOR 1 EPOCH && python -m main train-test hmm-hardEM upos --max-epochs 20 1 --save-path ./save/hmm-hard-em-upos_2/hmm-hard-em-upos_2.pt --res-path ./results/hmm-hard-em-upos_2/hmm-hard-em-upos_2.csv --initial-guess ./save/hmm-sem-upos/hmm-sem.0.pt 
 
 ##############################################################
 

@@ -67,11 +67,11 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         # State embeddings (one embedding per hidden state)
         # init state embeddings to N(0,1)
         self.state_embeddings = self.emission_net[0]    # Embedding layer (num_states, hidden_dim)
-        nn.init.normal_(self.state_embeddings.weight, mean=0.0, std=1.0)
+        # nn.init.normal_(self.state_embeddings.weight, mean=0.0, std=1.0)       # if commented out then initialised to uniform distribution using init linear layers
 
         # init word embeddings to N(0,1)
         self.word_embeddings = self.emission_net[2]    # Linear layer (vocab_size, hidden_dim)
-        nn.init.normal_(self.word_embeddings.weight, mean=0.0, std=1.0)
+        nn.init.normal_(self.word_embeddings.weight, mean=0.0, std=1.0)       # if commented out then initialised to uniform distribution using init linear layers
         
         self.epsilon = 1e-8
         
@@ -500,44 +500,44 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
 
         return self.viterbi_log(word_ids)
     
-    def evaluate(self, dataset: Dataset) -> dict:
-        """
-        Evaluate the model on a dataset.
+    # def evaluate(self, dataset: Dataset) -> dict:
+    #     """
+    #     Evaluate the model on a dataset.
         
-        Args:
-            dataset: Evaluation dataset
+    #     Args:
+    #         dataset: Evaluation dataset
             
-        Returns:
-            Dictionary with evaluation results
-        """
-        results = []
-        all_true_tags = []
-        all_pred_tags = []
+    #     Returns:
+    #         Dictionary with evaluation results
+    #     """
+    #     results = []
+    #     all_true_tags = []
+    #     all_pred_tags = []
         
-        for example in tqdm(dataset, desc="Evaluating"):
-            words = example["form"]
-            true_tags = example["tags"]
+    #     for example in tqdm(dataset, desc="Evaluating"):
+    #         words = example["form"]
+    #         true_tags = example["tags"]
             
-            if len(words) == 0:
-                continue
+    #         if len(words) == 0:
+    #             continue
             
-            # Predict tags
-            pred_tags = self.inference(words)
+    #         # Predict tags
+    #         pred_tags = self.inference(words)
             
-            if len(true_tags) != len(pred_tags):
-                raise ValueError(
-                    f"Length mismatch detected!\n"
-                    f"Input Words: {len(words)}\n"
-                    f"True Tags:   {len(true_tags)}\n"
-                    f"Pred Tags:   {len(pred_tags)}\n"
-                    f"Sentence:    {words}\n"
-                    "Check your Viterbi implementation or Data Loader."
-                )
+    #         if len(true_tags) != len(pred_tags):
+    #             raise ValueError(
+    #                 f"Length mismatch detected!\n"
+    #                 f"Input Words: {len(words)}\n"
+    #                 f"True Tags:   {len(true_tags)}\n"
+    #                 f"Pred Tags:   {len(pred_tags)}\n"
+    #                 f"Sentence:    {words}\n"
+    #                 "Check your Viterbi implementation or Data Loader."
+    #             )
             
-            all_true_tags.extend(true_tags)
-            all_pred_tags.extend(pred_tags)
+    #         all_true_tags.extend(true_tags)
+    #         all_pred_tags.extend(pred_tags)
         
-        return {
-            "true_tags": all_true_tags,
-            "pred_tags": all_pred_tags
-        }
+    #     return {
+    #         "true_tags": all_true_tags,
+    #         "pred_tags": all_pred_tags
+    #     }

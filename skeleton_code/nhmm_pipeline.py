@@ -57,53 +57,53 @@ def train(
     return model
 
 
-def eval(
-    dataset_split: Dataset,
-    load_path: str,
-    res_path: str = "kmeans_result.csv"
-):
-    """
+# def eval(
+#     dataset_split: Dataset,
+#     load_path: str,
+#     res_path: str = "kmeans_result.csv"
+# ):
+#     """
 
-    Evaluate a trained NHMM model on the specified dataset split.
-    Writes results to res_path.
+#     Evaluate a trained NHMM model on the specified dataset split.
+#     Writes results to res_path.
 
-    Args:
-        dataset_split: Dataset split to evaluate on
-        load_path: Path to load the model from
-        res_path: Path to save the results to
+#     Args:
+#         dataset_split: Dataset split to evaluate on
+#         load_path: Path to load the model from
+#         res_path: Path to save the results to
 
-    Returns:
-        Dictionary containing the evaluation metrics
+#     Returns:
+#         Dictionary containing the evaluation metrics
 
-    Steps:
-        1. For each sentence in the evaluation dataset:
-           a. Predict cluster labels for each word using the model
-           b. Collect gold POS tags for each word
-        2. Compare predicted cluster labels with gold POS tags across all sentences
-        3. Compute evaluation metrics (Variation of Information, V-measure)
-        4. Save detailed predictions and computed metrics to `res_path`
-    """
+#     Steps:
+#         1. For each sentence in the evaluation dataset:
+#            a. Predict cluster labels for each word using the model
+#            b. Collect gold POS tags for each word
+#         2. Compare predicted cluster labels with gold POS tags across all sentences
+#         3. Compute evaluation metrics (Variation of Information, V-measure)
+#         4. Save detailed predictions and computed metrics to `res_path`
+#     """
 
-    logger.info("Evaluating NHMM")
+#     logger.info("Evaluating NHMM")
 
-    # Load model from load_path
-    if load_path is None:
-        raise ValueError("load_path must be provided for evaluation")
+#     # Load model from load_path
+#     if load_path is None:
+#         raise ValueError("load_path must be provided for evaluation")
             
-    logger.info(f"Loading NHMM model from {load_path}")
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#     logger.info(f"Loading NHMM model from {load_path}")
+#     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    # Note: We need vocab and tag_mapping to reconstruct the model
-    # For now, we'll load the full model state
-    # In practice, you might want to save/load the full model or its config
-    model_state = torch.load(load_path, map_location=device)
+#     # Note: We need vocab and tag_mapping to reconstruct the model
+#     # For now, we'll load the full model state
+#     # In practice, you might want to save/load the full model or its config
+#     model_state = torch.load(load_path, map_location=device)
     
-    # We need to reconstruct the model - this requires vocab and tag_mapping
-    # For evaluation, we assume the model is passed or we need to reconstruct it
-    # This is a limitation - in practice, save the full model or its config
-    raise NotImplementedError("Model loading requires vocab and tag_mapping. Use model.evaluate() directly or pass model to eval function.")
+#     # We need to reconstruct the model - this requires vocab and tag_mapping
+#     # For evaluation, we assume the model is passed or we need to reconstruct it
+#     # This is a limitation - in practice, save the full model or its config
+#     raise NotImplementedError("Model loading requires vocab and tag_mapping. Use model.evaluate() directly or pass model to eval function.")
 
-def eval_with_model(
+def eval(
     dataset_split: Dataset,
     model: NeuralHMMClassifier,
     res_path: str = "nhmm_result.csv"
@@ -291,7 +291,7 @@ def train_and_test(
     # 4. Evaluate NHMM model (use no_grad for inference)
     model.eval()
     with torch.no_grad():
-        eval_with_model(
+        eval(
             dataset_splits["test"],
             model=model,
             res_path=res_path,
@@ -354,9 +354,9 @@ def test(
     model.load_state_dict(torch.load(load_path, map_location=device))
     model.eval()
 
-    # 4. Call eval_with_model() to do the actual evaluation
+    # 4. Call eval() to do the actual evaluation
     with torch.no_grad():
-        eval_with_model(
+        eval(
             dataset_splits["test"],
             model=model,
             res_path=res_path,

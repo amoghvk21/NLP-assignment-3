@@ -64,7 +64,7 @@ def train_hmm_stage(
             max_epochs[1],
             method=method,
             continue_training=f,
-            initial_guesses=initial_guesses
+            initial_guesses=initial_guesses if i == 0 else None  # Only use initial_guesses in first stage
         )
         f = True
 
@@ -217,7 +217,7 @@ def train_and_test(
         logger.info(f"Loading initial guesses from {initial_guesses_path}")
         hmm_model = torch.load(initial_guesses_path, weights_only=False)
         initial_guesses = (hmm_model.transition_prob, hmm_model.emission_prob)
-        logger.info("Initial guesses loaded successfully")
+        logger.info("Initial guesses loaded successfully (assuming log space)")
     
     # Load and wrap PTB dataset
     sentences, upos_set, xpos_set = load_ptb_dataset(line_num=subset)

@@ -253,6 +253,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 # Ensure tensors are on the correct device
                 self.transition_prob = self.transition_prob.to(self.device)
                 self.emission_prob = self.emission_prob.to(self.device)
+                # Assume initial_guesses are always in log space
+                self.log_scale = True
             else:
                 self.reset_logspace()
         
@@ -320,6 +322,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 # Ensure tensors are on the correct device
                 self.transition_prob = self.transition_prob.to(self.device)
                 self.emission_prob = self.emission_prob.to(self.device)
+                # Assume initial_guesses are always in log space
+                self.log_scale = True
             else:
                 self.reset_logspace()
         
@@ -376,7 +380,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         eta_fn: Callable[[int], float] = lambda k: 0.8,
         initial_guesses=None,
         continue_training=False,
-        batch_size: int = 30
+        batch_size: int = 30,
     ):
         """
         Train an HMM with a stepwise online EM algorithm
@@ -389,6 +393,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 # Ensure tensors are on the correct device
                 self.transition_prob = self.transition_prob.to(self.device)
                 self.emission_prob = self.emission_prob.to(self.device)
+                # Assume initial_guesses are always in log space
+                self.log_scale = True
             else:
                 self.reset_logspace()
         
@@ -710,7 +716,9 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             return []
 
         V = torch.full((N, seq_len), float('-inf'), device=self.device)
-        path = {}   # Dictionary to store the optimal path for each state at each time step
+        
+        # Dictionary to store the optimal path for each state at each time step
+        backpointers = torch.zeros((N, seq_len), dtype=torch.long, device=self.device)
 
         # init 
         V[:, 0] = self.transition_prob[0, 1:] + self.emission_prob[:, input_ids[0]]  # Initial probabilities of going from start state to each other state
@@ -736,9 +744,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             best_scores, best_prev_indices = torch.max(scores, dim=0)
             V[:, t] = best_scores
 
-            # path dict stores backpointers: for each state y at time t, store previous state (1..N, t)
-            for y in range(N):  # y is 1..N
-                path[(y, t)] = best_prev_indices[y].item()  # store as state index 1..N
+            # for each state y at time t, store previous state (1..N, t)
+            backpointers[:, t] = best_prev_indices
 
         # Backtrace to find the optimal path
         last_state = torch.argmax(V[:, -1]).item()
@@ -746,7 +753,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
         current_state = last_state
         for t in range(seq_len - 1, 0, -1):
-            current_state = path[current_state, t]
+            current_state = backpointers[current_state, t].item()
             optimal_path.insert(0, current_state) # prepend the state index
 
         return optimal_path

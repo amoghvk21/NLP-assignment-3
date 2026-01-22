@@ -61,6 +61,8 @@ if __name__ == "__main__":
                 args["save_path"],
                 args["res_path"],
                 args["initial_guesses"],
+                args["reset_method"],
+                args["alpha_sem"],
             )
         else:
             hmm_pipeline.test(

@@ -330,7 +330,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         max_epochs: int = 5,
         lr: float = 0.001, 
         minibatch_size: int = 256,
-        max_inner_loops: int = 1,              # 6
+        max_inner_loops: int = 6,
         convergence_threshold: float = 1e-4,
         max_grad_norm: float = 5.0,
         max_sentence_length: int = 40,

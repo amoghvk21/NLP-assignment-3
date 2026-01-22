@@ -80,6 +80,22 @@ def arg_parsing():
         help="path to load initial guesses from (HMM model checkpoint with transition_prob and emission_prob). use `.pt`.",
         metavar="PATH",
     )
+    argparser.add_argument(
+        "--reset-method",
+        dest="reset_method",
+        choices=["dirichlet", "random"],
+        default="dirichlet",
+        help="method to use for resetting model parameters. One of {'dirichlet'|'random'}. Default to 'dirichlet'.",
+        metavar="METHOD",
+    )
+    argparser.add_argument(
+        "--alpha-sem",
+        dest="alpha_sem",
+        type=float,
+        default=1.0,
+        help="alpha value for sEM (stepwise EM) learning rate schedule. Default to 1.0.",
+        metavar="FLOAT",
+    )
     args = argparser.parse_args()
     args = vars(args)
     return args

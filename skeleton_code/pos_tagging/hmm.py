@@ -48,30 +48,28 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         self.cnt = 0  # Number of updates in sEM
         # TODO: optimize training by using UNK token
 
-    # def reset_logspace(self):
-    #     """
-    #     Reset the model parameters with 1 + (random noise * 0.1)
-    #     Makes sure low variance
+    def reset_logspace_random(self):
+        """
+        Reset the model parameters from self.epsilon to 1.
 
-    #     """
+        """
 
-    #     transition_init = torch.ones(self.num_states + 1, self.num_states + 1, device=self.device) + (torch.rand(self.num_states + 1, self.num_states + 1, device=self.device) * 0.1)
-    #     transition_init = transition_init / transition_init.sum(dim=1, keepdim=True)
-        
-    #     transition_init[:, 0] = 0.0
-    #     if transition_init[0].sum() > 0:
-    #         transition_init[0] = transition_init[0] / transition_init[0].sum()
+        transition_init = torch.rand(self.num_states + 1, self.num_states + 1, device=self.device) + self.epsilon
+        transition_init[:, 0] = 0.0         # cant transition to start state
+        transition_init = transition_init / transition_init.sum(dim=1, keepdim=True)    # normalise
             
-    #     emission_init = torch.ones(self.num_states, self.num_obs, device=self.device) + (torch.rand(self.num_states, self.num_obs, device=self.device) * 0.1)
-    #     emission_init = emission_init / emission_init.sum(dim=1, keepdim=True)
+        emission_init = torch.rand(self.num_states, self.num_obs, device=self.device) + self.epsilon
+        emission_init = emission_init / emission_init.sum(dim=1, keepdim=True)    # normalise
 
-    #     self.transition_prob = torch.log(transition_init)
-    #     self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
-    #     self.emission_prob = torch.log(emission_init)
-    #     self.log_scale = True
-    
+        self.transition_prob = torch.log(transition_init + self.epsilon)   # add epsilon just incase to avoid log(0) = -inf
+        self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
+        
+        self.emission_prob = torch.log(emission_init + self.epsilon)   # add epsilon just incase to avoid log(0) = -inf
+        
+        self.log_scale = True
 
-    def reset_logspace(self):
+
+    def reset_logspace_dirichlet(self):
         """
         Reset the model parameters using samples from the Dirichlet distribution.
 
@@ -102,6 +100,17 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         self.log_scale = True
 
 
+
+    def reset_logspace(self, method: str = "dirichlet"):
+
+        if method == "dirichlet":
+            self.reset_logspace_dirichlet()
+        elif method == "random":
+            self.reset_logspace_random()
+        else:
+            raise ValueError("Invalid method name")
+
+
     def reset_uniform(self, log_space: bool):
         self.transition_prob = torch.full(
             [self.num_states + 1, self.num_states + 1], self.epsilon, device=self.device
@@ -125,6 +134,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         method: str = "mle",
         continue_training=False,
         initial_guesses=None,
+        reset_method: str = "dirichlet",
+        alpha_sem: float = 1.0,
     ) -> None:
         if method == "mle":
             self.train_logmle(inputs)
@@ -133,22 +144,25 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 inputs,
                 num_iter=epochs,
                 continue_training=continue_training,
-                initial_guesses=initial_guesses
+                initial_guesses=initial_guesses,
+                reset_method = reset_method
             )
         elif method == "sEM":
             self.train_sEM(
                 inputs,
                 num_iter=epochs,
-                eta_fn=lambda k: (k + 2) ** (-1.0),
+                eta_fn=lambda k: (k + 2) ** (-alpha_sem),
                 continue_training=continue_training,
-                initial_guesses=initial_guesses
+                initial_guesses=initial_guesses,
+                reset_method = reset_method,
             )
         elif method == "hardEM":
             self.train_EM_hard_log(
                 inputs,
                 num_iter=epochs,
                 continue_training=continue_training,
-                initial_guesses=initial_guesses
+                initial_guesses=initial_guesses,
+                reset_method = reset_method,
             )
         else:
             raise ValueError("Invalid training method name")
@@ -272,6 +286,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         num_iter: int = 5,
         initial_guesses=None,
         continue_training=False,
+        reset_method: str = "dirichlet",
     ):
         """
         Train an HMM with the standard EM algorithm
@@ -280,6 +295,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         # stage 1 or not using staged training
         if not continue_training:
             if initial_guesses is not None:
+                logger.info("Soft EM: Using initial guesses for parameter initialization")
                 self.transition_prob, self.emission_prob = initial_guesses
                 # Ensure tensors are on the correct device
                 self.transition_prob = self.transition_prob.to(self.device)
@@ -287,7 +303,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 # Assume initial_guesses are always in log space
                 self.log_scale = True
             else:
-                self.reset_logspace()
+                logger.info(f"Soft EM: Initializing parameters using {reset_method} method")
+                self.reset_logspace(method=reset_method)
         
         if not self.log_scale:
             self.transition_prob = torch.log(self.transition_prob + self.epsilon)
@@ -298,7 +315,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         # Complete your code here
 
         for i in range(num_iter):
-            logger.info(f"Soft EM iteration {i + 1}/{num_iter} with Dirichlet Distribution")
+            logger.info(f"Soft EM iteration {i + 1}/{num_iter}")
 
             # Soft count accumulators (float)
             soft_trans_counts = torch.full(
@@ -341,6 +358,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         num_iter: int = 10,
         initial_guesses=None,
         continue_training=False,
+        reset_method: str = "dirichlet",
     ):
         """
         Train an HMM with the hard EM algorithm (also called Viterbi EM)
@@ -349,6 +367,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         # stage 1 or not using staged training
         if not continue_training:
             if initial_guesses is not None:
+                logger.info("Hard EM: Using initial guesses for parameter initialization")
                 self.transition_prob, self.emission_prob = initial_guesses
                 # Ensure tensors are on the correct device
                 self.transition_prob = self.transition_prob.to(self.device)
@@ -356,7 +375,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 # Assume initial_guesses are always in log space
                 self.log_scale = True
             else:
-                self.reset_logspace()
+                logger.info(f"Hard EM: Initializing parameters using {reset_method} method")
+                self.reset_logspace(method=reset_method)
         
         if not self.log_scale:
             self.transition_prob = torch.log(self.transition_prob + self.epsilon)
@@ -378,7 +398,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 [self.num_states, self.num_obs], self.epsilon, device=self.device    # no start state as start state has no emissions
             )
 
-            for sentence in tqdm(inputs, desc="hard EM"):
+            for sentence in tqdm(inputs, desc="hard EM with random initialisation"):
                 input_ids = sentence["input_ids"]
                 
                 # Skip empty sentences
@@ -426,6 +446,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         initial_guesses=None,
         continue_training=False,
         batch_size: int = 30,
+        reset_method: str = "dirichlet",
     ):
         """
         Train an HMM with a stepwise online EM algorithm
@@ -434,6 +455,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         # stage 1 or not using staged training
         if not continue_training:
             if initial_guesses is not None:
+                logger.info("Stepwise EM: Using initial guesses for parameter initialization")
                 self.transition_prob, self.emission_prob = initial_guesses
                 # Ensure tensors are on the correct device
                 self.transition_prob = self.transition_prob.to(self.device)
@@ -441,7 +463,8 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 # Assume initial_guesses are always in log space
                 self.log_scale = True
             else:
-                self.reset_logspace()
+                logger.info(f"Stepwise EM: Initializing parameters using {reset_method} method")
+                self.reset_logspace(method=reset_method)
         
         if not self.log_scale:
             self.transition_prob = torch.log(self.transition_prob + self.epsilon)

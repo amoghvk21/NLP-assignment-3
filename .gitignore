@@ -2,3 +2,5 @@ venv/
 venv_win/
 skeleton_code/embeddings/
 .vscode/
+skeleton_code/output/kmeans-upos/save/kmeans-upos.pt
+skeleton_code/output/kmeans-xpos/save/kmeans-xpos.pt

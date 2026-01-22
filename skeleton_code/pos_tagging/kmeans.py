@@ -1,12 +1,9 @@
 from pos_tagging.base import BaseUnsupervisedClassifier
-from datasets import Dataset
-from typing import List, Optional
+from typing import List
 import torch
 import logging
 from sklearn.cluster import KMeans
-import numpy as np
 import warnings
-from tqdm import tqdm
 from transformers import AutoModel, AutoTokenizer
 
 

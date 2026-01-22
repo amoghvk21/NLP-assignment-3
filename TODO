@@ -24,6 +24,7 @@ reduce comments
 
 randomize -> randomise
 
+parllelise each batch for nhmm
 
 
 ask prof:
@@ -32,3 +33,24 @@ ask prof:
 - do we need to talk about metrics, their formula
 - do we need to talk about the model and its implementation
 - Changing alpha in code without having command line access
+
+
+
+all experiments:
+hmm soft upos
+hmm soft xpos 
+
+hmm sem upos
+hmm sem xpos 
+
+hmm hard upos 
+hmm hard xpos 
+
+hmm hard upos NOT DIR - show that it is worse for some example
+
+hmm sem upos alpha 1
+hmm sem upos alpha 0.9
+hmm sem upos alpha 0.8
+hmm sem upos alpha 0.7
+hmm sem upos alpha 0.6
+hmm sem upos alpha 0.5

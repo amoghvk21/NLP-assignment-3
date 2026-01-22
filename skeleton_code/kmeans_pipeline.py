@@ -27,11 +27,8 @@ def generate_bert_embeddings(
     """
     Generate context-dependent BERT embeddings for words from PTB sentences.
     
-    Each word gets a contextual embedding based on its sentence context.
-    The same word type can have different embeddings in different sentences.
-
     Args:
-        sentences: List of sentence dicts from PTB (each has "form" key with word list)
+        sentences: List of sentences fromPTB
         word_embedding_path: Path to the word embedding cache file
         batch_size: Batch size for processing sentences (default: 32)
         device: Device to use for the model (default: auto-detect)
@@ -39,23 +36,8 @@ def generate_bert_embeddings(
     Returns:
         all_word_embeddings: List of tensors, each containing word embeddings for one sentence
         embeddings_tensor: Stacked tensor of all word embeddings (for clustering)
-        bert_model: Loaded BERT model (always loaded, for reuse)
-        tokenizer: Loaded BERT tokenizer (always loaded, for reuse)
-    
-    Steps:
-        1. Check if a cache file containing word embeddings exists on disk.
-            a. If the cache exists, load the all_word_embeddings list from cache.
-            b. If not, process sentences in batches to generate BERT embeddings:
-                i. Load the BERT model and tokenizer.
-                ii. For each sentence batch:
-                    - Tokenize sentences with word alignment (is_split_into_words=True)
-                    - Pass through BERT to get contextualized hidden states
-                    - For each word, align it to its subword tokens using word_ids()
-                    - Pool (mean) the subword token embeddings to get word embedding
-                    - Store contextualized word embeddings for every word occurrence
-            c. Save the all_word_embeddings list to disk as a cache for future use.
-        2. Flatten all sentence embeddings into a single tensor for clustering.
-        3. Return embeddings list and flattened tensor.
+        bert_model: Loaded BERT model
+        tokenizer: Loaded BERT tokenizer
     """
 
     # Set the device
@@ -67,27 +49,27 @@ def generate_bert_embeddings(
 
     all_word_embeddings = []
 
-    # 1a. Check if a cache file containing word embeddings exists on disk.
+    # Check if a cache file containing word embeddings exists on disk.
     if word_embedding_path and os.path.isfile(word_embedding_path):
         logger.info(f"Loading contextual embeddings from cache: {word_embedding_path}")
         all_word_embeddings = torch.load(word_embedding_path, map_location=device)
         logger.info(f"Cache loaded successfully. Found {len(all_word_embeddings)} sentences.")
     
-    # Always load BERT model and tokenizer (required for KMeansClassifier)
+    # Load BERT model and tokenizer
     logger.info(f"Loading BERT model: {BERT_MODEL_NAME}")
     bert_model = AutoModel.from_pretrained(BERT_MODEL_NAME).to(device)
     tokenizer = AutoTokenizer.from_pretrained(BERT_MODEL_NAME)
     bert_model.eval()
     logger.info("BERT model and tokenizer loaded successfully")
     
-    # 1b. If not cached, generate BERT embeddings for all sentences
+    # If not cached, generate BERT embeddings for all sentences
     if not all_word_embeddings:
         logger.info("No cache found. Generating context-dependent BERT embeddings.")
         
         # Stores embeddings split by sentence
         all_word_embeddings = []
         
-        # ii. Process sentences in batches
+        # Process sentences in batches
         total_num_sentences = len(sentences)
         with torch.no_grad():
             with tqdm(total=total_num_sentences, desc="Generating contextual embeddings") as pbar:

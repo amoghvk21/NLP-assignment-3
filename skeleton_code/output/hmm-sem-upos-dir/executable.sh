@@ -16,6 +16,5 @@ source ../venv/bin/activate
 
 echo "running file"
 
-python3.12 -u -m main train-test hmm-sEM upos --max-epochs 20 1 --save-path ./output/hmm-sem-upos-dir/save/hmm-sem-upos-dir.pt --res-path ./output/hmm-sem-upos-dir/results/hmm-sem-upos-dir.csv
-
+python3.12 -u -m main train-test hmm-sEM upos --max-epochs 20 1 --save-path ./output/hmm-sem-upos-dir-alpha-0.5/save/hmm-sem-upos-dir-alpha-0.5.pt --res-path ./output/hmm-sem-upos-dir-alpha-0.5/results/hmm-sem-upos-dir-alpha-0.5.csv --alpha-sem 0.5
 echo "finished job"

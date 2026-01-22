@@ -20,6 +20,8 @@ def train_hmm(
     num_obs: int,
     save_path: str = None,
     initial_guesses: tuple[torch.Tensor, torch.Tensor] = None,
+    reset_method: str = "dirichlet",
+    alpha_sem: float = 1.0,
 ):
     logger.info("Training HMM")
     hmm = HMMClassifier(num_states=num_states, num_obs=num_obs)
@@ -28,7 +30,9 @@ def train_hmm(
         dataset_splits["train"], 
         max_epochs,
         method=method,
-        initial_guesses=initial_guesses
+        initial_guesses=initial_guesses,
+        reset_method=reset_method,
+        alpha_sem=alpha_sem
     )
 
     if save_path is not None:
@@ -52,6 +56,8 @@ def train_hmm_stage(
     save_path: str = None,
     res_path: str = None,
     initial_guesses: tuple[torch.Tensor, torch.Tensor] = None,
+    reset_method: str = "dirichlet",
+    alpha_sem: float = 1.0,
 ):
     logger.info("Training HMM by stages")
     hmm = HMMClassifier(num_states=num_states, num_obs=num_obs)
@@ -64,7 +70,9 @@ def train_hmm_stage(
             max_epochs[1],
             method=method,
             continue_training=f,
-            initial_guesses=initial_guesses if i == 0 else None  # Only use initial_guesses in first stage
+            initial_guesses=initial_guesses if i == 0 else None,  # Only use initial_guesses in first stage
+            reset_method=reset_method if i == 0 else None,        # Only use reset_method in first stage
+            alpha_sem=alpha_sem
         )
         f = True
 
@@ -207,9 +215,12 @@ def train_and_test(
     save_path,
     res_path,
     initial_guesses_path: str = None,
+    reset_method: str = "dirichlet",
+    alpha_sem: float = 1.0,
 ):
     assert len(max_epochs) <= 2
     logger.warning(f"Using {tag_name} as tag")
+    logger.info(f"Using alpha_sem = {alpha_sem} for sEM ")
     
     # Load initial_guesses from path if provided
     initial_guesses = None
@@ -254,7 +265,9 @@ def train_and_test(
                 num_states=len(tag_mapping),
                 num_obs=len(obs_mapping),
                 save_path=save_path,
-                initial_guesses=initial_guesses
+                initial_guesses=initial_guesses,
+                reset_method=reset_method,
+                alpha_sem=alpha_sem
             )
         else:
             hmm = train_hmm_stage(
@@ -265,7 +278,9 @@ def train_and_test(
                 num_obs=len(obs_mapping),
                 save_path=save_path,
                 res_path=res_path,
-                initial_guesses=initial_guesses
+                initial_guesses=initial_guesses,
+                reset_method=reset_method,
+                alpha_sem=alpha_sem
             )
 
         eval_hmm(

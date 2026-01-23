@@ -45,27 +45,24 @@ class KMeansClassifier(BaseUnsupervisedClassifier):
         Each word occurrence gets its own embedding based on context.
 
         Args:
-            embeddings_tensor: Tensor of shape (total_word_tokens, hidden_dim) containing all contextual embeddings from training sentences
+            embeddings_tensor: Tensor of shape (total_word_occurances, hidden_dim) containing all contextual embeddings from training sentences
 
-        Steps:
-            1. Convert embeddings tensor to numpy array
-            2. Fit sklearn KMeans model on all word token embeddings
         """
         logger.info("Fitting K-means model on contextual word embeddings")
-        logger.info(f"Total word tokens to cluster: {embeddings_tensor.shape[0]}")
+        logger.info(f"Total word occurances to cluster: {embeddings_tensor.shape[0]}")
         
-        # 1. Convert embeddings tensor to numpy array on CPU
-        # embeddings_tensor: (total_words, hidden_dim)
+        # Convert embeddings tensor to numpy array on CPU
+        # embeddings_tensor: (total_word_occurances, hidden_dim)
         embeddings_np = embeddings_tensor.detach().cpu().numpy()
         
-        # 2. Fit sklearn KMeans model on all word token embeddings
-        # This clusters word instances, not word types
+        # Fit sklearn KMeans model on all word embeddings
+        # This clusters word occurances, not word types
         logger.info("Starting KMeans fit")
         self.kmeans_model = KMeans(n_clusters=self.num_clusters, random_state=42, n_init=10)
         cluster_labels = self.kmeans_model.fit_predict(embeddings_np)
         logger.info("KMeans fit complete.")
         
-        logger.info(f"K-means fitting complete. {len(cluster_labels)} word tokens clustered into {self.num_clusters} clusters.")
+        logger.info(f"K-means fitting complete. {len(cluster_labels)} word occurances clustered into {self.num_clusters} clusters.")
     
     def inference(self, word_list: List[str]) -> List[int]:
         """
@@ -78,40 +75,33 @@ class KMeansClassifier(BaseUnsupervisedClassifier):
         Returns:
             List of cluster labels (integers) for each word in word_list
         
-        Steps:
-            1. Tokenise the sentence with word alignment (is_split_into_words=True)
-            2. Pass through BERT to get contextualised embeddings
-            3. For each word, align it to its subword tokens using word_ids()
-            4. Mean pool subword token embeddings to get word embedding
-            5. Predict cluster for each word embedding using trained K-means model
-            6. Return list of cluster labels
         """
         
         # Handle empty word list
         if len(word_list) == 0:
             return []
         
-        # 1. Tokenise the sentence with word alignment enabled
+        # Tokenise the sentence with word alignment enabled
         # This allows us to map tokens back to words using word_ids()
         # We need to encode first to get word_ids, then convert to tensors
         encoded = self.tokenizer(
             word_list,
-            is_split_into_words=True,  # Important: tells tokenizer words are pre-split
+            is_split_into_words=True,  # tells tokenizer words are pre-split
             padding=True,
             truncation=True,
             return_tensors="pt"
         )
         tokens = {k: v.to(self.device) for k, v in encoded.items()}
         
-        # 2. Pass through BERT to get contextualised embeddings
+        # Pass through BERT to get contextualised embeddings
         with torch.no_grad():
             outputs = self.bert_model(**tokens)
             hidden_states = outputs.last_hidden_state[0]  # (seq_len, hidden_dim); index 0 to get first (and only) sentence
 
-        # 3. For each word, align it to its subword tokens using word_ids()
+        # For each word, align it to its subword tokens using word_ids()
         word_ids = encoded.word_ids()  # (seq_len,)
         
-        # 4. Mean pool subword token embeddings to get word embedding
+        # Mean pool subword token embeddings to get word embedding
         word_embeddings = []
         current_word_idx = None
         subword_indices = []
@@ -157,27 +147,8 @@ class KMeansClassifier(BaseUnsupervisedClassifier):
                 f"Inference: Expected {len(word_list)} word embeddings, "
                 f"got {len(word_embeddings)}. Mismatch between words and embeddings."
             )
-            # This deals with fixing this error TODO remove if not needed
-            """
-            logger.warning(
-                f"Inference: Expected {len(word_list)} word embeddings,", 
-                f"got {len(word_embeddings)}. Padding/truncating."
-            )
-
-            # word_embeddings is shorter than the number of words
-            # Pad word_embeddings with the last embedding
-            if len(word_embeddings) < len(word_list):
-                # Repeat last embedding for missing words
-                last_emb = word_embeddings[-1] if word_embeddings else hidden_states[0, :]
-                word_embeddings.extend([last_emb] * (len(word_list) - len(word_embeddings)))
-
-            # word_embeddings is longer than the number of words
-            # Shorten word_embeddings to the number of words
-            else:
-                word_embeddings = word_embeddings[:len(word_list)]
-            """
         
-        # 5. Predict cluster for each word embedding using trained K-means model
+        # Predict cluster for each word embedding using trained K-means model
         if self.kmeans_model is None:
             raise RuntimeError("K-means model has not been trained. Call train() before inference.")
         
@@ -189,5 +160,5 @@ class KMeansClassifier(BaseUnsupervisedClassifier):
         else:
             raise RuntimeError("No embeddings generated for inference; cannot assign clusters for input words. ")
         
-        # 6. Return list of cluster labels
+        # Return list of cluster labels
         return pred_tags

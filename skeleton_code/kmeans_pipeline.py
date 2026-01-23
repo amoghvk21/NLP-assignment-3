@@ -28,7 +28,7 @@ def generate_bert_embeddings(
     Generate context-dependent BERT embeddings for words from PTB sentences.
     
     Args:
-        sentences: List of sentences fromPTB
+        sentences: List of sentences from PTB
         word_embedding_path: Path to the word embedding cache file
         batch_size: Batch size for processing sentences (default: 32)
         device: Device to use for the model (default: auto-detect)
@@ -80,18 +80,18 @@ def generate_bert_embeddings(
                     batch_words = [s["form"] for s in batch_sentences]
                     
                     # Tokenise and convert to tensors
-                    encoded = tokenizer(
+                    tokenised_sentences = tokenizer(
                         batch_words,
                         is_split_into_words=True,  # Allows us to align tokens to words easier later
                         padding=True,
                         truncation=True,
                         return_tensors="pt"
                     )
-                    tokens = {k: v.to(device) for k, v in encoded.items()}
+                    tokens = {k: v.to(device) for k, v in tokenised_sentences.items()}
                     
-                    # Returns a list (batch_size, seq_len) mapping each token to its word index (None for special tokens)
+                    # Returns a list (batch_size, seq_len) mapping each token to its word index (None for special tokens) for each sentence in the batch
                     # Iterates through each sentence in the batch
-                    batch_word_ids = [encoded.word_ids(batch_index=i) for i in range(len(batch_words))]   # TODO: Check
+                    batch_word_ids = [tokenised_sentences.word_ids(batch_index=i) for i in range(len(batch_words))]
                     
                     # Pass through BERT to get contextualised embeddings
                     outputs = bert_model(**tokens)
@@ -153,26 +153,7 @@ def generate_bert_embeddings(
                                 f"Sentence {i+j}: Expected {len(words)} word embeddings,", 
                                 f"got {len(word_embeddings)}. Padding/truncating."
                             )
-                            # This deals with fixing this error TODO remove if not needed
-                            """
-                            logger.warning(
-                                f"Sentence {i+j}: Expected {len(words)} word embeddings,", 
-                                f"got {len(word_embeddings)}. Padding/truncating."
-                            )
                             
-                            # word_embeddings is shorter than the number of words
-                            # Pad word_embeddings with the last embedding
-                            if len(word_embeddings) < len(words):
-                                # Repeat last embedding for missing words
-                                last_emb = word_embeddings[-1] if word_embeddings else hidden_states[j, 0, :]
-                                word_embeddings.extend([last_emb] * (len(words) - len(word_embeddings)))
-                            
-                            # word_embeddings is longer than the number of words
-                            # Shorten word_embeddings to the number of words
-                            else:
-                                word_embeddings = word_embeddings[:len(words)]
-                            """
-                        
                         # Store embeddings for this sentence
                         all_word_embeddings.append(torch.stack(word_embeddings))
                         pbar.update(1)

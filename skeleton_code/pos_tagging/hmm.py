@@ -46,7 +46,6 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         self.emission_prob = torch.full([self.num_states, self.num_obs], self.epsilon, device=self.device)
         self.log_scale = False
         self.cnt = 0  # Number of updates in sEM
-        # TODO: optimize training by using UNK token
 
     def reset_logspace_random(self):
         """

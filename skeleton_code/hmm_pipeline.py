@@ -134,8 +134,6 @@ def eval_hmm(
         # forms = example["form"]
         true_tags = example["tags"]
         pred_tags = hmm.inference(input_ids)
-        # TODO: what tokenizer is used to get ptb-train.conllu???
-        # sentence = " ".join(forms)
 
         # Compute per-example V-measure and VI
         homo_score, comp_score, v_score = calculate_v_measure(true_tags, pred_tags)
@@ -201,9 +199,6 @@ def eval_hmm(
         )
         # Save per-example results
         writer.writerows(results)
-
-
-# TODO: HMM inference for single sentence
 
 
 def train_and_test(

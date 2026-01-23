@@ -276,7 +276,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             log_beta: Backward probabilities (num_states, T)
             log_gamma: State posteriors (num_states, T)
             log_xi: Transition posteriors (T-1, num_states, num_states)
-            logZ: Log probability of sequence
+            log_O: Log probability of sequence
         """
         T = input_ids.size(0)
         num_states = self.num_states
@@ -294,10 +294,10 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         log_beta = self._backward_log(input_ids, log_T_matrix, log_E_matrix)  # (num_states, T)
         
         # Compute normalizer (log probability of the sequence) - just sum the last column to get all states
-        logZ = torch.logsumexp(log_alpha[:, T - 1], dim=0)
+        log_O = torch.logsumexp(log_alpha[:, T - 1], dim=0)
 
         # Compute state posteriors: gamma[s, t] = P(y_t = s | x)
-        log_gamma = log_alpha + log_beta - logZ  # (num_states, T)
+        log_gamma = log_alpha + log_beta - log_O  # (num_states, T)
 
         
         # Compute transition posteriors: xi[t, s, s'] = log P(y_t = s, y_{t+1} = s' | x)
@@ -318,160 +318,12 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             + transition         # (1, num_states, num_states)
             + emission           # (T-1, 1, num_states)
             + log_beta_tplus1    # (T-1, 1, num_states)
-            - logZ
+            - log_O
         )
         # (T-1, num_states, num_states) reuslt
 
-        return log_alpha, log_beta, log_gamma, log_xi, logZ
+        return log_alpha, log_beta, log_gamma, log_xi, log_O
     
-    def _forward_log_batched(
-        self,
-        input_ids: torch.Tensor,
-        lengths: torch.Tensor,
-        log_T_matrix: torch.Tensor,
-        log_E_matrix: torch.Tensor,
-        initial_log_probs: torch.Tensor
-    ) -> torch.Tensor:
-        """
-        Compute forward probabilities in log space for a batch of sequences.
-
-        Args:
-            input_ids: Padded word indices (batch_size, max_seq_len)
-            lengths: Actual lengths of each sequence (batch_size,)
-            log_T_matrix: Precomputed transition log matrix (num_states, num_states)
-            log_E_matrix: Precomputed emission log matrix (num_states, vocab_size)
-            initial_log_probs: Precomputed initial log probabilities (num_states,)
-
-        Returns:
-            log_alpha: Tensor of shape (batch_size, num_states, max_seq_len)
-        """
-        batch_size, max_T = input_ids.shape
-        num_states = self.num_states
-        device = self.device
-
-        # Initialize with -inf (log(0))
-        log_alpha = torch.full((batch_size, num_states, max_T), float('-inf'), device=device)
-        
-        # Get emissions for all positions: (batch_size, max_T, num_states)
-        # log_E_matrix is (num_states, vocab_size), input_ids is (batch_size, max_T)
-        emissions = log_E_matrix[:, input_ids].permute(1, 2, 0)  # (batch_size, max_T, num_states)
-        
-        # Init: log_alpha[:, :, 0] = initial_log_probs + emissions[:, 0, :]
-        log_alpha[:, :, 0] = initial_log_probs.unsqueeze(0) + emissions[:, 0, :]  # (batch_size, num_states)
-
-        # Forward recursion
-        for t in range(1, max_T):
-            # log_alpha[:, :, t-1] is (batch_size, num_states)
-            log_alpha_prev = log_alpha[:, :, t-1].unsqueeze(2)  # (batch_size, num_states, 1)
-            # log_T_matrix is (num_states, num_states) - broadcast over batch
-            scores = log_alpha_prev + log_T_matrix.unsqueeze(0)  # (batch_size, num_states, num_states)
-            # Sum over previous states (dim=1)
-            log_alpha[:, :, t] = torch.logsumexp(scores, dim=1) + emissions[:, t, :]  # (batch_size, num_states)
-
-        return log_alpha
-    
-    def _backward_log_batched(
-        self,
-        input_ids: torch.Tensor,
-        lengths: torch.Tensor,
-        log_T_matrix: torch.Tensor,
-        log_E_matrix: torch.Tensor
-    ) -> torch.Tensor:
-        """
-        Compute backward probabilities in log space for a batch of sequences.
-
-        Args:
-            input_ids: Padded word indices (batch_size, max_seq_len)
-            lengths: Actual lengths of each sequence (batch_size,)
-            log_T_matrix: Precomputed transition log matrix (num_states, num_states)
-            log_E_matrix: Precomputed emission log matrix (num_states, vocab_size)
-
-        Returns:
-            log_beta: Tensor of shape (batch_size, num_states, max_seq_len)
-        """
-        batch_size, max_T = input_ids.shape
-        num_states = self.num_states
-        device = self.device
-
-        # Initialize with -inf, then set valid end positions to 0
-        log_beta = torch.full((batch_size, num_states, max_T), float('-inf'), device=device)
-        
-        # Set beta at actual sequence end to 0 for each sequence (vectorized)
-        # For sequences of length L, beta[i, :, L-1] = 0
-        end_positions = lengths - 1  # (batch_size,)
-        # Create indices: for each (batch_i, state_j), set position end_positions[batch_i]
-        bi = torch.arange(batch_size, device=device).repeat_interleave(num_states)  # [0,0,..,0, 1,1,..,1, ...]
-        si = torch.arange(num_states, device=device).repeat(batch_size)              # [0,1,..,S-1, 0,1,..,S-1, ...]
-        ti = end_positions.repeat_interleave(num_states)                             # [end0,end0,.., end1,end1,..]
-        log_beta[bi, si, ti] = 0.0
-        
-        # Get emissions for all positions: (batch_size, max_T, num_states)
-        emissions = log_E_matrix[:, input_ids].permute(1, 2, 0)  # (batch_size, max_T, num_states)
-
-        # Backward recursion - process all timesteps, masking will handle invalid ones
-        for t in range(max_T - 2, -1, -1):
-            # Only update positions where t < length - 1
-            # emission at t+1: (batch_size, num_states)
-            emission = emissions[:, t + 1, :]  # (batch_size, num_states)
-            emission = emission.unsqueeze(1)   # (batch_size, 1, num_states)
-            
-            # next_beta: (batch_size, num_states) -> (batch_size, 1, num_states)
-            next_beta = log_beta[:, :, t + 1].unsqueeze(1)  # (batch_size, 1, num_states)
-            
-            # log_T_matrix: (num_states, num_states) -> (1, num_states, num_states)
-            transition = log_T_matrix.unsqueeze(0)  # (1, num_states, num_states)
-            
-            # sum_matrix: (batch_size, num_states, num_states)
-            sum_matrix = transition + emission + next_beta
-            
-            # Sum over next states (dim=2)
-            new_beta = torch.logsumexp(sum_matrix, dim=2)  # (batch_size, num_states)
-            
-            # Only update where t < length - 1 (i.e., t+1 is valid)
-            mask = (t < lengths - 1).unsqueeze(1)  # (batch_size, 1)
-            log_beta[:, :, t] = torch.where(mask, new_beta, log_beta[:, :, t])
-
-        return log_beta
-    
-    def _forward_backward_batched(
-        self,
-        input_ids: torch.Tensor,
-        lengths: torch.Tensor,
-        log_T_matrix: torch.Tensor,
-        log_E_matrix: torch.Tensor,
-        initial_log_probs: torch.Tensor
-    ) -> torch.Tensor:
-        """
-        Compute forward-backward for a batch and return logZ (log probability of sequences).
-
-        Args:
-            input_ids: Padded word indices (batch_size, max_seq_len)
-            lengths: Actual lengths of each sequence (batch_size,)
-            log_T_matrix: Precomputed transition log matrix (num_states, num_states)
-            log_E_matrix: Precomputed emission log matrix (num_states, vocab_size)
-            initial_log_probs: Precomputed initial log probabilities (num_states,)
-
-        Returns:
-            logZ: Log probability of each sequence (batch_size,)
-        """
-        batch_size = input_ids.shape[0]
-        device = self.device
-
-        # Forward pass
-        log_alpha = self._forward_log_batched(
-            input_ids, lengths, log_T_matrix, log_E_matrix, initial_log_probs
-        )  # (batch_size, num_states, max_seq_len)
-
-        # Compute logZ for each sequence using its actual length (vectorized)
-        # logZ[i] = logsumexp(log_alpha[i, :, lengths[i]-1])
-        batch_indices = torch.arange(batch_size, device=device)
-        end_positions = lengths - 1  # (batch_size,)
-        # log_alpha[:, :, end_positions] doesn't work directly, need advanced indexing
-        log_alpha_ends = log_alpha[batch_indices, :, end_positions]  # (batch_size, num_states)
-        logZ = torch.logsumexp(log_alpha_ends, dim=1)  # (batch_size,)
-
-        return logZ
-
     def train_model(
         self, 
         dataset: Dataset,
@@ -538,49 +390,45 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
                 batch_end = min(batch_start + minibatch_size, len(filtered_dataset))
                 batch = filtered_dataset[batch_start:batch_end]
                 
-                # Prepare batched input: convert all sentences to padded tensor
-                batch_input_ids = []
-                batch_lengths = []
-                for example in batch:
-                    forms = example["form"]
-                    if len(forms) == 0:
-                        continue
-                    word_ids = [self._get_word_idx(word) for word in forms]
-                    batch_input_ids.append(word_ids)
-                    batch_lengths.append(len(word_ids))
-                
-                if len(batch_input_ids) == 0:
-                    continue
-                
-                # Pad sequences to max length in batch
-                max_len = max(batch_lengths)
-                padded_input_ids = torch.zeros(len(batch_input_ids), max_len, dtype=torch.long, device=self.device)
-                for i, ids in enumerate(batch_input_ids):
-                    padded_input_ids[i, :len(ids)] = torch.tensor(ids, dtype=torch.long, device=self.device)
-                lengths = torch.tensor(batch_lengths, dtype=torch.long, device=self.device)
-                
-                actual_batch_size = len(batch_input_ids)
-                
                 prev_log_prob = None
+                # for inner_iter in tqdm(range(max_inner_loops), desc="  Inner loop", leave=False):
                 for inner_iter in range(max_inner_loops):
+                    batch_loss = torch.tensor(0.0, device=self.device)
+                    total_log_prob = torch.tensor(0.0, device=self.device)
+                    
                     optimizer.zero_grad()
                     
                     # PRECOMPUTE matrices once for all sentences in this batch
-                    log_T_matrix = self._get_transition_log_matrix()  # (num_states, num_states)
-                    log_E_matrix = self._get_emission_log_matrix()    # (num_states, vocab_size)
+                    log_T_matrix = self._get_transition_log_matrix()  # (num_states, num_states)   log_T_matrix[i, j] = log P(j | i) 
+                    log_E_matrix = self._get_emission_log_matrix()    # (num_states, vocab_size)   log_E_matrix[s, v] = log P(v | s)
                     initial_log_probs = self._get_initial_log_probs()  # (num_states,)
                     
-                    # Batched forward-backward to get logZ for all sentences at once
-                    logZ_batch = self._forward_backward_batched(
-                        padded_input_ids, lengths, log_T_matrix, log_E_matrix, initial_log_probs
-                    )  # (batch_size,)
-                    
-                    # Compute loss: negative log probability
-                    total_log_prob = logZ_batch.sum()
-                    batch_loss = -total_log_prob
+                    # Process each sentence in batch
+                    for example in batch:
+                        forms = example["form"]
+                        if len(forms) == 0:
+                            continue
+                        
+                        # Convert words to indices (with digit normalization)
+                        input_ids = torch.tensor(
+                            [self._get_word_idx(word) for word in forms],
+                            dtype=torch.long,
+                            device=self.device
+                        )
+                        
+                        # Forward-backward to get posteriors using precomputed matrices
+                        log_alpha, log_beta, log_gamma, log_xi, log_O = self._forward_backward(
+                            input_ids, log_T_matrix, log_E_matrix, initial_log_probs
+                        )
+                        
+                        # Compute expected log-likelihood (negative log-likelihood as loss)
+                        # Loss = -log P(x) = -log_O   - we are maximising the prob of seeing the observed sequence
+                        loss = -log_O
+                        batch_loss += loss
+                        total_log_prob += log_O
                     
                     # Average loss over batch
-                    avg_batch_loss = batch_loss / actual_batch_size
+                    avg_batch_loss = batch_loss / len(batch)
                     
                     # Backpropagate
                     avg_batch_loss.backward()
@@ -597,7 +445,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
                             logger.debug(f"Converged at inner iter {inner_iter+1}")
                             break
                     
-                    prev_log_prob = total_log_prob.detach()
+                    prev_log_prob = total_log_prob
                 
                 total_loss += avg_batch_loss
                 num_batches += 1

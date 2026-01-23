@@ -41,7 +41,7 @@ class KMeansClassifier(BaseUnsupervisedClassifier):
         """
         Train (fit) K-means clustering on contextual word embeddings.
         
-        Clusters all word tokens (instances) from all sentences
+        Clusters all word occurances (using embedding from BERT) from all sentences
         Each word occurrence gets its own embedding based on context.
 
         Args:

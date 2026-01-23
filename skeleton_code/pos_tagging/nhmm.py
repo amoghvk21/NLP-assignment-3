@@ -176,154 +176,115 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         log_E_matrix = F.log_softmax(logits, dim=1)  # normalise across columns
         return log_E_matrix
 
-    def _forward_log(
-        self, 
-        input_ids: torch.Tensor,
+
+    def _forward_log_batched(
+        self,
+        input_ids_padded: torch.Tensor,
+        lengths: torch.Tensor,
         log_T_matrix: torch.Tensor,
         log_E_matrix: torch.Tensor,
         initial_log_probs: torch.Tensor
     ) -> torch.Tensor:
         """
-        Compute forward probabilities in log space
+        Compute forward probabilities in log space for a batch of sequences.
+        log_alpha = log P(x_1...x_t, y_t = s | theta)
+        prob of seeing sequence x_1 ... x_t and being in state s at time t given the model parameters
 
         Args:
-            input_ids: List of word indices
+            input_ids_padded: Padded word indices (batch_size, max_len)
+            lengths: Actual lengths of each sequence (batch_size,)
             log_T_matrix: Precomputed transition log matrix (num_states, num_states)
             log_E_matrix: Precomputed emission log matrix (num_states, vocab_size)
             initial_log_probs: Precomputed initial log probabilities (num_states,)
 
         Returns:
-            log_alpha: Tensor of shape (num_states, T) where log_alpha[s, t] = log P(x_1...x_t, y_t = s | theta)
+            log_O: Tensor of shape (batch_size,) with log probability of each sequence
         """
-        T = input_ids.size(0)
-        if T == 0:
-            return torch.zeros(self.num_states, 0, device=self.device)
+        batch_size, max_len = input_ids_padded.shape
+        S = self.num_states
 
-        log_alpha = torch.zeros(self.num_states, T, device=self.device)
-        
-        # Init - prob of starting in state and seeing first word 
-        log_alpha[:, 0] = initial_log_probs + log_E_matrix[:, input_ids[0]]
+        if max_len == 0:
+            return torch.zeros(batch_size, device=self.device)
 
-        # Forward recursion
-        for t in range(1, T):
-            log_alpha_prev = log_alpha[:, t-1].reshape(-1, 1)  # (num_states, 1)
-            scores = log_alpha_prev + log_T_matrix  # (num_states, 1) + (num_states, num_states) = (num_states, num_states)   -  broadcasting
-            log_alpha[:, t] = torch.logsumexp(scores, dim=0) + log_E_matrix[:, input_ids[t]]   # (num_states,)
+        # log_alpha = log P(x_1...x_t, y_t = s | theta)   -  prob of seeing sequence 1 ... t and being in state s at time t given the model parameters
+        # log_alpha: (batch_size, num_states, max_len)
+        log_alpha = torch.full((batch_size, S, max_len), float('-inf'), device=self.device)
+
+        # log_E_matrix: (num_states, vocab_size)
+        # input_ids_padded: (batch_size, max_len)
+        emissions = log_E_matrix[:, input_ids_padded]  # (num_states, batch_size, max_len)
+        emissions = emissions.permute(1, 2, 0)  # (batch_size, max_len, num_states)
+
+        # Init - prob of starting in state s and seeing first word
+        # initial_log_probs: (num_states,)
+        # emissions[:, 0, :]: (batch_size, num_states)
+        log_alpha[:, :, 0] = initial_log_probs.reshape(1, -1) + emissions[:, 0, :]  # (batch_size, num_states)
+
+        for t in range(1, max_len):
+            # log_alpha_prev: (batch_size, num_states, 1)
+            log_alpha_prev = log_alpha[:, :, t-1]     # (batch_size, num_states)
+            log_alpha_prev = log_alpha_prev.reshape(batch_size, S, 1)   # (batch_size, num_states, 1)
+            
+            # scores: (batch_size, num_states, num_states)
+            # log_T_matrix[i, j] = log P(state j | state i)
+            # log_alpha_prev[b, i, 1] + log_T_matrix[i, j] = scores[b, i, j]
+            scores = log_alpha_prev + log_T_matrix.reshape(1, S, S)     # (batch_size, num_states, 1) + (1, num_states, num_states) = (batch_size, num_states, num_states)
+            
+            # logsumexp over previous states (dim=1) to get prob of being in state s at time t given all previous states
+            log_alpha[:, :, t] = torch.logsumexp(scores, dim=1) + emissions[:, t, :]  # (batch_size, num_states)
+
+
+        # Extract log_O for each sequence at its actual length
+        # lengths: (batch_size,)
+        # log_alpha[b, :, lengths[b]-1] contains probs of all obs
         
-        return log_alpha
+        # length_indices: (batch_size, num_states, 1)
+        # length - 1 to make indicies
+        # expand to (batch_size, num_states, 1) to match log_alpha shape
+        length_indices = (lengths - 1).reshape(batch_size, 1, 1).expand(batch_size, S, 1)
+
+        # get probs of last indicies in all sequences using length indicies
+        final_log_alpha = log_alpha.gather(2, length_indices).reshape(batch_size, S)  # (batch_size, num_states)
+        
+        
+        # log_O: (batch_size,)
+        # last col of alpha contains prob of being in state s at time t given all obs
+        # need to sum over all states to get log prob of sequence (all obs)
+        log_O = torch.logsumexp(final_log_alpha, dim=1)
+
+        return log_O
+
     
-    def _backward_log(
-        self,
-        input_ids: torch.Tensor,
-        log_T_matrix: torch.Tensor,
-        log_E_matrix: torch.Tensor
-    ) -> torch.Tensor:
+    def _pad_batch(self, batch: List[dict]) -> tuple[torch.Tensor, torch.Tensor]:
         """
-        Compute backward probabilities in log space using neural networks.
+        Convert a batch of sentences to padded tensor and lengths.
         
         Args:
-            input_ids: List of word indices
-            log_T_matrix: Precomputed transition log matrix (num_states, num_states)
-            log_E_matrix: Precomputed emission log matrix (num_states, vocab_size)
+            batch: List of dicts containing word lists (observations)
             
         Returns:
-            log_beta: Tensor of shape (num_states, T) where
-                log_beta[s, t] = log P(x_{t+1}...x_T | y_t = s, theta)
+            input_ids_padded: Padded word indices (batch_size, max_len)
+            lengths: Actual lengths of each sequence (batch_size,)
         """
-        T = input_ids.size(0)
-        if T == 0:
-            return torch.zeros(self.num_states, 0, device=self.device)
-
-        log_beta = torch.zeros(self.num_states, T, device=self.device)
-        # Initialization: log_beta[:, T-1] = log(1) = 0 (already initialized)
-
-        # Backward recursion
-        for t in range(T - 2, -1, -1):
-
-            emission = log_E_matrix[:, input_ids[t + 1]]   # (num_states,)
-            emission = emission.view(1, -1)   # (1, num_states)
-
-            next_beta = log_beta[:, t + 1].view(1, -1)   # (1, num_states)
-
-            sum_matrix = (       # (num_states, num_states)
-                log_T_matrix + 
-                emission + 
-                next_beta
-            )
-
-            log_beta[:, t] = torch.logsumexp(sum_matrix, dim=1) # sum over columns (next states) to get dim (num_states,)
-
-        return log_beta
-    
-    def _forward_backward(
-        self,
-        input_ids: torch.Tensor,
-        log_T_matrix: torch.Tensor,
-        log_E_matrix: torch.Tensor,
-        initial_log_probs: torch.Tensor
-    ) -> tuple:
-        """
-        Compute forward-backward probabilities and posteriors.
+        # Convert all sentences to input_ids
+        batch_input_ids = []  # (batch_size, sentence_len)
+        for example in batch:
+            forms = example["form"]
+            input_ids = [self._get_word_idx(word) for word in forms]
+            batch_input_ids.append(input_ids)
         
-        Args:
-            input_ids: List of word indices
-            log_T_matrix: Precomputed transition log matrix (num_states, num_states)
-            log_E_matrix: Precomputed emission log matrix (num_states, vocab_size)
-            initial_log_probs: Precomputed initial log probabilities (num_states,)
-            
-        Returns:
-            log_alpha: Forward probabilities (num_states, T)
-            log_beta: Backward probabilities (num_states, T)
-            log_gamma: State posteriors (num_states, T)
-            log_xi: Transition posteriors (T-1, num_states, num_states)
-            logZ: Log probability of sequence
-        """
-        T = input_ids.size(0)
-        num_states = self.num_states
-        device = self.device
-        if T == 0:
-            return (
-                torch.zeros(num_states, 0, device=device),
-                torch.zeros(num_states, 0, device=device),
-                torch.zeros(num_states, 0, device=device),
-                torch.zeros(0, num_states, num_states, device=device),
-                torch.tensor(0.0, device=device)
-            )
+        # Get lengths and max_len
+        lengths = torch.tensor([len(ids) for ids in batch_input_ids], dtype=torch.long, device=self.device)
+        max_len = lengths.max().item()
         
-        log_alpha = self._forward_log(input_ids, log_T_matrix, log_E_matrix, initial_log_probs)  # (num_states, T)
-        log_beta = self._backward_log(input_ids, log_T_matrix, log_E_matrix)  # (num_states, T)
+        # Pad sequences (pad with 0)
+        batch_size = len(batch_input_ids)
+        input_ids_padded = torch.zeros(batch_size, max_len, dtype=torch.long, device=self.device)    # (batch_size, max_len)
+        for i, ids in enumerate(batch_input_ids):
+            input_ids_padded[i, :len(ids)] = torch.tensor(ids, dtype=torch.long, device=self.device)
         
-        # Compute normalizer (log probability of the sequence) - just sum the last column to get all states
-        logZ = torch.logsumexp(log_alpha[:, T - 1], dim=0)
+        return input_ids_padded, lengths
 
-        # Compute state posteriors: gamma[s, t] = P(y_t = s | x)
-        log_gamma = log_alpha + log_beta - logZ  # (num_states, T)
-
-        
-        # Compute transition posteriors: xi[t, s, s'] = log P(y_t = s, y_{t+1} = s' | x)
-        # prob at some time t, prob of from state s to state s'
-
-        # Prepare emission for all next observations: (T-1, num_states)
-        next_obs = input_ids[1:]  # (T-1,)
-        emission = log_E_matrix[:, next_obs].T  # (T-1, num_states)
-
-        log_alpha_t = log_alpha[:, :T-1].T.reshape(T-1, num_states, 1)      # (T-1, num_states, 1)
-        log_beta_tplus1 = log_beta[:, 1:T].T.reshape(T-1, 1, num_states)    # (T-1, 1, num_states)
-        transition = log_T_matrix.reshape(1, num_states, num_states)        # (1, num_states, num_states)
-        emission = emission.reshape(T-1, 1, num_states)                     # (T-1, 1, num_states)
-
-        # log_xi shape (T-1, num_states, num_states)
-        log_xi = (
-            log_alpha_t          # (T-1, num_states, 1)
-            + transition         # (1, num_states, num_states)
-            + emission           # (T-1, 1, num_states)
-            + log_beta_tplus1    # (T-1, 1, num_states)
-            - logZ
-        )
-        # (T-1, num_states, num_states) reuslt
-
-        return log_alpha, log_beta, log_gamma, log_xi, logZ
-    
     def train_model(
         self, 
         dataset: Dataset,
@@ -390,42 +351,27 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
                 batch_end = min(batch_start + minibatch_size, len(filtered_dataset))
                 batch = filtered_dataset[batch_start:batch_end]
                 
+                # Prepare batch: convert to padded tensors once
+                input_ids_padded, lengths = self._pad_batch(batch)
+                
                 prev_log_prob = None
                 # for inner_iter in tqdm(range(max_inner_loops), desc="  Inner loop", leave=False):
                 for inner_iter in range(max_inner_loops):
-                    batch_loss = torch.tensor(0.0, device=self.device)
-                    total_log_prob = torch.tensor(0.0, device=self.device)
-                    
                     optimizer.zero_grad()
                     
-                    # PRECOMPUTE matrices once for all sentences in this batch
+                    # Get matrices once for all sentences
                     log_T_matrix = self._get_transition_log_matrix()  # (num_states, num_states)   log_T_matrix[i, j] = log P(j | i) 
                     log_E_matrix = self._get_emission_log_matrix()    # (num_states, vocab_size)   log_E_matrix[s, v] = log P(v | s)
                     initial_log_probs = self._get_initial_log_probs()  # (num_states,)
                     
-                    # Process each sentence in batch
-                    for example in batch:
-                        forms = example["form"]
-                        if len(forms) == 0:
-                            continue
-                        
-                        # Convert words to indices (with digit normalization)
-                        input_ids = torch.tensor(
-                            [self._get_word_idx(word) for word in forms],
-                            dtype=torch.long,
-                            device=self.device
-                        )
-                        
-                        # Forward-backward to get posteriors using precomputed matrices
-                        log_alpha, log_beta, log_gamma, log_xi, logZ = self._forward_backward(
-                            input_ids, log_T_matrix, log_E_matrix, initial_log_probs
-                        )
-                        
-                        # Compute expected log-likelihood (negative log-likelihood as loss)
-                        # Loss = -log P(x) = -logZ   - we are maximising the prob of seeing the observed sequence
-                        loss = -logZ
-                        batch_loss += loss
-                        total_log_prob += logZ
+                    # Vectorised forward pass for entire batch
+                    log_O_batch = self._forward_log_batched(
+                        input_ids_padded, lengths, log_T_matrix, log_E_matrix, initial_log_probs
+                    )  # (batch_size,) - log probability of each sequence
+                    
+                    # Compute total log probability and loss
+                    total_log_prob = log_O_batch.sum()
+                    batch_loss = -total_log_prob  # Negative log-likelihood
                     
                     # Average loss over batch
                     avg_batch_loss = batch_loss / len(batch)
@@ -445,13 +391,13 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
                             logger.debug(f"Converged at inner iter {inner_iter+1}")
                             break
                     
-                    prev_log_prob = total_log_prob
+                    prev_log_prob = total_log_prob.detach()
                 
-                total_loss += avg_batch_loss
+                total_loss += avg_batch_loss.detach()
                 num_batches += 1
             
-            # avg_loss = total_loss / num_batches if num_batches > 0 else 0.0
-            # logger.info(f"Epoch {epoch+1}/{max_epochs}: Average loss = {avg_loss:.4f}")
+            average_loss = total_loss / num_batches if num_batches > 0 else 0.0
+            logger.info(f"Epoch {epoch+1}/{max_epochs}: Average loss = {average_loss:.4f}")
     
     def viterbi_log(self, input_ids: torch.Tensor) -> List[int]:
         """
@@ -532,45 +478,3 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         )
 
         return self.viterbi_log(word_ids)
-    
-    # def evaluate(self, dataset: Dataset) -> dict:
-    #     """
-    #     Evaluate the model on a dataset.
-        
-    #     Args:
-    #         dataset: Evaluation dataset
-            
-    #     Returns:
-    #         Dictionary with evaluation results
-    #     """
-    #     results = []
-    #     all_true_tags = []
-    #     all_pred_tags = []
-        
-    #     for example in tqdm(dataset, desc="Evaluating"):
-    #         words = example["form"]
-    #         true_tags = example["tags"]
-            
-    #         if len(words) == 0:
-    #             continue
-            
-    #         # Predict tags
-    #         pred_tags = self.inference(words)
-            
-    #         if len(true_tags) != len(pred_tags):
-    #             raise ValueError(
-    #                 f"Length mismatch detected!\n"
-    #                 f"Input Words: {len(words)}\n"
-    #                 f"True Tags:   {len(true_tags)}\n"
-    #                 f"Pred Tags:   {len(pred_tags)}\n"
-    #                 f"Sentence:    {words}\n"
-    #                 "Check your Viterbi implementation or Data Loader."
-    #             )
-            
-    #         all_true_tags.extend(true_tags)
-    #         all_pred_tags.extend(pred_tags)
-        
-    #     return {
-    #         "true_tags": all_true_tags,
-    #         "pred_tags": all_pred_tags
-    #     }

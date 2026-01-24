@@ -158,7 +158,7 @@ def generate_bert_embeddings(
                         all_word_embeddings.append(torch.stack(word_embeddings))
                         pbar.update(1)
         
-        # 1c. Save the all_word_embeddings list to cache
+        # Save the all_word_embeddings list to cache
         if word_embedding_path:
             try:
                 torch.save(all_word_embeddings, word_embedding_path)
@@ -166,7 +166,7 @@ def generate_bert_embeddings(
             except Exception as e:
                 logger.warning(f"Cache save failed: {e}. Not caching word embeddings to {word_embedding_path}.")
 
-    # 2. Flatten all sentence embeddings into a single tensor for clustering
+    # Flatten all sentence embeddings into a single tensor for clustering
     # Each element in all_word_embeddings is (sentence_len, hidden_dim)
     if all_word_embeddings:
         embeddings_tensor = torch.cat(all_word_embeddings, dim=0)  # flatten into (total_words, hidden_dim)
@@ -176,7 +176,7 @@ def generate_bert_embeddings(
         embeddings_tensor = torch.empty((0, 768))
         logger.warning("No embeddings generated!")
 
-    # 3. Return embeddings list, flattened tensor, and BERT model/tokenizer
+    # Return embeddings list, flattened tensor, and BERT model/tokenizer
     return all_word_embeddings, embeddings_tensor, bert_model, tokenizer
 
 
@@ -198,16 +198,11 @@ def train(
         bert_model: Pre-loaded BERT model
         tokenizer: Pre-loaded BERT tokenizer
         save_path: Path to save the model
-
-    Steps:
-        1. Creates KMeansClassifier instance (with BERT model/tokenizer)
-        2. Calls its train() method with embeddings tensor
-        3. Handles saving
     """
 
     logger.info("Training K-means on contextual embeddings")
 
-    # 1. Creates KMeansClassifier instance with BERT model/tokenizer
+    # Creates KMeansClassifier instance with BERT model/tokenizer
     kmeans = KMeansClassifier(
         num_clusters=num_clusters,
         device=device,
@@ -215,10 +210,10 @@ def train(
         tokenizer=tokenizer
     )
     
-    # 2. Calls its train() method that handles fitting
+    # Calls its train() method that handles fitting
     kmeans.train(embeddings_tensor)
     
-    # 3. Saves the model
+    # Saves the model
     if save_path is not None:
         logger.info(f"Saving K-means model to {save_path}")
         torch.save(kmeans, save_path)

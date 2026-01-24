@@ -1,4 +1,5 @@
 venv/
+venv_new/
 venv_win/
 skeleton_code/embeddings/
 .vscode/

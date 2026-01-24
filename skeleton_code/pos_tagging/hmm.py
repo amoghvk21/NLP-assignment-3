@@ -441,7 +441,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         self,
         inputs: Dataset,
         num_iter: int = 30,
-        eta_fn: Callable[[int], float] = lambda k: 0.8,
+        eta_fn: Callable[[int], float] = lambda k: 0.6,
         initial_guesses=None,
         continue_training=False,
         batch_size: int = 30,

@@ -50,7 +50,14 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         self.transition_net = nn.Sequential(
             nn.Linear(self.hidden_dim, self.num_states * self.num_states)
         ).to(device)
-        self._init_linear_layers(self.transition_net)
+
+        # Initialise all linear layers using uniform distribution
+        std = np.sqrt(1.0 / self.hidden_dim)
+        nn.init.uniform_(self.transition_net[0].weight, a=-std * np.sqrt(3), b=std * np.sqrt(3))
+        nn.init.zeros_(self.transition_net[0].bias)
+
+        # Initialise query vector to N(0,1) as its described as a embedding in the paper
+        nn.init.normal_(self.query_vector, mean=0.0, std=1.0)
         
         # Initial state network: outputs log probabilities for initial states
         self.initial_param = nn.Parameter(torch.randn(num_states).to(device))
@@ -62,33 +69,22 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             nn.ReLU(),                                   # Non-linearity
             nn.Linear(self.hidden_dim, self.vocab_size)  # Projection to Vocab
         ).to(device)
-        self._init_linear_layers(self.emission_net)
 
-        # State embeddings (one embedding per hidden state)
-        # init state embeddings to N(0,1)
+        # init state embeddings to N(0,1) as embedding layers are initialised using gaussian
         self.state_embeddings = self.emission_net[0]    # Embedding layer (num_states, hidden_dim)
-        # nn.init.normal_(self.state_embeddings.weight, mean=0.0, std=1.0)       # if commented out then initialised to uniform distribution using init linear layers
+        nn.init.normal_(self.state_embeddings.weight, mean=0.0, std=1.0)
 
-        # init word embeddings to N(0,1)
+        # init word embeddings to N(0,1) as per paper
         self.word_embeddings = self.emission_net[2]    # Linear layer (vocab_size, hidden_dim)
-        nn.init.normal_(self.word_embeddings.weight, mean=0.0, std=1.0)       # if commented out then initialised to uniform distribution using init linear layers
+        nn.init.normal_(self.word_embeddings.weight, mean=0.0, std=1.0)
+
+        # init word biases to 0
+        nn.init.zeros_(self.word_embeddings.bias)
         
         self.epsilon = 1e-8
         
         logger.info(f"Initialised NeuralHMM with {self.num_states} states, {self.vocab_size} vocabulary size, hidden_dim={self.hidden_dim}")
     
-    def _init_linear_layers(self, sequential_net):
-        """
-        Initialise linear layers with Uniform distribution. 
-        Mean = 0, std = sqrt(1/n_in)
-        """
-        for module in sequential_net:
-            if isinstance(module, nn.Linear):
-                n_in = module.weight.size(1)
-                std = np.sqrt(1.0 / n_in)
-                nn.init.uniform_(module.weight, a=-std * np.sqrt(3), b=std * np.sqrt(3))
-                if module.bias is not None:
-                    nn.init.zeros_(module.bias)
     
     @staticmethod
     def _normalise_word(word: str) -> str:

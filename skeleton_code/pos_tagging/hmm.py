@@ -134,7 +134,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         continue_training=False,
         initial_guesses=None,
         reset_method: str = "dirichlet",
-        alpha_sem: float = 1.0,
+        alpha_sem: float = 0.6,
     ) -> None:
         if method == "mle":
             self.train_logmle(inputs)
@@ -441,10 +441,10 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         self,
         inputs: Dataset,
         num_iter: int = 30,
-        eta_fn: Callable[[int], float] = lambda k: 0.6,
+        eta_fn: Callable[[int], float]=None,
         initial_guesses=None,
         continue_training=False,
-        batch_size: int = 30,
+        batch_size: int = 3,
         reset_method: str = "dirichlet",
     ):
         """
@@ -471,7 +471,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
             self.log_scale = True
 
-        # Initialise
+        # Initialise mu
         global_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1, device=self.device)
         global_emit_stats = torch.zeros(self.num_states, self.num_obs, device=self.device)
 
@@ -511,7 +511,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                         continue
 
                     # Run forward backward for sentence to get expected counts
-                    trans_expected, emit_expected = self._forward_backward_sentence_counts(input_ids)
+                    trans_expected, emit_expected = self._forward_backward_sentence_counts(input_ids)   # sufficient stats
 
                     # Accumulate for each batch
                     batch_trans_stats += trans_expected
@@ -682,7 +682,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             self.transition_prob[0, 1 : self.num_states + 1]                   # (num_states,)
             + self.emission_prob[:, input_ids[0]]                              # (num_states,)
             + log_beta[:, 0]                                                   # (num_states,)
-            - log_O                                                             # scalar
+            - log_O                                                            # scalar
         )
         xi0 = torch.exp(log_xi0)  # (num_states,)
         trans_expected[0, 1:self.num_states + 1] += xi0  # add initial transitions to counts
@@ -705,7 +705,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             + transition                                # (1, num_states, num_states)
             + emission                                  # (T-1, 1, num_states)
             + log_beta_tplus1                           # (T-1, 1, num_states)
-            - log_O                                      # scalar
+            - log_O                                     # scalar
         )
 
         xi = torch.exp(log_xi)  # (T-1, num_states, num_states)

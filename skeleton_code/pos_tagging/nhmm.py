@@ -254,6 +254,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
     def _pad_batch(self, batch: List[dict]) -> tuple[torch.Tensor, torch.Tensor]:
         """
         Convert a batch of sentences to padded tensor and lengths.
+        Allows for batching
         
         Args:
             batch: List of dicts containing word lists (observations)

@@ -2997,3 +2997,4 @@ Variation of information: 4.06928868125449
 Normalized VI: 0.4742967134339761
 [32mINFO    [nhmm_pipeline.py:149 | 2026-01-24_01:59:23][0m [34mSaving results to ./output/nhmm-xpos/nhmm.csv[0m
 [32mINFO    [nhmm_pipeline.py:254 | 2026-01-24_01:59:23][0m [34mNeuralHMM training/testing complete.[0m
+finished job

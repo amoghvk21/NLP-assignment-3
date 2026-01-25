@@ -300,18 +300,16 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         Allows for batching
         
         Args:
-            batch: List of dicts containing word lists (observations)
+            batch: List of dicts
+                form: List of words
+                input_ids: List of word indices (preprocessed forms)
             
         Returns:
             input_ids_padded: Padded word indices (batch_size, max_len)
             lengths: Actual lengths of each sequence (batch_size,)
         """
-        # Convert all sentences to input_ids
-        batch_input_ids = []  # (batch_size, sentence_len)
-        for example in batch:
-            forms = example["form"]
-            input_ids = [self._get_word_idx(word) for word in forms]
-            batch_input_ids.append(input_ids)
+        # Use pre-processed input_ids
+        batch_input_ids = [example["input_ids"] for example in batch]
         
         # Get lengths and max_len
         lengths = torch.tensor([len(ids) for ids in batch_input_ids], dtype=torch.long, device=self.device)
@@ -379,6 +377,12 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             if len(forms) > 0 and len(forms) <= max_sentence_length:
                 filtered_dataset.append(example)
         logger.info(f"Filtered dataset: {len(filtered_dataset)} sentences (max length {max_sentence_length})")
+
+        # Pre-tokenize entire dataset once
+        logger.info("Pre-tokenizing dataset...")
+        for example in tqdm(filtered_dataset, desc="Pre-tokenizing dataset", leave=False):
+            example["input_ids"] = [self._get_word_idx(w) for w in example["form"]]
+        logger.info("Dataset pre-tokenized")
         
         # Initialize metrics tracking
         epoch_metrics = []

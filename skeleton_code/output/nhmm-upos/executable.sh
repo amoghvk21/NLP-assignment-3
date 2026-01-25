@@ -16,6 +16,6 @@ source ../venv/bin/activate
 
 echo "running file"
 
-python3.12 -u -m main train-test nhmm upos --max-epochs 20 --save-path ./output/nhmm-upos/save/nhmm.pt --res-path ./output/nhmm-upos/results/nhmm_results.csv
+python3.12 -u -m main train-test nhmm upos --max-epochs 30 --save-path ./output/nhmm-upos/save/nhmm-upos.pt --res-path ./output/nhmm-upos/results/nhmm-upos-results.csv
 
 echo "finished job"

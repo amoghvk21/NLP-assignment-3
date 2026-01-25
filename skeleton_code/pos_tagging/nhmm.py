@@ -461,7 +461,14 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         
         # Save metrics to CSV
         if epoch_metrics:
-            fieldnames = ["normalized_vi", "homogeneity", "completeness", "v_score", "avg_loss", "epoch"]
+            fieldnames = [
+                "normalized-VI",
+                "homogeneity",
+                "completeness",
+                "V-score",
+                "avg_loss",
+                "epoch"
+            ]
             with open(res_path, "w", newline="") as f:
                 writer = csv.DictWriter(f, fieldnames=fieldnames)
                 writer.writeheader()

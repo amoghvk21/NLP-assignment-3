@@ -210,10 +210,10 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         _, normalized_vi = calculate_variation_of_information(all_true_tags, all_pred_tags)
         
         return {
-            "normalized_vi": normalized_vi,
+            "normalized-VI": normalized_vi,
             "homogeneity": homogeneity,
             "completeness": completeness,
-            "v_score": v_score
+            "V-score": v_score
         }
 
     def _forward_log_batched(
@@ -457,10 +457,10 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             
             logger.info(
                 f"Epoch {epoch+1}/{max_epochs} Metrics: "
-                f"Normalized VI={metrics['normalized_vi']:.4f}, "
+                f"Normalized VI={metrics['normalized-VI']:.4f}, "
                 f"Homogeneity={metrics['homogeneity']:.4f}, "
                 f"Completeness={metrics['completeness']:.4f}, "
-                f"V-score={metrics['v_score']:.4f}"
+                f"V-score={metrics['V-score']:.4f}"
             )
         
         # Save metrics to CSV

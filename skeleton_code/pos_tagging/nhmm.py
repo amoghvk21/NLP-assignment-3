@@ -7,8 +7,10 @@ import torch.nn.functional as F
 from datasets import Dataset
 from tqdm import tqdm
 import random
+import csv
 
 from pos_tagging.base import BaseUnsupervisedClassifier
+from utils import calculate_variation_of_information, calculate_v_measure
 
 
 logger = logging.getLogger()
@@ -172,6 +174,47 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         log_E_matrix = F.log_softmax(logits, dim=1)  # normalise across columns
         return log_E_matrix
 
+    def compute_metrics(self, dataset: Dataset) -> dict:
+        """
+        Compute clustering metrics (normalized VI, homogeneity, completeness, V-score) 
+        for the dataset.
+        
+        Args:
+            dataset: Dataset with "form" (words) and "upos" (true labels)
+            
+        Returns:
+            Dictionary with metrics: normalized_vi, homogeneity, completeness, v_score
+        """
+        all_true_tags = []
+        all_pred_tags = []
+        num_samples = len(dataset)
+        
+        self.eval()
+        with torch.no_grad():
+            for example in tqdm(dataset, desc="Computing metrics", total=num_samples, leave=False):
+                forms = example["form"]
+                true_tags = example["tags"]
+                
+                if len(forms) == 0:
+                    continue
+                
+                # Get predictions
+                pred_tags = self.inference(forms)
+                
+                all_true_tags.extend(true_tags)
+                all_pred_tags.extend(pred_tags)
+        self.train()
+        
+        # Compute metrics
+        homogeneity, completeness, v_score = calculate_v_measure(all_true_tags, all_pred_tags)
+        _, normalized_vi = calculate_variation_of_information(all_true_tags, all_pred_tags)
+        
+        return {
+            "normalized_vi": normalized_vi,
+            "homogeneity": homogeneity,
+            "completeness": completeness,
+            "v_score": v_score
+        }
 
     def _forward_log_batched(
         self,
@@ -285,6 +328,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
     def train_model(
         self, 
         dataset: Dataset,
+        res_path: str,
         max_epochs: int = 5,
         lr: float = 0.001, 
         minibatch_size: int = 256,
@@ -316,12 +360,14 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             convergence_threshold: Stop if log prob change < this (default: 1e-4)
             max_grad_norm: Clip gradients if norm exceeds this (default: 5.0)
             max_sentence_length: Filter sentences longer than this (default: 40)
+            res_path: Path to save metrics CSV
         """
         logger.info(f"Training Neural HMM for {max_epochs} epochs")
         logger.info(f"Learning rate: {lr}")
         logger.info(f"Minibatch size: {minibatch_size}, Max inner loops: {max_inner_loops}")
         logger.info(f"Gradient clipping: {max_grad_norm}, Max sentence length: {max_sentence_length}")
         logger.info(f"Device: {self.device}")
+        logger.info(f"Metrics will be saved to: {res_path}")
         
         # Use Adam optimizer with specified learning rate
         optimizer = torch.optim.Adam(self.parameters(), lr=lr)
@@ -333,6 +379,9 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             if len(forms) > 0 and len(forms) <= max_sentence_length:
                 filtered_dataset.append(example)
         logger.info(f"Filtered dataset: {len(filtered_dataset)} sentences (max length {max_sentence_length})")
+        
+        # Initialize metrics tracking
+        epoch_metrics = []
         
         # for epoch in range(max_epochs):
         for epoch in tqdm(range(max_epochs), desc="Total Training", leave=False):
@@ -395,6 +444,31 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             
             average_loss = total_loss / num_batches if num_batches > 0 else 0.0
             logger.info(f"Epoch {epoch+1}/{max_epochs}: Average loss = {average_loss:.4f}")
+            
+            # Compute and log metrics
+            metrics = self.compute_metrics(dataset)
+            metrics["epoch"] = epoch + 1
+            metrics["avg_loss"] = average_loss.item() if isinstance(average_loss, torch.Tensor) else float(average_loss)
+            epoch_metrics.append(metrics)
+            
+            logger.info(
+                f"Epoch {epoch+1}/{max_epochs} Metrics: "
+                f"Normalized VI={metrics['normalized_vi']:.4f}, "
+                f"Homogeneity={metrics['homogeneity']:.4f}, "
+                f"Completeness={metrics['completeness']:.4f}, "
+                f"V-score={metrics['v_score']:.4f}"
+            )
+        
+        # Save metrics to CSV
+        if epoch_metrics:
+            fieldnames = ["normalized_vi", "homogeneity", "completeness", "v_score", "avg_loss", "epoch"]
+            with open(res_path, "w", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(epoch_metrics)
+            logger.info(f"Metrics saved to {res_path}")
+        
+        return epoch_metrics
     
     def viterbi_log(self, input_ids: torch.Tensor) -> List[int]:
         """

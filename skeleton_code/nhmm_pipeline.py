@@ -19,7 +19,8 @@ def train(
     tag_mapping: dict,
     device: torch.device,
     max_epochs: int = 50,
-    save_path: str = None
+    save_path: str = None,
+    res_path: str = "nhmm_training_metrics.csv"
 ):
     """
     Train Neural HMM model.
@@ -32,6 +33,7 @@ def train(
         device: Device to run model on
         max_epochs: Maximum number of training epochs
         save_path: Path to save the model
+        res_path: Path to save per-epoch training metrics CSV
     """
     logger.info("Training Neural HMM")
     
@@ -44,7 +46,7 @@ def train(
     )
     
     # Train model    
-    model.train_model(dataset_splits["train"], max_epochs=max_epochs)
+    model.train_model(dataset_splits["train"], res_path=res_path, max_epochs=max_epochs)
     
     # Save model
     if save_path is not None:
@@ -101,10 +103,10 @@ def eval(
         # Predict tags using model inference
         pred_tags = model.inference(forms)
         
-        # Ensure same length (handle edge cases)
-        min_len = min(len(true_tags), len(pred_tags))
-        true_tags = true_tags[:min_len]
-        pred_tags = pred_tags[:min_len]
+        # # Ensure same length
+        # min_len = min(len(true_tags), len(pred_tags))
+        # true_tags = true_tags[:min_len]
+        # pred_tags = pred_tags[:min_len]
 
         sentence = " ".join(forms)
 
@@ -193,7 +195,7 @@ def train_and_test(
         max_epochs: List with [max_epochs, ...] values for training epochs
         load_path: Path to load model (optional)
         save_path: Path to save model (.pt)
-        res_path: Path to save results csv
+        res_path: Path to save per-epoch training metrics csv
 
     Steps:
         1. Load PTB dataset
@@ -239,7 +241,8 @@ def train_and_test(
         tag_mapping=tag_mapping,
         device=device,
         max_epochs=max_epochs[0] if isinstance(max_epochs, list) else max_epochs,
-        save_path=save_path
+        save_path=save_path,
+        res_path=res_path
     )
 
     # 4. Evaluate NHMM model (use no_grad for inference)
@@ -248,7 +251,7 @@ def train_and_test(
         eval(
             dataset_splits["test"],
             model=model,
-            res_path=res_path,
+            res_path=f"{res_path}_all_test.csv",
         )
 
     logger.info("NeuralHMM training/testing complete.")

@@ -9,7 +9,7 @@ source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Need to be here to run the below code
+# Need to be in this directory to run the below experiments
 cd skeleton_code
 
 #----------------------------------------------#

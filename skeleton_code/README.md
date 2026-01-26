@@ -25,7 +25,7 @@ To train and test HMM with EM for 10 epochs and validate every 5 epochs on UPOS 
 
 ```python
 cd skeleton_code
-python -m main train-test hmm-EM upos --max-epochs 2 5 --save-path ./save/path.pt --res-path ./result/path.csv
+python -m main train-test hmm-hardEM upos --max-epochs 50 1 --save-path ./output/hmm-hard-em-upos-rand/save/hmm-hard-em-upos-rand.pt --res-path ./output/hmm-hard-em-upos-rand/results/hmm-hard-em-upos-rand.csv --reset-method random
 ```
 
 Use `--subset` argument to specify the maximum rows of data to be used.
@@ -64,6 +64,5 @@ FYI: I will be training using staged training for each epoch so that:
         │  base.py
         │  hmm.py                      # HMM model
         │  kmeans.py                   # K-means model
-        │  nhmm.py                     # Neural HMM model
-        └─__init__.py
+        └─ nhmm.py                     # Neural HMM model
 ```

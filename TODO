@@ -1,56 +1,9 @@
-- None for initial_guesses and continue_training
-- check train_EM_log()
-
 - map_tags() inner function in test_kmeans() function in kmeans_pipeline
 - need to understand subword pooling in generate_bert_embeddings()
 
-- Need to make sure i am minimising for loops and use matricies
-    - Esp in viterbi - there is a triple for loop
 
-
-- num_clusters
-
-- remove all alpha and betas and gammas and xi and thetas
-
-- be careful of only saving tensors with torch.load
-- use joblib to store sklearn models
-
-- remove comments that say as per paper 
-
-
-EVAL IN KMEANS NEEDS TO USE BATCHING AND SO RECODE KMEANS.INFERENCE TO ALLOW FOR BATCHES
-
-reduce comments
+- remove comments that say as per paper
 
 randomize -> randomise
 
-parllelise each batch for nhmm
-
-
-ask prof:
-- do we need to talk about MLE 
-- word count limit 
-- do we need to talk about metrics, their formula
-- do we need to talk about the model and its implementation
-- Changing alpha in code without having command line access
-
-
-
-all experiments:
-hmm soft upos
-hmm soft xpos 
-
-hmm sem upos
-hmm sem xpos 
-
-hmm hard upos 
-hmm hard xpos 
-
-hmm hard upos NOT DIR - show that it is worse for some example
-
-hmm sem upos alpha 1
-hmm sem upos alpha 0.9
-hmm sem upos alpha 0.8
-hmm sem upos alpha 0.7
-hmm sem upos alpha 0.6
-hmm sem upos alpha 0.5
+usw blind grading number on the report

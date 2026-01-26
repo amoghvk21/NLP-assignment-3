@@ -487,6 +487,15 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         batch_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1, device=self.device)
         batch_emit_stats = torch.zeros(self.num_states, self.num_obs, device=self.device)
 
+        logger.info("Fixed global stats persisting across epochs")
+        logger.info("Stepwise EM training")
+        logger.info(f"Number of epochs: {num_iter}")
+        logger.info(f"Batch size: {batch_size}")
+        logger.info(f"Eta function: {eta_fn}")
+        logger.info(f"Initial guesses: {initial_guesses}")
+        logger.info(f"Continue training: {continue_training}")
+        logger.info(f"Reset method: {reset_method}")
+
         # Iterate over epochs
         for epoch in range(num_iter):
             logger.info(f"Stepwise EM epoch {epoch + 1}/{num_iter}")

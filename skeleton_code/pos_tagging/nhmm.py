@@ -367,6 +367,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         logger.info(f"Gradient clipping: {max_grad_norm}, Max sentence length: {max_sentence_length}")
         logger.info(f"Device: {self.device}")
         logger.info(f"Metrics will be saved to: {res_path}")
+        logger.info(f"Convergence threshold: {convergence_threshold} (fixed)")
         
         # Use Adam optimizer with specified learning rate
         optimizer = torch.optim.Adam(self.parameters(), lr=lr)
@@ -437,7 +438,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
                     
                     # stop if log prob change < convergence_threshold
                     if prev_log_prob is not None:
-                        log_prob_change_tensor = torch.abs(total_log_prob - prev_log_prob)
+                        log_prob_change_tensor = torch.abs(total_log_prob - prev_log_prob) / (prev_log_prob + self.epsilon)
                         if log_prob_change_tensor.item() < convergence_threshold:
                             logger.debug(f"Converged at inner iter {inner_iter+1}")
                             break

@@ -9,25 +9,25 @@ Loading rhel8/default-amp
     ucx/1.11.1/gcc-9.4.0-lktqyl4 openmpi/4.1.1/gcc-9.4.0-epagguv
 Changed directory to /rds/user/av670/hpc-work/NLP-assignment-3/skeleton_code/output.
 
-JobID: 21276977
+JobID: 21277025
 ======
-Time: Mon Jan 26 14:16:00 GMT 2026
-Running on master node: cpu-q-77
+Time: Mon Jan 26 14:16:32 GMT 2026
+Running on master node: cpu-q-144
 Current directory: /rds/user/av670/hpc-work/NLP-assignment-3/skeleton_code/output
 
 Nodes allocated:
 ================
-cpu-q-77
+cpu-q-144
 
 numtasks=4, numnodes=1, mpi_tasks_per_node=4 (OMP_NUM_THREADS=1)
 
 Executing command:
 ==================
-/home/av670/rds/hpc-work/NLP-assignment-3/skeleton_code/output/nhmm-xpos/executable.sh 
+/home/av670/rds/hpc-work/NLP-assignment-3/skeleton_code/output/nhmm-xpos-40/executable.sh 
 
-This job is running on: cpu-q-77
+This job is running on: cpu-q-144
 Present working directory: /home/av670/rds/hpc-work/NLP-assignment-3/skeleton_code
-Job ID: 21276977
-Job start time: Mon Jan 26 14:16:00 GMT 2026
+Job ID: 21277025
+Job start time: Mon Jan 26 14:16:32 GMT 2026
 activating venv
 running file

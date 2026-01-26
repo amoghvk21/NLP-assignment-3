@@ -16,6 +16,6 @@ source ../venv/bin/activate
 
 echo "running file"
 
-python3.12 -u -m main train-test hmm-hardEM upos --max-epochs 50 1 --save-path ./output/hmm-hard-em-upos-rand/save/hmm-hard-em-upos-rand.pt --res-path ./output/hmm-hard-em-upos-rand/results/hmm-hard-em-upos-rand.csv
+python3.12 -u -m main train-test hmm-hardEM upos --max-epochs 50 1 --save-path ./output/hmm-hard-em-upos-rand/save/hmm-hard-em-upos-rand.pt --res-path ./output/hmm-hard-em-upos-rand/results/hmm-hard-em-upos-rand.csv --reset-method random
 
 echo "finished job"

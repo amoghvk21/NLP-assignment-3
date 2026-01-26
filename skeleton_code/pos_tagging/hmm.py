@@ -340,7 +340,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                     continue
 
                 # Get expected counts for this sentence using forward backward
-                trans_expected, emit_expected = self._forward_backward_sentence_counts(input_ids)
+                trans_expected, emit_expected = self._forward_backward_counts(input_ids)
                 
                 # Accumulate into global counts
                 soft_trans_counts += trans_expected
@@ -511,7 +511,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                         continue
 
                     # Run forward backward for sentence to get expected counts
-                    trans_expected, emit_expected = self._forward_backward_sentence_counts(input_ids)   # sufficient stats
+                    trans_expected, emit_expected = self._forward_backward_counts(input_ids)   # sufficient stats
 
                     # Accumulate for each batch
                     batch_trans_stats += trans_expected
@@ -629,7 +629,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         return log_beta
 
 
-    def _forward_backward_sentence_counts(self, input_ids):
+    def _forward_backward_counts(self, input_ids):
         """
         Compute expected transition and emission counts for a single sentence using forward backward.
         

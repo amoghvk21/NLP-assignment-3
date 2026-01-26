@@ -16,6 +16,6 @@ source ../venv/bin/activate
 
 echo "running file"
 
-python3.12 -u -m main train-test hmm-hardEM xpos --max-epochs 50 1 --save-path ./output/hmm-hard-em-xpos-rand/save/hmm-hard-em-xpos-rand.pt --res-path ./output/hmm-hard-em-xpos-rand/results/hmm-hard-em-xpos-rand.csv
+python3.12 -u -m main train-test hmm-hardEM xpos --max-epochs 50 1 --save-path ./output/hmm-hard-em-xpos-rand/save/hmm-hard-em-xpos-rand.pt --res-path ./output/hmm-hard-em-xpos-rand/results/hmm-hard-em-xpos-rand.csv --reset-method random
 
 echo "finished job"

@@ -1,6 +1,7 @@
 import logging
 from typing import Callable, List
 import numpy as np
+import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -473,6 +474,10 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
                 "avg_loss",
                 "epoch"
             ]
+            # Create directory if it doesn't exist
+            dir_path = os.path.dirname(res_path)
+            if dir_path:
+                os.makedirs(dir_path, exist_ok=True)
             with open(res_path, "w", newline="") as f:
                 writer = csv.DictWriter(f, fieldnames=fieldnames)
                 writer.writeheader()

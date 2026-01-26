@@ -1,3 +1,4 @@
+import os
 import torch
 from datasets import DatasetDict, Dataset
 from logging_nlp import get_logger
@@ -51,6 +52,10 @@ def train(
     # Save model
     if save_path is not None:
         logger.info(f"Saving Neural HMM model to {save_path}")
+        # Create directory if it doesn't exist
+        dir_path = os.path.dirname(save_path)
+        if dir_path:
+            os.makedirs(dir_path, exist_ok=True)
         torch.save(model.state_dict(), save_path)
     else:
         logger.warning("No save path provided. Neural HMM model not saved")
@@ -149,6 +154,10 @@ def eval(
 
     # Save results to CSV
     logger.info(f"Saving results to {res_path}")
+    # Create directory if it doesn't exist
+    dir_path = os.path.dirname(res_path)
+    if dir_path:
+        os.makedirs(dir_path, exist_ok=True)
     with open(res_path, "w+", encoding="UTF8", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(
@@ -248,10 +257,15 @@ def train_and_test(
     # 4. Evaluate NHMM model (use no_grad for inference)
     model.eval()
     with torch.no_grad():
+        test_res_path = f"{res_path}_all_test.csv"
+        # Create directory if it doesn't exist
+        dir_path = os.path.dirname(test_res_path)
+        if dir_path:
+            os.makedirs(dir_path, exist_ok=True)
         eval(
             dataset_splits["test"],
             model=model,
-            res_path=f"{res_path}_all_test.csv",
+            res_path=test_res_path,
         )
 
     logger.info("NeuralHMM training/testing complete.")

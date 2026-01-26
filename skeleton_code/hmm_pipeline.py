@@ -1,5 +1,6 @@
 import csv
 import logging
+import os
 
 import torch
 from datasets import DatasetDict
@@ -38,6 +39,10 @@ def train_hmm(
     if save_path is not None:
         # Save HMM parameters
         logger.info(f"Saving HMM model to {save_path}")
+        # Create directory if it doesn't exist
+        dir_path = os.path.dirname(save_path)
+        if dir_path:
+            os.makedirs(dir_path, exist_ok=True)
         torch.save(hmm, save_path)
     else:
         logger.warning("No save path provided. HMM model not saved")
@@ -82,6 +87,10 @@ def train_hmm_stage(
             t_path.insert(-1, f"{i}")
             t_path = ".".join(t_path)
             logger.info(f"Saving HMM model to {t_path}")
+            # Create directory if it doesn't exist
+            dir_path = os.path.dirname(t_path)
+            if dir_path:
+                os.makedirs(dir_path, exist_ok=True)
             torch.save(hmm, t_path)
         else:
             logger.warning("No save path provided. HMM model not saved")
@@ -172,6 +181,10 @@ def eval_hmm(
 
     # Save results to CSV
     logger.info(f"Saving results to {res_path}")
+    # Create directory if it doesn't exist
+    dir_path = os.path.dirname(res_path)
+    if dir_path:
+        os.makedirs(dir_path, exist_ok=True)
     with open(res_path, "w+", encoding="UTF8", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(

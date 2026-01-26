@@ -161,6 +161,10 @@ def generate_bert_embeddings(
         # Save the all_word_embeddings list to cache
         if word_embedding_path:
             try:
+                # Create directory if it doesn't exist
+                dir_path = os.path.dirname(word_embedding_path)
+                if dir_path:
+                    os.makedirs(dir_path, exist_ok=True)
                 torch.save(all_word_embeddings, word_embedding_path)
                 logger.info(f"Contextual embeddings cached to {word_embedding_path}.")
             except Exception as e:
@@ -216,6 +220,10 @@ def train(
     # Saves the model
     if save_path is not None:
         logger.info(f"Saving K-means model to {save_path}")
+        # Create directory if it doesn't exist
+        dir_path = os.path.dirname(save_path)
+        if dir_path:
+            os.makedirs(dir_path, exist_ok=True)
         torch.save(kmeans, save_path)
     else:
         logger.warning("No save path provided. K-means model not saved")
@@ -313,6 +321,10 @@ def eval(
 
     # Save results to CSV
     logger.info(f"Saving results to {res_path}")
+    # Create directory if it doesn't exist
+    dir_path = os.path.dirname(res_path)
+    if dir_path:
+        os.makedirs(dir_path, exist_ok=True)
     with open(res_path, "w+", encoding="UTF8", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(

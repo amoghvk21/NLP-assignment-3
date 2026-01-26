@@ -31,3 +31,2494 @@ Job ID: 21277025
 Job start time: Mon Jan 26 14:16:32 GMT 2026
 activating venv
 running file
+[32mINFO    [logging_nlp.py:45 | 2026-01-26_14:22:00][0m [34mSet logging level to info[0m
+[32mINFO    [nhmm_pipeline.py:215 | 2026-01-26_14:22:00][0m [34mTraining and testing NeuralHMM[0m
+[33mWARNING [nhmm_pipeline.py:216 | 2026-01-26_14:22:00][0m [34mUsing xpos as tag[0m
+| Number of sentences: 39832
+Mapping tags:   0%|          | 0/39832 [00:00<?, ? examples/s]Mapping tags:   3%|▎         | 1000/39832 [00:00<00:04, 7992.51 examples/s]Mapping tags:   5%|▌         | 2116/39832 [00:00<00:03, 9677.92 examples/s]Mapping tags:  10%|▉         | 3918/39832 [00:00<00:02, 12233.88 examples/s]Mapping tags:  15%|█▍        | 5876/39832 [00:00<00:02, 12023.48 examples/s]Mapping tags:  20%|█▉        | 7881/39832 [00:00<00:02, 11958.64 examples/s]Mapping tags:  25%|██▍       | 9869/39832 [00:00<00:02, 12059.13 examples/s]Mapping tags:  29%|██▉       | 11620/39832 [00:01<00:04, 7036.20 examples/s]Mapping tags:  32%|███▏      | 12860/39832 [00:01<00:03, 7753.06 examples/s]Mapping tags:  35%|███▌      | 14000/39832 [00:01<00:03, 8058.03 examples/s]Mapping tags:  38%|███▊      | 15265/39832 [00:01<00:02, 8957.69 examples/s]Mapping tags:  42%|████▏     | 16878/39832 [00:01<00:02, 10247.37 examples/s]Mapping tags:  47%|████▋     | 18836/39832 [00:01<00:01, 10795.99 examples/s]Mapping tags:  52%|█████▏    | 20878/39832 [00:02<00:01, 11251.34 examples/s]Mapping tags:  57%|█████▋    | 22881/39832 [00:02<00:01, 11495.98 examples/s]Mapping tags:  61%|██████    | 24308/39832 [00:02<00:01, 10920.61 examples/s]Mapping tags:  65%|██████▍   | 25878/39832 [00:02<00:01, 11666.07 examples/s]Mapping tags:  70%|███████   | 27884/39832 [00:02<00:01, 11826.73 examples/s]Mapping tags:  74%|███████▎  | 29360/39832 [00:02<00:00, 11226.39 examples/s]Mapping tags:  77%|███████▋  | 30855/39832 [00:02<00:00, 11851.05 examples/s]Mapping tags:  82%|████████▏ | 32855/39832 [00:03<00:00, 11906.47 examples/s]Mapping tags:  88%|████████▊ | 34868/39832 [00:03<00:00, 11948.16 examples/s]Mapping tags:  93%|█████████▎| 36888/39832 [00:03<00:00, 7296.15 examples/s] Mapping tags:  95%|█████████▌| 38000/39832 [00:03<00:00, 7632.70 examples/s]Mapping tags:  98%|█████████▊| 39203/39832 [00:04<00:00, 8359.99 examples/s]Mapping tags: 100%|██████████| 39832/39832 [00:04<00:00, 9746.75 examples/s]
+[32mINFO    [nhmm_pipeline.py:39 | 2026-01-26_14:22:08][0m [34mTraining Neural HMM[0m
+[32mINFO    [nhmm.py:89 | 2026-01-26_14:22:10][0m [34mInitialised NeuralHMM with 45 states, 39395 vocabulary size, hidden_dim=512[0m
+[32mINFO    [nhmm.py:364 | 2026-01-26_14:22:10][0m [34mTraining Neural HMM for 40 epochs[0m
+[32mINFO    [nhmm.py:365 | 2026-01-26_14:22:10][0m [34mLearning rate: 0.001[0m
+[32mINFO    [nhmm.py:366 | 2026-01-26_14:22:10][0m [34mMinibatch size: 256, Max inner loops: 6[0m
+[32mINFO    [nhmm.py:367 | 2026-01-26_14:22:10][0m [34mGradient clipping: 5.0, Max sentence length: 40[0m
+[32mINFO    [nhmm.py:368 | 2026-01-26_14:22:10][0m [34mDevice: cpu[0m
+[32mINFO    [nhmm.py:369 | 2026-01-26_14:22:10][0m [34mMetrics will be saved to: ./output/nhmm-xpos-40/results_2/nhmm-xpos-results.csv[0m
+[32mINFO    [nhmm.py:380 | 2026-01-26_14:22:17][0m [34mFiltered dataset: 36765 sentences (max length 40)[0m
+[32mINFO    [nhmm.py:383 | 2026-01-26_14:22:17][0m [34mPre-tokenizing dataset...[0m
+Pre-tokenizing dataset:   0%|          | 0/36765 [00:00<?, ?it/s]Pre-tokenizing dataset:  12%|█▏        | 4540/36765 [00:00<00:00, 45395.71it/s]Pre-tokenizing dataset:  25%|██▍       | 9138/36765 [00:00<00:00, 45736.67it/s]Pre-tokenizing dataset:  37%|███▋      | 13736/36765 [00:00<00:00, 45844.50it/s]Pre-tokenizing dataset:  50%|████▉     | 18369/36765 [00:00<00:00, 46031.75it/s]Pre-tokenizing dataset:  63%|██████▎   | 23037/36765 [00:00<00:00, 46262.68it/s]Pre-tokenizing dataset:  76%|███████▌  | 27760/36765 [00:00<00:00, 46588.91it/s]Pre-tokenizing dataset:  88%|████████▊ | 32474/36765 [00:00<00:00, 46766.66it/s]                                                                                [32mINFO    [nhmm.py:386 | 2026-01-26_14:22:18][0m [34mDataset pre-tokenized[0m
+Total Training:   0%|          | 0/40 [00:00<?, ?it/s]
+  Epoch 1/40:   0%|          | 0/144 [00:00<?, ?it/s][A
+  Epoch 1/40:   1%|          | 1/144 [00:08<19:46,  8.30s/it][A
+  Epoch 1/40:   1%|▏         | 2/144 [00:10<11:37,  4.91s/it][A
+  Epoch 1/40:   2%|▏         | 3/144 [00:13<08:47,  3.74s/it][A
+  Epoch 1/40:   3%|▎         | 4/144 [00:15<07:19,  3.14s/it][A
+  Epoch 1/40:   3%|▎         | 5/144 [00:17<06:23,  2.76s/it][A
+  Epoch 1/40:   4%|▍         | 6/144 [00:19<05:42,  2.48s/it][A
+  Epoch 1/40:   5%|▍         | 7/144 [00:21<05:11,  2.27s/it][A
+  Epoch 1/40:   6%|▌         | 8/144 [00:23<04:47,  2.12s/it][A
+  Epoch 1/40:   6%|▋         | 9/144 [00:24<04:30,  2.00s/it][A
+  Epoch 1/40:   7%|▋         | 10/144 [00:26<04:16,  1.91s/it][A
+  Epoch 1/40:   8%|▊         | 11/144 [00:28<04:03,  1.83s/it][A
+  Epoch 1/40:   8%|▊         | 12/144 [00:29<03:50,  1.75s/it][A
+  Epoch 1/40:   9%|▉         | 13/144 [00:31<03:39,  1.68s/it][A
+  Epoch 1/40:  10%|▉         | 14/144 [00:32<03:32,  1.63s/it][A
+  Epoch 1/40:  10%|█         | 15/144 [00:34<03:28,  1.62s/it][A
+  Epoch 1/40:  11%|█         | 16/144 [00:35<03:26,  1.61s/it][A
+  Epoch 1/40:  12%|█▏        | 17/144 [00:37<03:22,  1.60s/it][A
+  Epoch 1/40:  12%|█▎        | 18/144 [00:39<03:19,  1.58s/it][A
+  Epoch 1/40:  13%|█▎        | 19/144 [00:40<03:15,  1.57s/it][A
+  Epoch 1/40:  14%|█▍        | 20/144 [00:42<03:11,  1.55s/it][A
+  Epoch 1/40:  15%|█▍        | 21/144 [00:43<03:08,  1.53s/it][A
+  Epoch 1/40:  15%|█▌        | 22/144 [00:45<03:06,  1.53s/it][A
+  Epoch 1/40:  16%|█▌        | 23/144 [00:46<03:04,  1.52s/it][A
+  Epoch 1/40:  17%|█▋        | 24/144 [00:48<03:02,  1.52s/it][A
+  Epoch 1/40:  17%|█▋        | 25/144 [00:49<03:03,  1.54s/it][A
+  Epoch 1/40:  18%|█▊        | 26/144 [00:51<03:01,  1.54s/it][A
+  Epoch 1/40:  19%|█▉        | 27/144 [00:52<02:58,  1.52s/it][A
+  Epoch 1/40:  19%|█▉        | 28/144 [00:54<02:54,  1.50s/it][A
+  Epoch 1/40:  20%|██        | 29/144 [00:55<02:51,  1.49s/it][A
+  Epoch 1/40:  21%|██        | 30/144 [00:57<02:48,  1.48s/it][A
+  Epoch 1/40:  22%|██▏       | 31/144 [00:58<02:46,  1.48s/it][A
+  Epoch 1/40:  22%|██▏       | 32/144 [01:00<02:43,  1.46s/it][A
+  Epoch 1/40:  23%|██▎       | 33/144 [01:01<02:39,  1.44s/it][A
+  Epoch 1/40:  24%|██▎       | 34/144 [01:02<02:37,  1.44s/it][A
+  Epoch 1/40:  24%|██▍       | 35/144 [01:04<02:38,  1.45s/it][A
+  Epoch 1/40:  25%|██▌       | 36/144 [01:05<02:36,  1.45s/it][A
+  Epoch 1/40:  26%|██▌       | 37/144 [01:07<02:34,  1.44s/it][A
+  Epoch 1/40:  26%|██▋       | 38/144 [01:08<02:34,  1.45s/it][A
+  Epoch 1/40:  27%|██▋       | 39/144 [01:10<02:32,  1.45s/it][A
+  Epoch 1/40:  28%|██▊       | 40/144 [01:11<02:31,  1.45s/it][A
+  Epoch 1/40:  28%|██▊       | 41/144 [01:13<02:30,  1.46s/it][A
+  Epoch 1/40:  29%|██▉       | 42/144 [01:14<02:30,  1.48s/it][A
+  Epoch 1/40:  30%|██▉       | 43/144 [01:16<02:30,  1.49s/it][A
+  Epoch 1/40:  31%|███       | 44/144 [01:17<02:27,  1.48s/it][A
+  Epoch 1/40:  31%|███▏      | 45/144 [01:19<02:26,  1.48s/it][A
+  Epoch 1/40:  32%|███▏      | 46/144 [01:20<02:24,  1.47s/it][A
+  Epoch 1/40:  33%|███▎      | 47/144 [01:21<02:23,  1.48s/it][A
+  Epoch 1/40:  33%|███▎      | 48/144 [01:23<02:21,  1.47s/it][A
+  Epoch 1/40:  34%|███▍      | 49/144 [01:24<02:21,  1.49s/it][A
+  Epoch 1/40:  35%|███▍      | 50/144 [01:26<02:18,  1.47s/it][A
+  Epoch 1/40:  35%|███▌      | 51/144 [01:27<02:15,  1.45s/it][A
+  Epoch 1/40:  36%|███▌      | 52/144 [01:29<02:14,  1.46s/it][A
+  Epoch 1/40:  37%|███▋      | 53/144 [01:30<02:12,  1.46s/it][A
+  Epoch 1/40:  38%|███▊      | 54/144 [01:32<02:11,  1.46s/it][A
+  Epoch 1/40:  38%|███▊      | 55/144 [01:33<02:10,  1.47s/it][A
+  Epoch 1/40:  39%|███▉      | 56/144 [01:35<02:09,  1.47s/it][A
+  Epoch 1/40:  40%|███▉      | 57/144 [01:36<02:08,  1.47s/it][A
+  Epoch 1/40:  40%|████      | 58/144 [01:38<02:06,  1.47s/it][A
+  Epoch 1/40:  41%|████      | 59/144 [01:39<02:04,  1.47s/it][A
+  Epoch 1/40:  42%|████▏     | 60/144 [01:41<02:04,  1.48s/it][A
+  Epoch 1/40:  42%|████▏     | 61/144 [01:42<02:02,  1.48s/it][A
+  Epoch 1/40:  43%|████▎     | 62/144 [01:44<02:01,  1.48s/it][A
+  Epoch 1/40:  44%|████▍     | 63/144 [01:45<01:59,  1.48s/it][A
+  Epoch 1/40:  44%|████▍     | 64/144 [01:47<02:00,  1.50s/it][A
+  Epoch 1/40:  45%|████▌     | 65/144 [01:48<01:59,  1.51s/it][A
+  Epoch 1/40:  46%|████▌     | 66/144 [01:50<01:56,  1.50s/it][A
+  Epoch 1/40:  47%|████▋     | 67/144 [01:51<01:55,  1.50s/it][A
+  Epoch 1/40:  47%|████▋     | 68/144 [01:53<01:54,  1.51s/it][A
+  Epoch 1/40:  48%|████▊     | 69/144 [01:54<01:51,  1.49s/it][A
+  Epoch 1/40:  49%|████▊     | 70/144 [01:55<01:49,  1.48s/it][A
+  Epoch 1/40:  49%|████▉     | 71/144 [01:57<01:47,  1.47s/it][A
+  Epoch 1/40:  50%|█████     | 72/144 [01:58<01:46,  1.48s/it][A
+  Epoch 1/40:  51%|█████     | 73/144 [02:00<01:46,  1.49s/it][A
+  Epoch 1/40:  51%|█████▏    | 74/144 [02:01<01:45,  1.50s/it][A
+  Epoch 1/40:  52%|█████▏    | 75/144 [02:03<01:42,  1.49s/it][A
+  Epoch 1/40:  53%|█████▎    | 76/144 [02:04<01:40,  1.48s/it][A
+  Epoch 1/40:  53%|█████▎    | 77/144 [02:06<01:39,  1.48s/it][A
+  Epoch 1/40:  54%|█████▍    | 78/144 [02:07<01:36,  1.47s/it][A
+  Epoch 1/40:  55%|█████▍    | 79/144 [02:09<01:35,  1.47s/it][A
+  Epoch 1/40:  56%|█████▌    | 80/144 [02:10<01:33,  1.47s/it][A
+  Epoch 1/40:  56%|█████▋    | 81/144 [02:12<01:32,  1.47s/it][A
+  Epoch 1/40:  57%|█████▋    | 82/144 [02:13<01:30,  1.46s/it][A
+  Epoch 1/40:  58%|█████▊    | 83/144 [02:15<01:29,  1.46s/it][A
+  Epoch 1/40:  58%|█████▊    | 84/144 [02:16<01:27,  1.45s/it][A
+  Epoch 1/40:  59%|█████▉    | 85/144 [02:18<01:25,  1.46s/it][A
+  Epoch 1/40:  60%|█████▉    | 86/144 [02:19<01:24,  1.46s/it][A
+  Epoch 1/40:  60%|██████    | 87/144 [02:20<01:22,  1.45s/it][A
+  Epoch 1/40:  61%|██████    | 88/144 [02:22<01:21,  1.45s/it][A
+  Epoch 1/40:  62%|██████▏   | 89/144 [02:23<01:19,  1.44s/it][A
+  Epoch 1/40:  62%|██████▎   | 90/144 [02:25<01:17,  1.44s/it][A
+  Epoch 1/40:  63%|██████▎   | 91/144 [02:26<01:15,  1.43s/it][A
+  Epoch 1/40:  64%|██████▍   | 92/144 [02:28<01:14,  1.44s/it][A
+  Epoch 1/40:  65%|██████▍   | 93/144 [02:29<01:13,  1.43s/it][A
+  Epoch 1/40:  65%|██████▌   | 94/144 [02:30<01:11,  1.42s/it][A
+  Epoch 1/40:  66%|██████▌   | 95/144 [02:32<01:10,  1.43s/it][A
+  Epoch 1/40:  67%|██████▋   | 96/144 [02:33<01:09,  1.45s/it][A
+  Epoch 1/40:  67%|██████▋   | 97/144 [02:35<01:09,  1.47s/it][A
+  Epoch 1/40:  68%|██████▊   | 98/144 [02:36<01:07,  1.47s/it][A
+  Epoch 1/40:  69%|██████▉   | 99/144 [02:38<01:06,  1.49s/it][A
+  Epoch 1/40:  69%|██████▉   | 100/144 [02:39<01:05,  1.50s/it][A
+  Epoch 1/40:  70%|███████   | 101/144 [02:41<01:04,  1.49s/it][A
+  Epoch 1/40:  71%|███████   | 102/144 [02:42<01:02,  1.49s/it][A
+  Epoch 1/40:  72%|███████▏  | 103/144 [02:44<01:00,  1.48s/it][A
+  Epoch 1/40:  72%|███████▏  | 104/144 [02:45<00:58,  1.47s/it][A
+  Epoch 1/40:  73%|███████▎  | 105/144 [02:47<00:57,  1.47s/it][A
+  Epoch 1/40:  74%|███████▎  | 106/144 [02:48<00:56,  1.48s/it][A
+  Epoch 1/40:  74%|███████▍  | 107/144 [02:50<00:53,  1.45s/it][A
+  Epoch 1/40:  75%|███████▌  | 108/144 [02:51<00:52,  1.46s/it][A
+  Epoch 1/40:  76%|███████▌  | 109/144 [02:53<00:51,  1.47s/it][A
+  Epoch 1/40:  76%|███████▋  | 110/144 [02:54<00:50,  1.48s/it][A
+  Epoch 1/40:  77%|███████▋  | 111/144 [02:56<00:48,  1.48s/it][A
+  Epoch 1/40:  78%|███████▊  | 112/144 [02:57<00:46,  1.46s/it][A
+  Epoch 1/40:  78%|███████▊  | 113/144 [02:59<00:46,  1.49s/it][A
+  Epoch 1/40:  79%|███████▉  | 114/144 [03:00<00:44,  1.50s/it][A
+  Epoch 1/40:  80%|███████▉  | 115/144 [03:02<00:43,  1.51s/it][A
+  Epoch 1/40:  81%|████████  | 116/144 [03:03<00:42,  1.52s/it][A
+  Epoch 1/40:  81%|████████▏ | 117/144 [03:05<00:41,  1.54s/it][A
+  Epoch 1/40:  82%|████████▏ | 118/144 [03:06<00:39,  1.54s/it][A
+  Epoch 1/40:  83%|████████▎ | 119/144 [03:08<00:38,  1.54s/it][A
+  Epoch 1/40:  83%|████████▎ | 120/144 [03:09<00:37,  1.54s/it][A
+  Epoch 1/40:  84%|████████▍ | 121/144 [03:11<00:35,  1.53s/it][A
+  Epoch 1/40:  85%|████████▍ | 122/144 [03:12<00:33,  1.55s/it][A
+  Epoch 1/40:  85%|████████▌ | 123/144 [03:14<00:32,  1.54s/it][A
+  Epoch 1/40:  86%|████████▌ | 124/144 [03:15<00:30,  1.53s/it][A
+  Epoch 1/40:  87%|████████▋ | 125/144 [03:17<00:29,  1.53s/it][A
+  Epoch 1/40:  88%|████████▊ | 126/144 [03:18<00:27,  1.51s/it][A
+  Epoch 1/40:  88%|████████▊ | 127/144 [03:20<00:25,  1.50s/it][A
+  Epoch 1/40:  89%|████████▉ | 128/144 [03:21<00:23,  1.50s/it][A
+  Epoch 1/40:  90%|████████▉ | 129/144 [03:23<00:22,  1.51s/it][A
+  Epoch 1/40:  90%|█████████ | 130/144 [03:24<00:20,  1.49s/it][A
+  Epoch 1/40:  91%|█████████ | 131/144 [03:26<00:19,  1.51s/it][A
+  Epoch 1/40:  92%|█████████▏| 132/144 [03:28<00:18,  1.53s/it][A
+  Epoch 1/40:  92%|█████████▏| 133/144 [03:29<00:16,  1.54s/it][A
+  Epoch 1/40:  93%|█████████▎| 134/144 [03:31<00:15,  1.55s/it][A
+  Epoch 1/40:  94%|█████████▍| 135/144 [03:32<00:13,  1.53s/it][A
+  Epoch 1/40:  94%|█████████▍| 136/144 [03:34<00:12,  1.50s/it][A
+  Epoch 1/40:  95%|█████████▌| 137/144 [03:35<00:10,  1.50s/it][A
+  Epoch 1/40:  96%|█████████▌| 138/144 [03:37<00:08,  1.49s/it][A
+  Epoch 1/40:  97%|█████████▋| 139/144 [03:38<00:07,  1.48s/it][A
+  Epoch 1/40:  97%|█████████▋| 140/144 [03:39<00:05,  1.48s/it][A
+  Epoch 1/40:  98%|█████████▊| 141/144 [03:41<00:04,  1.49s/it][A
+  Epoch 1/40:  99%|█████████▊| 142/144 [03:43<00:03,  1.53s/it][A
+  Epoch 1/40:  99%|█████████▉| 143/144 [03:44<00:01,  1.54s/it][A
+  Epoch 1/40: 100%|██████████| 144/144 [03:45<00:00,  1.47s/it][A
+                                                               [A[32mINFO    [nhmm.py:451 | 2026-01-26_14:26:04][0m [34mEpoch 1/40: Average loss = 193.3243[0m
+
+Computing metrics:   0%|          | 0/39832 [00:00<?, ?it/s][A
+Computing metrics:   0%|          | 1/39832 [00:00<1:42:25,  6.48it/s][A
+Computing metrics:   0%|          | 9/39832 [00:00<16:51, 39.39it/s]  [A
+Computing metrics:   0%|          | 16/39832 [00:00<13:06, 50.64it/s][A
+Computing metrics:   0%|          | 23/39832 [00:00<11:41, 56.74it/s][A
+Computing metrics:   0%|          | 30/39832 [00:00<10:54, 60.79it/s][A
+Computing metrics:   0%|          | 37/39832 [00:00<10:26, 63.53it/s][A
+Computing metrics:   0%|          | 44/39832 [00:00<10:08, 65.38it/s][A
+Computing metrics:   0%|          | 51/39832 [00:00<10:02, 66.06it/s][A
+Computing metrics:   0%|          | 58/39832 [00:01<10:35, 62.55it/s][A
+Computing metrics:   0%|          | 65/39832 [00:01<10:21, 64.03it/s][A
+Computing metrics:   0%|          | 72/39832 [00:01<10:12, 64.91it/s][A
+Computing metrics:   0%|          | 79/39832 [00:01<10:01, 66.07it/s][A
+Computing metrics:   0%|          | 86/39832 [00:01<09:57, 66.50it/s][A
+Computing metrics:   0%|          | 94/39832 [00:01<09:45, 67.89it/s][A
+Computing metrics:   0%|          | 101/39832 [00:01<09:44, 67.92it/s][A
+Computing metrics:   0%|          | 109/39832 [00:01<09:40, 68.47it/s][A
+Computing metrics:   0%|          | 117/39832 [00:01<09:37, 68.72it/s][A
+Computing metrics:   0%|          | 124/39832 [00:01<09:47, 67.60it/s][A
+Computing metrics:   0%|          | 131/39832 [00:02<09:43, 68.09it/s][A
+Computing metrics:   0%|          | 138/39832 [00:02<09:42, 68.17it/s][A
+Computing metrics:   0%|          | 145/39832 [00:02<09:41, 68.26it/s][A
+Computing metrics:   0%|          | 152/39832 [00:02<09:37, 68.68it/s][A
+Computing metrics:   0%|          | 159/39832 [00:02<09:38, 68.53it/s][A
+Computing metrics:   0%|          | 167/39832 [00:02<09:35, 68.89it/s][A
+Computing metrics:   0%|          | 174/39832 [00:02<09:38, 68.52it/s][A
+Computing metrics:   0%|          | 181/39832 [00:02<09:36, 68.83it/s][A
+Computing metrics:   0%|          | 189/39832 [00:02<09:31, 69.32it/s][A
+Computing metrics:   0%|          | 196/39832 [00:03<09:51, 67.01it/s][A
+Computing metrics:   1%|          | 204/39832 [00:03<09:42, 67.99it/s][A
+Computing metrics:   1%|          | 212/39832 [00:03<09:36, 68.72it/s][A
+Computing metrics:   1%|          | 219/39832 [00:03<09:35, 68.89it/s][A
+Computing metrics:   1%|          | 226/39832 [00:03<09:34, 68.95it/s][A
+Computing metrics:   1%|          | 234/39832 [00:03<09:30, 69.45it/s][A
+Computing metrics:   1%|          | 242/39832 [00:03<09:28, 69.65it/s][A
+Computing metrics:   1%|          | 250/39832 [00:03<09:22, 70.42it/s][A
+Computing metrics:   1%|          | 258/39832 [00:03<09:18, 70.86it/s][A
+Computing metrics:   1%|          | 266/39832 [00:04<09:39, 68.22it/s][A
+Computing metrics:   1%|          | 274/39832 [00:04<09:29, 69.43it/s][A
+Computing metrics:   1%|          | 282/39832 [00:04<09:26, 69.81it/s][A
+Computing metrics:   1%|          | 290/39832 [00:04<09:21, 70.47it/s][A
+Computing metrics:   1%|          | 298/39832 [00:04<09:14, 71.26it/s][A
+Computing metrics:   1%|          | 306/39832 [00:04<09:18, 70.73it/s][A
+Computing metrics:   1%|          | 314/39832 [00:04<09:21, 70.40it/s][A
+Computing metrics:   1%|          | 322/39832 [00:04<09:17, 70.82it/s][A
+Computing metrics:   1%|          | 330/39832 [00:04<09:17, 70.80it/s][A
+Computing metrics:   1%|          | 338/39832 [00:05<09:54, 66.45it/s][A
+Computing metrics:   1%|          | 346/39832 [00:05<09:42, 67.83it/s][A
+Computing metrics:   1%|          | 353/39832 [00:05<09:38, 68.29it/s][A
+Computing metrics:   1%|          | 361/39832 [00:05<09:33, 68.88it/s][A
+Computing metrics:   1%|          | 369/39832 [00:05<09:31, 69.08it/s][A
+Computing metrics:   1%|          | 376/39832 [00:05<09:29, 69.31it/s][A
+Computing metrics:   1%|          | 384/39832 [00:05<09:23, 70.01it/s][A
+Computing metrics:   1%|          | 392/39832 [00:05<09:19, 70.43it/s][A
+Computing metrics:   1%|          | 400/39832 [00:05<09:18, 70.63it/s][A
+Computing metrics:   1%|          | 408/39832 [00:06<09:20, 70.38it/s][A
+Computing metrics:   1%|          | 416/39832 [00:06<09:53, 66.46it/s][A
+Computing metrics:   1%|          | 424/39832 [00:06<09:39, 68.04it/s][A
+Computing metrics:   1%|          | 432/39832 [00:06<09:27, 69.45it/s][A
+Computing metrics:   1%|          | 440/39832 [00:06<09:22, 70.04it/s][A
+Computing metrics:   1%|          | 448/39832 [00:06<09:20, 70.30it/s][A
+Computing metrics:   1%|          | 456/39832 [00:06<09:16, 70.79it/s][A
+Computing metrics:   1%|          | 464/39832 [00:06<09:12, 71.31it/s][A
+Computing metrics:   1%|          | 472/39832 [00:06<09:10, 71.52it/s][A
+Computing metrics:   1%|          | 480/39832 [00:07<09:12, 71.21it/s][A
+Computing metrics:   1%|          | 488/39832 [00:07<09:46, 67.14it/s][A
+Computing metrics:   1%|          | 496/39832 [00:07<09:30, 68.90it/s][A
+Computing metrics:   1%|▏         | 504/39832 [00:07<09:21, 69.99it/s][A
+Computing metrics:   1%|▏         | 512/39832 [00:07<09:21, 70.08it/s][A
+Computing metrics:   1%|▏         | 520/39832 [00:07<09:17, 70.49it/s][A
+Computing metrics:   1%|▏         | 528/39832 [00:07<09:12, 71.11it/s][A
+Computing metrics:   1%|▏         | 536/39832 [00:07<09:11, 71.23it/s][A
+Computing metrics:   1%|▏         | 544/39832 [00:08<09:08, 71.57it/s][A
+Computing metrics:   1%|▏         | 552/39832 [00:08<09:09, 71.48it/s][A
+Computing metrics:   1%|▏         | 560/39832 [00:08<09:49, 66.58it/s][A
+Computing metrics:   1%|▏         | 568/39832 [00:08<09:42, 67.42it/s][A
+Computing metrics:   1%|▏         | 576/39832 [00:08<09:35, 68.24it/s][A
+Computing metrics:   1%|▏         | 584/39832 [00:08<09:32, 68.57it/s][A
+Computing metrics:   1%|▏         | 591/39832 [00:08<09:32, 68.54it/s][A
+Computing metrics:   2%|▏         | 599/39832 [00:08<09:26, 69.31it/s][A
+Computing metrics:   2%|▏         | 607/39832 [00:08<09:21, 69.89it/s][A
+Computing metrics:   2%|▏         | 614/39832 [00:09<09:21, 69.83it/s][A
+Computing metrics:   2%|▏         | 621/39832 [00:09<10:02, 65.04it/s][A
+Computing metrics:   2%|▏         | 629/39832 [00:09<09:47, 66.73it/s][A
+Computing metrics:   2%|▏         | 636/39832 [00:09<09:41, 67.42it/s][A
+Computing metrics:   2%|▏         | 643/39832 [00:09<09:36, 68.02it/s][A
+Computing metrics:   2%|▏         | 650/39832 [00:09<09:33, 68.27it/s][A
+Computing metrics:   2%|▏         | 658/39832 [00:09<09:29, 68.82it/s][A
+Computing metrics:   2%|▏         | 665/39832 [00:09<09:27, 68.97it/s][A
+Computing metrics:   2%|▏         | 672/39832 [00:09<09:54, 65.88it/s][A
+Computing metrics:   2%|▏         | 679/39832 [00:10<09:46, 66.71it/s][A
+Computing metrics:   2%|▏         | 686/39832 [00:10<09:43, 67.12it/s][A
+Computing metrics:   2%|▏         | 693/39832 [00:10<10:18, 63.32it/s][A
+Computing metrics:   2%|▏         | 700/39832 [00:10<10:03, 64.82it/s][A
+Computing metrics:   2%|▏         | 707/39832 [00:10<09:50, 66.27it/s][A
+Computing metrics:   2%|▏         | 714/39832 [00:10<09:42, 67.12it/s][A
+Computing metrics:   2%|▏         | 722/39832 [00:10<09:34, 68.10it/s][A
+Computing metrics:   2%|▏         | 730/39832 [00:10<09:30, 68.57it/s][A
+Computing metrics:   2%|▏         | 738/39832 [00:10<09:26, 69.07it/s][A
+Computing metrics:   2%|▏         | 746/39832 [00:10<09:21, 69.60it/s][A
+Computing metrics:   2%|▏         | 754/39832 [00:11<09:19, 69.80it/s][A
+Computing metrics:   2%|▏         | 761/39832 [00:11<09:32, 68.24it/s][A
+Computing metrics:   2%|▏         | 768/39832 [00:11<09:30, 68.45it/s][A
+Computing metrics:   2%|▏         | 775/39832 [00:11<09:28, 68.65it/s][A
+Computing metrics:   2%|▏         | 782/39832 [00:11<09:28, 68.64it/s][A
+Computing metrics:   2%|▏         | 790/39832 [00:11<09:24, 69.19it/s][A
+Computing metrics:   2%|▏         | 798/39832 [00:11<09:15, 70.23it/s][A
+Computing metrics:   2%|▏         | 806/39832 [00:11<09:14, 70.37it/s][A
+Computing metrics:   2%|▏         | 814/39832 [00:11<09:16, 70.16it/s][A
+Computing metrics:   2%|▏         | 822/39832 [00:12<09:16, 70.08it/s][A
+Computing metrics:   2%|▏         | 830/39832 [00:12<09:44, 66.69it/s][A
+Computing metrics:   2%|▏         | 837/39832 [00:12<09:38, 67.35it/s][A
+Computing metrics:   2%|▏         | 844/39832 [00:12<09:34, 67.81it/s][A
+Computing metrics:   2%|▏         | 851/39832 [00:12<09:29, 68.40it/s][A
+Computing metrics:   2%|▏         | 858/39832 [00:12<09:31, 68.21it/s][A
+Computing metrics:   2%|▏         | 866/39832 [00:12<09:24, 68.97it/s][A
+Computing metrics:   2%|▏         | 873/39832 [00:12<09:22, 69.21it/s][A
+Computing metrics:   2%|▏         | 881/39832 [00:12<09:18, 69.80it/s][A
+Computing metrics:   2%|▏         | 888/39832 [00:13<09:20, 69.48it/s][A
+Computing metrics:   2%|▏         | 895/39832 [00:13<09:20, 69.52it/s][A
+Computing metrics:   2%|▏         | 902/39832 [00:13<10:00, 64.86it/s][A
+Computing metrics:   2%|▏         | 910/39832 [00:13<09:45, 66.45it/s][A
+Computing metrics:   2%|▏         | 917/39832 [00:13<09:47, 66.20it/s][A
+Computing metrics:   2%|▏         | 924/39832 [00:13<09:38, 67.24it/s][A
+Computing metrics:   2%|▏         | 931/39832 [00:13<09:35, 67.58it/s][A
+Computing metrics:   2%|▏         | 938/39832 [00:13<09:31, 68.08it/s][A
+Computing metrics:   2%|▏         | 945/39832 [00:13<09:27, 68.51it/s][A
+Computing metrics:   2%|▏         | 953/39832 [00:14<09:22, 69.13it/s][A
+Computing metrics:   2%|▏         | 961/39832 [00:14<09:20, 69.36it/s][A
+Computing metrics:   2%|▏         | 968/39832 [00:14<09:48, 66.06it/s][A
+Computing metrics:   2%|▏         | 975/39832 [00:14<09:40, 66.91it/s][A
+Computing metrics:   2%|▏         | 982/39832 [00:14<09:34, 67.62it/s][A
+Computing metrics:   2%|▏         | 989/39832 [00:14<09:29, 68.25it/s][A
+Computing metrics:   3%|▎         | 997/39832 [00:14<09:23, 68.92it/s][A
+Computing metrics:   3%|▎         | 1005/39832 [00:14<09:20, 69.28it/s][A
+Computing metrics:   3%|▎         | 1012/39832 [00:14<09:20, 69.21it/s][A
+Computing metrics:   3%|▎         | 1019/39832 [00:14<09:21, 69.06it/s][A
+Computing metrics:   3%|▎         | 1027/39832 [00:15<09:16, 69.70it/s][A
+Computing metrics:   3%|▎         | 1035/39832 [00:15<09:14, 69.93it/s][A
+Computing metrics:   3%|▎         | 1042/39832 [00:15<09:49, 65.79it/s][A
+Computing metrics:   3%|▎         | 1050/39832 [00:15<09:35, 67.40it/s][A
+Computing metrics:   3%|▎         | 1057/39832 [00:15<09:31, 67.82it/s][A
+Computing metrics:   3%|▎         | 1064/39832 [00:15<09:28, 68.24it/s][A
+Computing metrics:   3%|▎         | 1072/39832 [00:15<09:18, 69.41it/s][A
+Computing metrics:   3%|▎         | 1079/39832 [00:15<09:18, 69.43it/s][A
+Computing metrics:   3%|▎         | 1086/39832 [00:15<09:22, 68.84it/s][A
+Computing metrics:   3%|▎         | 1093/39832 [00:16<09:22, 68.86it/s][A
+Computing metrics:   3%|▎         | 1101/39832 [00:16<09:19, 69.21it/s][A
+Computing metrics:   3%|▎         | 1108/39832 [00:16<10:04, 64.09it/s][A
+Computing metrics:   3%|▎         | 1116/39832 [00:16<09:46, 66.02it/s][A
+Computing metrics:   3%|▎         | 1124/39832 [00:16<09:33, 67.46it/s][A
+Computing metrics:   3%|▎         | 1132/39832 [00:16<09:25, 68.37it/s][A
+Computing metrics:   3%|▎         | 1139/39832 [00:16<09:26, 68.29it/s][A
+Computing metrics:   3%|▎         | 1146/39832 [00:16<09:24, 68.54it/s][A
+Computing metrics:   3%|▎         | 1154/39832 [00:16<09:19, 69.17it/s][A
+Computing metrics:   3%|▎         | 1161/39832 [00:17<09:19, 69.10it/s][A
+Computing metrics:   3%|▎         | 1168/39832 [00:17<09:17, 69.31it/s][A
+Computing metrics:   3%|▎         | 1176/39832 [00:17<09:14, 69.68it/s][A
+Computing metrics:   3%|▎         | 1183/39832 [00:17<09:53, 65.14it/s][A
+Computing metrics:   3%|▎         | 1190/39832 [00:17<09:43, 66.20it/s][A
+Computing metrics:   3%|▎         | 1197/39832 [00:17<09:37, 66.93it/s][A
+Computing metrics:   3%|▎         | 1204/39832 [00:17<09:32, 67.48it/s][A
+Computing metrics:   3%|▎         | 1211/39832 [00:17<09:29, 67.80it/s][A
+Computing metrics:   3%|▎         | 1219/39832 [00:17<09:23, 68.56it/s][A
+Computing metrics:   3%|▎         | 1226/39832 [00:18<09:24, 68.39it/s][A
+Computing metrics:   3%|▎         | 1233/39832 [00:18<09:22, 68.68it/s][A
+Computing metrics:   3%|▎         | 1240/39832 [00:18<09:26, 68.14it/s][A
+Computing metrics:   3%|▎         | 1247/39832 [00:18<09:48, 65.56it/s][A
+Computing metrics:   3%|▎         | 1254/39832 [00:18<09:40, 66.48it/s][A
+Computing metrics:   3%|▎         | 1261/39832 [00:18<09:33, 67.28it/s][A
+Computing metrics:   3%|▎         | 1268/39832 [00:18<09:32, 67.42it/s][A
+Computing metrics:   3%|▎         | 1276/39832 [00:18<09:21, 68.69it/s][A
+Computing metrics:   3%|▎         | 1284/39832 [00:18<09:13, 69.61it/s][A
+Computing metrics:   3%|▎         | 1292/39832 [00:18<09:11, 69.90it/s][A
+Computing metrics:   3%|▎         | 1300/39832 [00:19<09:08, 70.20it/s][A
+Computing metrics:   3%|▎         | 1308/39832 [00:19<09:04, 70.80it/s][A
+Computing metrics:   3%|▎         | 1316/39832 [00:19<09:06, 70.50it/s][A
+Computing metrics:   3%|▎         | 1324/39832 [00:19<09:37, 66.69it/s][A
+Computing metrics:   3%|▎         | 1332/39832 [00:19<09:24, 68.20it/s][A
+Computing metrics:   3%|▎         | 1340/39832 [00:19<09:18, 68.97it/s][A
+Computing metrics:   3%|▎         | 1348/39832 [00:19<09:12, 69.60it/s][A
+Computing metrics:   3%|▎         | 1356/39832 [00:19<09:09, 70.07it/s][A
+Computing metrics:   3%|▎         | 1364/39832 [00:20<09:17, 68.94it/s][A
+Computing metrics:   3%|▎         | 1372/39832 [00:20<09:13, 69.52it/s][A
+Computing metrics:   3%|▎         | 1380/39832 [00:20<09:09, 70.00it/s][A
+Computing metrics:   3%|▎         | 1388/39832 [00:20<09:34, 66.93it/s][A
+Computing metrics:   4%|▎         | 1395/39832 [00:20<09:29, 67.52it/s][A
+Computing metrics:   4%|▎         | 1403/39832 [00:20<09:20, 68.52it/s][A
+Computing metrics:   4%|▎         | 1410/39832 [00:20<09:20, 68.55it/s][A
+Computing metrics:   4%|▎         | 1418/39832 [00:20<09:11, 69.60it/s][A
+Computing metrics:   4%|▎         | 1426/39832 [00:20<09:08, 69.97it/s][A
+Computing metrics:   4%|▎         | 1434/39832 [00:21<09:10, 69.77it/s][A
+Computing metrics:   4%|▎         | 1442/39832 [00:21<09:04, 70.48it/s][A
+Computing metrics:   4%|▎         | 1450/39832 [00:21<09:03, 70.59it/s][A
+Computing metrics:   4%|▎         | 1458/39832 [00:21<09:41, 66.02it/s][A
+Computing metrics:   4%|▎         | 1466/39832 [00:21<09:24, 67.95it/s][A
+Computing metrics:   4%|▎         | 1474/39832 [00:21<09:12, 69.42it/s][A
+Computing metrics:   4%|▎         | 1481/39832 [00:21<09:11, 69.57it/s][A
+Computing metrics:   4%|▎         | 1489/39832 [00:21<09:08, 69.94it/s][A
+Computing metrics:   4%|▍         | 1497/39832 [00:21<09:04, 70.42it/s][A
+Computing metrics:   4%|▍         | 1505/39832 [00:22<09:02, 70.63it/s][A
+Computing metrics:   4%|▍         | 1513/39832 [00:22<08:55, 71.58it/s][A
+Computing metrics:   4%|▍         | 1521/39832 [00:22<08:53, 71.79it/s][A
+Computing metrics:   4%|▍         | 1529/39832 [00:22<08:55, 71.53it/s][A
+Computing metrics:   4%|▍         | 1537/39832 [00:22<09:26, 67.61it/s][A
+Computing metrics:   4%|▍         | 1545/39832 [00:22<09:15, 68.88it/s][A
+Computing metrics:   4%|▍         | 1553/39832 [00:22<09:07, 69.92it/s][A
+Computing metrics:   4%|▍         | 1561/39832 [00:22<09:02, 70.51it/s][A
+Computing metrics:   4%|▍         | 1569/39832 [00:22<09:00, 70.85it/s][A
+Computing metrics:   4%|▍         | 1577/39832 [00:23<08:53, 71.64it/s][A
+Computing metrics:   4%|▍         | 1585/39832 [00:23<08:49, 72.19it/s][A
+Computing metrics:   4%|▍         | 1593/39832 [00:23<08:48, 72.37it/s][A
+Computing metrics:   4%|▍         | 1601/39832 [00:23<08:49, 72.25it/s][A
+Computing metrics:   4%|▍         | 1609/39832 [00:23<09:18, 68.49it/s][A
+Computing metrics:   4%|▍         | 1617/39832 [00:23<09:07, 69.79it/s][A
+Computing metrics:   4%|▍         | 1625/39832 [00:23<08:58, 70.93it/s][A
+Computing metrics:   4%|▍         | 1633/39832 [00:23<09:00, 70.74it/s][A
+Computing metrics:   4%|▍         | 1641/39832 [00:23<08:55, 71.35it/s][A
+Computing metrics:   4%|▍         | 1649/39832 [00:24<08:55, 71.29it/s][A
+Computing metrics:   4%|▍         | 1657/39832 [00:24<09:01, 70.45it/s][A
+Computing metrics:   4%|▍         | 1665/39832 [00:24<09:00, 70.66it/s][A
+Computing metrics:   4%|▍         | 1673/39832 [00:24<09:25, 67.44it/s][A
+Computing metrics:   4%|▍         | 1681/39832 [00:24<09:22, 67.84it/s][A
+Computing metrics:   4%|▍         | 1688/39832 [00:24<09:18, 68.26it/s][A
+Computing metrics:   4%|▍         | 1695/39832 [00:24<09:17, 68.39it/s][A
+Computing metrics:   4%|▍         | 1702/39832 [00:24<09:19, 68.18it/s][A
+Computing metrics:   4%|▍         | 1709/39832 [00:24<09:20, 68.04it/s][A
+Computing metrics:   4%|▍         | 1717/39832 [00:25<09:11, 69.13it/s][A
+Computing metrics:   4%|▍         | 1724/39832 [00:25<09:14, 68.78it/s][A
+Computing metrics:   4%|▍         | 1732/39832 [00:25<09:13, 68.87it/s][A
+Computing metrics:   4%|▍         | 1740/39832 [00:25<09:05, 69.83it/s][A
+Computing metrics:   4%|▍         | 1747/39832 [00:25<09:51, 64.36it/s][A
+Computing metrics:   4%|▍         | 1754/39832 [00:25<09:41, 65.53it/s][A
+Computing metrics:   4%|▍         | 1762/39832 [00:25<09:29, 66.84it/s][A
+Computing metrics:   4%|▍         | 1769/39832 [00:25<09:24, 67.40it/s][A
+Computing metrics:   4%|▍         | 1777/39832 [00:25<09:18, 68.18it/s][A
+Computing metrics:   4%|▍         | 1785/39832 [00:26<09:11, 68.95it/s][A
+Computing metrics:   5%|▍         | 1793/39832 [00:26<09:07, 69.44it/s][A
+Computing metrics:   5%|▍         | 1800/39832 [00:26<09:09, 69.21it/s][A
+Computing metrics:   5%|▍         | 1807/39832 [00:26<09:08, 69.34it/s][A
+Computing metrics:   5%|▍         | 1814/39832 [00:26<09:27, 67.02it/s][A
+Computing metrics:   5%|▍         | 1821/39832 [00:26<09:21, 67.64it/s][A
+Computing metrics:   5%|▍         | 1829/39832 [00:26<09:13, 68.71it/s][A
+Computing metrics:   5%|▍         | 1836/39832 [00:26<09:12, 68.71it/s][A
+Computing metrics:   5%|▍         | 1843/39832 [00:26<09:10, 68.96it/s][A
+Computing metrics:   5%|▍         | 1850/39832 [00:27<09:10, 68.94it/s][A
+Computing metrics:   5%|▍         | 1857/39832 [00:27<09:11, 68.84it/s][A
+Computing metrics:   5%|▍         | 1864/39832 [00:27<09:09, 69.13it/s][A
+Computing metrics:   5%|▍         | 1871/39832 [00:27<09:11, 68.81it/s][A
+Computing metrics:   5%|▍         | 1879/39832 [00:27<09:06, 69.48it/s][A
+Computing metrics:   5%|▍         | 1886/39832 [00:27<09:29, 66.59it/s][A
+Computing metrics:   5%|▍         | 1893/39832 [00:27<09:25, 67.10it/s][A
+Computing metrics:   5%|▍         | 1901/39832 [00:27<09:14, 68.35it/s][A
+Computing metrics:   5%|▍         | 1908/39832 [00:27<09:11, 68.76it/s][A
+Computing metrics:   5%|▍         | 1916/39832 [00:28<09:05, 69.44it/s][A
+Computing metrics:   5%|▍         | 1924/39832 [00:28<09:03, 69.77it/s][A
+Computing metrics:   5%|▍         | 1932/39832 [00:28<09:01, 69.94it/s][A
+Computing metrics:   5%|▍         | 1939/39832 [00:28<09:07, 69.26it/s][A
+Computing metrics:   5%|▍         | 1946/39832 [00:28<09:12, 68.54it/s][A
+Computing metrics:   5%|▍         | 1953/39832 [00:28<09:52, 63.90it/s][A
+Computing metrics:   5%|▍         | 1960/39832 [00:28<09:38, 65.44it/s][A
+Computing metrics:   5%|▍         | 1967/39832 [00:28<09:31, 66.28it/s][A
+Computing metrics:   5%|▍         | 1974/39832 [00:28<09:24, 67.11it/s][A
+Computing metrics:   5%|▍         | 1981/39832 [00:28<09:19, 67.71it/s][A
+Computing metrics:   5%|▍         | 1988/39832 [00:29<09:17, 67.87it/s][A
+Computing metrics:   5%|▌         | 1995/39832 [00:29<09:14, 68.21it/s][A
+Computing metrics:   5%|▌         | 2002/39832 [00:29<09:14, 68.20it/s][A
+Computing metrics:   5%|▌         | 2010/39832 [00:29<09:12, 68.47it/s][A
+Computing metrics:   5%|▌         | 2017/39832 [00:29<09:09, 68.87it/s][A
+Computing metrics:   5%|▌         | 2024/39832 [00:29<09:45, 64.55it/s][A
+Computing metrics:   5%|▌         | 2031/39832 [00:29<09:40, 65.17it/s][A
+Computing metrics:   5%|▌         | 2038/39832 [00:29<09:31, 66.14it/s][A
+Computing metrics:   5%|▌         | 2045/39832 [00:29<09:26, 66.70it/s][A
+Computing metrics:   5%|▌         | 2052/39832 [00:30<09:27, 66.60it/s][A
+Computing metrics:   5%|▌         | 2059/39832 [00:30<09:19, 67.49it/s][A
+Computing metrics:   5%|▌         | 2066/39832 [00:30<09:24, 66.93it/s][A
+Computing metrics:   5%|▌         | 2074/39832 [00:30<09:19, 67.46it/s][A
+Computing metrics:   5%|▌         | 2081/39832 [00:30<09:16, 67.85it/s][A
+Computing metrics:   5%|▌         | 2088/39832 [00:30<09:48, 64.11it/s][A
+Computing metrics:   5%|▌         | 2095/39832 [00:30<09:42, 64.81it/s][A
+Computing metrics:   5%|▌         | 2103/39832 [00:30<09:30, 66.10it/s][A
+Computing metrics:   5%|▌         | 2110/39832 [00:30<09:27, 66.49it/s][A
+Computing metrics:   5%|▌         | 2117/39832 [00:31<09:25, 66.75it/s][A
+Computing metrics:   5%|▌         | 2124/39832 [00:31<09:21, 67.19it/s][A
+Computing metrics:   5%|▌         | 2131/39832 [00:31<09:18, 67.51it/s][A
+Computing metrics:   5%|▌         | 2138/39832 [00:31<09:20, 67.27it/s][A
+Computing metrics:   5%|▌         | 2145/39832 [00:31<09:14, 67.96it/s][A
+Computing metrics:   5%|▌         | 2152/39832 [00:31<09:15, 67.81it/s][A
+Computing metrics:   5%|▌         | 2159/39832 [00:31<09:52, 63.58it/s][A
+Computing metrics:   5%|▌         | 2166/39832 [00:31<09:43, 64.57it/s][A
+Computing metrics:   5%|▌         | 2173/39832 [00:31<09:33, 65.66it/s][A
+Computing metrics:   5%|▌         | 2180/39832 [00:31<09:27, 66.39it/s][A
+Computing metrics:   5%|▌         | 2187/39832 [00:32<09:21, 67.08it/s][A
+Computing metrics:   6%|▌         | 2194/39832 [00:32<09:22, 66.96it/s][A
+Computing metrics:   6%|▌         | 2201/39832 [00:32<09:21, 66.98it/s][A
+Computing metrics:   6%|▌         | 2209/39832 [00:32<09:13, 68.00it/s][A
+Computing metrics:   6%|▌         | 2216/39832 [00:32<09:09, 68.39it/s][A
+Computing metrics:   6%|▌         | 2223/39832 [00:32<09:09, 68.47it/s][A
+Computing metrics:   6%|▌         | 2230/39832 [00:32<09:44, 64.28it/s][A
+Computing metrics:   6%|▌         | 2238/39832 [00:32<09:32, 65.68it/s][A
+Computing metrics:   6%|▌         | 2246/39832 [00:32<09:18, 67.36it/s][A
+Computing metrics:   6%|▌         | 2253/39832 [00:33<09:15, 67.63it/s][A
+Computing metrics:   6%|▌         | 2260/39832 [00:33<09:11, 68.17it/s][A
+Computing metrics:   6%|▌         | 2268/39832 [00:33<09:05, 68.86it/s][A
+Computing metrics:   6%|▌         | 2275/39832 [00:33<09:05, 68.85it/s][A
+Computing metrics:   6%|▌         | 2282/39832 [00:33<09:07, 68.57it/s][A
+Computing metrics:   6%|▌         | 2290/39832 [00:33<09:05, 68.76it/s][A
+Computing metrics:   6%|▌         | 2297/39832 [00:33<09:44, 64.19it/s][A
+Computing metrics:   6%|▌         | 2305/39832 [00:33<09:27, 66.18it/s][A
+Computing metrics:   6%|▌         | 2312/39832 [00:33<09:23, 66.63it/s][A
+Computing metrics:   6%|▌         | 2319/39832 [00:34<09:17, 67.25it/s][A
+Computing metrics:   6%|▌         | 2327/39832 [00:34<09:08, 68.33it/s][A
+Computing metrics:   6%|▌         | 2334/39832 [00:34<09:06, 68.58it/s][A
+Computing metrics:   6%|▌         | 2341/39832 [00:34<09:09, 68.23it/s][A
+Computing metrics:   6%|▌         | 2348/39832 [00:34<09:06, 68.59it/s][A
+Computing metrics:   6%|▌         | 2355/39832 [00:34<09:05, 68.76it/s][A
+Computing metrics:   6%|▌         | 2362/39832 [00:34<09:38, 64.75it/s][A
+Computing metrics:   6%|▌         | 2369/39832 [00:34<09:29, 65.80it/s][A
+Computing metrics:   6%|▌         | 2377/39832 [00:34<09:17, 67.15it/s][A
+Computing metrics:   6%|▌         | 2384/39832 [00:35<09:12, 67.81it/s][A
+Computing metrics:   6%|▌         | 2391/39832 [00:35<09:13, 67.61it/s][A
+Computing metrics:   6%|▌         | 2399/39832 [00:35<09:09, 68.06it/s][A
+Computing metrics:   6%|▌         | 2407/39832 [00:35<09:08, 68.27it/s][A
+Computing metrics:   6%|▌         | 2415/39832 [00:35<09:01, 69.13it/s][A
+Computing metrics:   6%|▌         | 2422/39832 [00:35<09:02, 68.93it/s][A
+Computing metrics:   6%|▌         | 2430/39832 [00:35<08:58, 69.42it/s][A
+Computing metrics:   6%|▌         | 2437/39832 [00:35<09:38, 64.68it/s][A
+Computing metrics:   6%|▌         | 2445/39832 [00:35<09:21, 66.60it/s][A
+Computing metrics:   6%|▌         | 2453/39832 [00:36<09:08, 68.09it/s][A
+Computing metrics:   6%|▌         | 2460/39832 [00:36<09:05, 68.53it/s][A
+Computing metrics:   6%|▌         | 2468/39832 [00:36<08:58, 69.38it/s][A
+Computing metrics:   6%|▌         | 2476/39832 [00:36<08:54, 69.94it/s][A
+Computing metrics:   6%|▌         | 2484/39832 [00:36<08:51, 70.27it/s][A
+Computing metrics:   6%|▋         | 2492/39832 [00:36<08:56, 69.62it/s][A
+Computing metrics:   6%|▋         | 2499/39832 [00:36<09:00, 69.06it/s][A
+Computing metrics:   6%|▋         | 2506/39832 [00:36<09:28, 65.71it/s][A
+Computing metrics:   6%|▋         | 2514/39832 [00:36<09:15, 67.13it/s][A
+Computing metrics:   6%|▋         | 2522/39832 [00:37<09:02, 68.72it/s][A
+Computing metrics:   6%|▋         | 2530/39832 [00:37<08:56, 69.55it/s][A
+Computing metrics:   6%|▋         | 2537/39832 [00:37<08:56, 69.56it/s][A
+Computing metrics:   6%|▋         | 2545/39832 [00:37<08:50, 70.30it/s][A
+Computing metrics:   6%|▋         | 2553/39832 [00:37<08:48, 70.53it/s][A
+Computing metrics:   6%|▋         | 2561/39832 [00:37<08:50, 70.23it/s][A
+Computing metrics:   6%|▋         | 2569/39832 [00:37<08:50, 70.18it/s][A
+Computing metrics:   6%|▋         | 2577/39832 [00:37<09:22, 66.28it/s][A
+Computing metrics:   6%|▋         | 2584/39832 [00:37<09:14, 67.15it/s][A
+Computing metrics:   7%|▋         | 2591/39832 [00:38<09:08, 67.86it/s][A
+Computing metrics:   7%|▋         | 2598/39832 [00:38<09:05, 68.27it/s][A
+Computing metrics:   7%|▋         | 2605/39832 [00:38<09:05, 68.31it/s][A
+Computing metrics:   7%|▋         | 2612/39832 [00:38<09:03, 68.46it/s][A
+Computing metrics:   7%|▋         | 2619/39832 [00:38<09:05, 68.18it/s][A
+Computing metrics:   7%|▋         | 2627/39832 [00:38<08:57, 69.24it/s][A
+Computing metrics:   7%|▋         | 2635/39832 [00:38<08:52, 69.81it/s][A
+Computing metrics:   7%|▋         | 2642/39832 [00:38<09:04, 68.27it/s][A
+Computing metrics:   7%|▋         | 2649/39832 [00:38<09:01, 68.72it/s][A
+Computing metrics:   7%|▋         | 2657/39832 [00:38<08:56, 69.24it/s][A
+Computing metrics:   7%|▋         | 2665/39832 [00:39<08:54, 69.55it/s][A
+Computing metrics:   7%|▋         | 2673/39832 [00:39<08:44, 70.84it/s][A
+Computing metrics:   7%|▋         | 2681/39832 [00:39<08:46, 70.62it/s][A
+Computing metrics:   7%|▋         | 2689/39832 [00:39<08:45, 70.65it/s][A
+Computing metrics:   7%|▋         | 2697/39832 [00:39<08:48, 70.31it/s][A
+Computing metrics:   7%|▋         | 2705/39832 [00:39<08:56, 69.15it/s][A
+Computing metrics:   7%|▋         | 2713/39832 [00:39<08:55, 69.33it/s][A
+Computing metrics:   7%|▋         | 2720/39832 [00:39<09:18, 66.48it/s][A
+Computing metrics:   7%|▋         | 2728/39832 [00:40<09:07, 67.72it/s][A
+Computing metrics:   7%|▋         | 2735/39832 [00:40<09:05, 68.02it/s][A
+Computing metrics:   7%|▋         | 2743/39832 [00:40<09:00, 68.67it/s][A
+Computing metrics:   7%|▋         | 2751/39832 [00:40<08:55, 69.22it/s][A
+Computing metrics:   7%|▋         | 2759/39832 [00:40<08:54, 69.32it/s][A
+Computing metrics:   7%|▋         | 2767/39832 [00:40<08:51, 69.74it/s][A
+Computing metrics:   7%|▋         | 2775/39832 [00:40<08:46, 70.40it/s][A
+Computing metrics:   7%|▋         | 2783/39832 [00:40<08:48, 70.12it/s][A
+Computing metrics:   7%|▋         | 2791/39832 [00:40<09:09, 67.37it/s][A
+Computing metrics:   7%|▋         | 2798/39832 [00:41<09:06, 67.74it/s][A
+Computing metrics:   7%|▋         | 2805/39832 [00:41<09:05, 67.87it/s][A
+Computing metrics:   7%|▋         | 2813/39832 [00:41<09:01, 68.40it/s][A
+Computing metrics:   7%|▋         | 2820/39832 [00:41<08:58, 68.75it/s][A
+Computing metrics:   7%|▋         | 2827/39832 [00:41<09:02, 68.16it/s][A
+Computing metrics:   7%|▋         | 2835/39832 [00:41<08:57, 68.84it/s][A
+Computing metrics:   7%|▋         | 2842/39832 [00:41<08:55, 69.02it/s][A
+Computing metrics:   7%|▋         | 2849/39832 [00:41<08:59, 68.51it/s][A
+Computing metrics:   7%|▋         | 2856/39832 [00:41<09:22, 65.71it/s][A
+Computing metrics:   7%|▋         | 2863/39832 [00:41<09:13, 66.82it/s][A
+Computing metrics:   7%|▋         | 2871/39832 [00:42<09:02, 68.17it/s][A
+Computing metrics:   7%|▋         | 2878/39832 [00:42<08:58, 68.57it/s][A
+Computing metrics:   7%|▋         | 2886/39832 [00:42<08:53, 69.22it/s][A
+Computing metrics:   7%|▋         | 2893/39832 [00:42<08:55, 68.97it/s][A
+Computing metrics:   7%|▋         | 2901/39832 [00:42<08:51, 69.46it/s][A
+Computing metrics:   7%|▋         | 2908/39832 [00:42<08:51, 69.47it/s][A
+Computing metrics:   7%|▋         | 2915/39832 [00:42<08:52, 69.35it/s][A
+Computing metrics:   7%|▋         | 2923/39832 [00:42<08:52, 69.32it/s][A
+Computing metrics:   7%|▋         | 2930/39832 [00:42<09:16, 66.32it/s][A
+Computing metrics:   7%|▋         | 2937/39832 [00:43<09:12, 66.77it/s][A
+Computing metrics:   7%|▋         | 2944/39832 [00:43<09:08, 67.20it/s][A
+Computing metrics:   7%|▋         | 2952/39832 [00:43<09:03, 67.91it/s][A
+Computing metrics:   7%|▋         | 2959/39832 [00:43<09:00, 68.20it/s][A
+Computing metrics:   7%|▋         | 2966/39832 [00:43<08:58, 68.46it/s][A
+Computing metrics:   7%|▋         | 2973/39832 [00:43<08:55, 68.78it/s][A
+Computing metrics:   7%|▋         | 2981/39832 [00:43<08:52, 69.22it/s][A
+Computing metrics:   8%|▊         | 2989/39832 [00:43<08:46, 69.96it/s][A
+Computing metrics:   8%|▊         | 2996/39832 [00:43<09:11, 66.78it/s][A
+Computing metrics:   8%|▊         | 3003/39832 [00:44<09:07, 67.28it/s][A
+Computing metrics:   8%|▊         | 3011/39832 [00:44<08:57, 68.46it/s][A
+Computing metrics:   8%|▊         | 3019/39832 [00:44<08:55, 68.79it/s][A
+Computing metrics:   8%|▊         | 3027/39832 [00:44<08:49, 69.46it/s][A
+Computing metrics:   8%|▊         | 3034/39832 [00:44<08:48, 69.57it/s][A
+Computing metrics:   8%|▊         | 3041/39832 [00:44<08:50, 69.32it/s][A
+Computing metrics:   8%|▊         | 3049/39832 [00:44<08:46, 69.90it/s][A
+Computing metrics:   8%|▊         | 3056/39832 [00:44<08:47, 69.73it/s][A
+Computing metrics:   8%|▊         | 3063/39832 [00:44<09:09, 66.87it/s][A
+Computing metrics:   8%|▊         | 3070/39832 [00:44<09:05, 67.43it/s][A
+Computing metrics:   8%|▊         | 3078/39832 [00:45<08:56, 68.44it/s][A
+Computing metrics:   8%|▊         | 3086/39832 [00:45<08:53, 68.85it/s][A
+Computing metrics:   8%|▊         | 3094/39832 [00:45<08:52, 68.94it/s][A
+Computing metrics:   8%|▊         | 3101/39832 [00:45<08:54, 68.74it/s][A
+Computing metrics:   8%|▊         | 3108/39832 [00:45<08:58, 68.16it/s][A
+Computing metrics:   8%|▊         | 3115/39832 [00:45<09:00, 67.89it/s][A
+Computing metrics:   8%|▊         | 3122/39832 [00:45<08:56, 68.39it/s][A
+Computing metrics:   8%|▊         | 3129/39832 [00:45<08:56, 68.42it/s][A
+Computing metrics:   8%|▊         | 3136/39832 [00:45<09:27, 64.72it/s][A
+Computing metrics:   8%|▊         | 3143/39832 [00:46<09:16, 65.98it/s][A
+Computing metrics:   8%|▊         | 3150/39832 [00:46<09:12, 66.39it/s][A
+Computing metrics:   8%|▊         | 3157/39832 [00:46<09:08, 66.89it/s][A
+Computing metrics:   8%|▊         | 3164/39832 [00:46<09:07, 67.02it/s][A
+Computing metrics:   8%|▊         | 3172/39832 [00:46<08:58, 68.06it/s][A
+Computing metrics:   8%|▊         | 3179/39832 [00:46<08:56, 68.33it/s][A
+Computing metrics:   8%|▊         | 3186/39832 [00:46<08:54, 68.58it/s][A
+Computing metrics:   8%|▊         | 3194/39832 [00:46<08:53, 68.71it/s][A
+Computing metrics:   8%|▊         | 3201/39832 [00:46<09:10, 66.57it/s][A
+Computing metrics:   8%|▊         | 3209/39832 [00:47<09:00, 67.71it/s][A
+Computing metrics:   8%|▊         | 3216/39832 [00:47<09:00, 67.70it/s][A
+Computing metrics:   8%|▊         | 3223/39832 [00:47<09:01, 67.55it/s][A
+Computing metrics:   8%|▊         | 3230/39832 [00:47<09:04, 67.21it/s][A
+Computing metrics:   8%|▊         | 3238/39832 [00:47<08:55, 68.33it/s][A
+Computing metrics:   8%|▊         | 3245/39832 [00:47<09:00, 67.72it/s][A
+Computing metrics:   8%|▊         | 3252/39832 [00:47<09:04, 67.23it/s][A
+Computing metrics:   8%|▊         | 3259/39832 [00:47<08:59, 67.83it/s][A
+Computing metrics:   8%|▊         | 3266/39832 [00:47<08:58, 67.89it/s][A
+Computing metrics:   8%|▊         | 3273/39832 [00:48<09:22, 65.05it/s][A
+Computing metrics:   8%|▊         | 3280/39832 [00:48<09:21, 65.15it/s][A
+Computing metrics:   8%|▊         | 3287/39832 [00:48<09:12, 66.17it/s][A
+Computing metrics:   8%|▊         | 3294/39832 [00:48<09:05, 67.02it/s][A
+Computing metrics:   8%|▊         | 3301/39832 [00:48<09:02, 67.30it/s][A
+Computing metrics:   8%|▊         | 3309/39832 [00:48<08:54, 68.36it/s][A
+Computing metrics:   8%|▊         | 3316/39832 [00:48<08:51, 68.64it/s][A
+Computing metrics:   8%|▊         | 3323/39832 [00:48<08:52, 68.62it/s][A
+Computing metrics:   8%|▊         | 3330/39832 [00:48<08:52, 68.50it/s][A
+Computing metrics:   8%|▊         | 3337/39832 [00:48<08:49, 68.91it/s][A
+Computing metrics:   8%|▊         | 3344/39832 [00:49<09:23, 64.74it/s][A
+Computing metrics:   8%|▊         | 3351/39832 [00:49<09:15, 65.66it/s][A
+Computing metrics:   8%|▊         | 3358/39832 [00:49<09:05, 66.88it/s][A
+Computing metrics:   8%|▊         | 3365/39832 [00:49<09:02, 67.25it/s][A
+Computing metrics:   8%|▊         | 3372/39832 [00:49<08:58, 67.73it/s][A
+Computing metrics:   8%|▊         | 3379/39832 [00:49<08:57, 67.78it/s][A
+Computing metrics:   9%|▊         | 3387/39832 [00:49<08:49, 68.82it/s][A
+Computing metrics:   9%|▊         | 3395/39832 [00:49<08:48, 68.95it/s][A
+Computing metrics:   9%|▊         | 3403/39832 [00:49<08:48, 68.88it/s][A
+Computing metrics:   9%|▊         | 3410/39832 [00:50<09:20, 64.97it/s][A
+Computing metrics:   9%|▊         | 3418/39832 [00:50<09:08, 66.35it/s][A
+Computing metrics:   9%|▊         | 3426/39832 [00:50<08:54, 68.15it/s][A
+Computing metrics:   9%|▊         | 3433/39832 [00:50<08:50, 68.60it/s][A
+Computing metrics:   9%|▊         | 3440/39832 [00:50<08:50, 68.61it/s][A
+Computing metrics:   9%|▊         | 3447/39832 [00:50<08:48, 68.86it/s][A
+Computing metrics:   9%|▊         | 3454/39832 [00:50<08:46, 69.15it/s][A
+Computing metrics:   9%|▊         | 3461/39832 [00:50<08:46, 69.02it/s][A
+Computing metrics:   9%|▊         | 3468/39832 [00:50<08:49, 68.61it/s][A
+Computing metrics:   9%|▊         | 3476/39832 [00:51<08:49, 68.73it/s][A
+Computing metrics:   9%|▊         | 3483/39832 [00:51<09:37, 62.91it/s][A
+Computing metrics:   9%|▉         | 3491/39832 [00:51<09:16, 65.30it/s][A
+Computing metrics:   9%|▉         | 3499/39832 [00:51<09:03, 66.89it/s][A
+Computing metrics:   9%|▉         | 3507/39832 [00:51<08:54, 67.93it/s][A
+Computing metrics:   9%|▉         | 3515/39832 [00:51<08:44, 69.31it/s][A
+Computing metrics:   9%|▉         | 3522/39832 [00:51<08:44, 69.17it/s][A
+Computing metrics:   9%|▉         | 3529/39832 [00:51<08:44, 69.24it/s][A
+Computing metrics:   9%|▉         | 3537/39832 [00:51<08:42, 69.45it/s][A
+Computing metrics:   9%|▉         | 3545/39832 [00:52<08:40, 69.77it/s][A
+Computing metrics:   9%|▉         | 3552/39832 [00:52<08:56, 67.60it/s][A
+Computing metrics:   9%|▉         | 3559/39832 [00:52<08:53, 67.95it/s][A
+Computing metrics:   9%|▉         | 3566/39832 [00:52<08:49, 68.50it/s][A
+Computing metrics:   9%|▉         | 3574/39832 [00:52<08:45, 69.03it/s][A
+Computing metrics:   9%|▉         | 3582/39832 [00:52<08:36, 70.12it/s][A
+Computing metrics:   9%|▉         | 3590/39832 [00:52<08:38, 69.93it/s][A
+Computing metrics:   9%|▉         | 3597/39832 [00:52<08:39, 69.75it/s][A
+Computing metrics:   9%|▉         | 3604/39832 [00:52<08:41, 69.51it/s][A
+Computing metrics:   9%|▉         | 3611/39832 [00:52<08:40, 69.60it/s][A
+Computing metrics:   9%|▉         | 3618/39832 [00:53<09:10, 65.75it/s][A
+Computing metrics:   9%|▉         | 3626/39832 [00:53<08:58, 67.23it/s][A
+Computing metrics:   9%|▉         | 3633/39832 [00:53<08:52, 67.99it/s][A
+Computing metrics:   9%|▉         | 3641/39832 [00:53<08:44, 69.01it/s][A
+Computing metrics:   9%|▉         | 3648/39832 [00:53<08:42, 69.23it/s][A
+Computing metrics:   9%|▉         | 3656/39832 [00:53<08:39, 69.64it/s][A
+Computing metrics:   9%|▉         | 3664/39832 [00:53<08:35, 70.12it/s][A
+Computing metrics:   9%|▉         | 3672/39832 [00:53<08:32, 70.58it/s][A
+Computing metrics:   9%|▉         | 3680/39832 [00:53<08:35, 70.08it/s][A
+Computing metrics:   9%|▉         | 3688/39832 [00:54<08:59, 67.05it/s][A
+Computing metrics:   9%|▉         | 3695/39832 [00:54<08:52, 67.82it/s][A
+Computing metrics:   9%|▉         | 3703/39832 [00:54<08:45, 68.80it/s][A
+Computing metrics:   9%|▉         | 3711/39832 [00:54<08:39, 69.59it/s][A
+Computing metrics:   9%|▉         | 3719/39832 [00:54<08:36, 69.94it/s][A
+Computing metrics:   9%|▉         | 3727/39832 [00:54<08:35, 70.05it/s][A
+Computing metrics:   9%|▉         | 3735/39832 [00:54<08:28, 70.96it/s][A
+Computing metrics:   9%|▉         | 3743/39832 [00:54<08:31, 70.53it/s][A
+Computing metrics:   9%|▉         | 3751/39832 [00:54<08:30, 70.71it/s][A
+Computing metrics:   9%|▉         | 3759/39832 [00:55<08:48, 68.26it/s][A
+Computing metrics:   9%|▉         | 3766/39832 [00:55<08:45, 68.66it/s][A
+Computing metrics:   9%|▉         | 3774/39832 [00:55<08:39, 69.43it/s][A
+Computing metrics:   9%|▉         | 3782/39832 [00:55<08:31, 70.42it/s][A
+Computing metrics:  10%|▉         | 3790/39832 [00:55<08:30, 70.54it/s][A
+Computing metrics:  10%|▉         | 3798/39832 [00:55<08:27, 70.94it/s][A
+Computing metrics:  10%|▉         | 3806/39832 [00:55<08:29, 70.66it/s][A
+Computing metrics:  10%|▉         | 3814/39832 [00:55<08:28, 70.78it/s][A
+Computing metrics:  10%|▉         | 3822/39832 [00:56<08:28, 70.80it/s][A
+Computing metrics:  10%|▉         | 3830/39832 [00:56<08:49, 67.94it/s][A
+Computing metrics:  10%|▉         | 3838/39832 [00:56<08:40, 69.19it/s][A
+Computing metrics:  10%|▉         | 3846/39832 [00:56<08:36, 69.72it/s][A
+Computing metrics:  10%|▉         | 3854/39832 [00:56<08:29, 70.60it/s][A
+Computing metrics:  10%|▉         | 3862/39832 [00:56<08:28, 70.76it/s][A
+Computing metrics:  10%|▉         | 3870/39832 [00:56<08:24, 71.34it/s][A
+Computing metrics:  10%|▉         | 3878/39832 [00:56<08:21, 71.62it/s][A
+Computing metrics:  10%|▉         | 3886/39832 [00:56<08:19, 71.92it/s][A
+Computing metrics:  10%|▉         | 3894/39832 [00:57<08:22, 71.54it/s][A
+Computing metrics:  10%|▉         | 3902/39832 [00:57<08:44, 68.47it/s][A
+Computing metrics:  10%|▉         | 3910/39832 [00:57<08:36, 69.51it/s][A
+Computing metrics:  10%|▉         | 3918/39832 [00:57<08:27, 70.78it/s][A
+Computing metrics:  10%|▉         | 3926/39832 [00:57<08:25, 70.98it/s][A
+Computing metrics:  10%|▉         | 3934/39832 [00:57<08:25, 71.08it/s][A
+Computing metrics:  10%|▉         | 3942/39832 [00:57<08:29, 70.45it/s][A
+Computing metrics:  10%|▉         | 3950/39832 [00:57<08:33, 69.93it/s][A
+Computing metrics:  10%|▉         | 3958/39832 [00:57<08:32, 69.99it/s][A
+Computing metrics:  10%|▉         | 3966/39832 [00:58<08:34, 69.68it/s][A
+Computing metrics:  10%|▉         | 3973/39832 [00:58<09:08, 65.43it/s][A
+Computing metrics:  10%|▉         | 3980/39832 [00:58<08:59, 66.49it/s][A
+Computing metrics:  10%|█         | 3987/39832 [00:58<08:52, 67.37it/s][A
+Computing metrics:  10%|█         | 3995/39832 [00:58<08:41, 68.68it/s][A
+Computing metrics:  10%|█         | 4003/39832 [00:58<08:38, 69.12it/s][A
+Computing metrics:  10%|█         | 4011/39832 [00:58<08:35, 69.42it/s][A
+Computing metrics:  10%|█         | 4018/39832 [00:58<08:35, 69.46it/s][A
+Computing metrics:  10%|█         | 4026/39832 [00:58<08:33, 69.69it/s][A
+Computing metrics:  10%|█         | 4033/39832 [00:59<08:37, 69.17it/s][A
+Computing metrics:  10%|█         | 4041/39832 [00:59<08:34, 69.52it/s][A
+Computing metrics:  10%|█         | 4048/39832 [00:59<09:10, 65.00it/s][A
+Computing metrics:  10%|█         | 4056/39832 [00:59<08:53, 67.00it/s][A
+Computing metrics:  10%|█         | 4063/39832 [00:59<08:48, 67.70it/s][A
+Computing metrics:  10%|█         | 4071/39832 [00:59<08:40, 68.70it/s][A
+Computing metrics:  10%|█         | 4079/39832 [00:59<08:35, 69.38it/s][A
+Computing metrics:  10%|█         | 4087/39832 [00:59<08:34, 69.50it/s][A
+Computing metrics:  10%|█         | 4095/39832 [00:59<08:31, 69.89it/s][A
+Computing metrics:  10%|█         | 4102/39832 [01:00<08:31, 69.89it/s][A
+Computing metrics:  10%|█         | 4109/39832 [01:00<08:32, 69.67it/s][A
+Computing metrics:  10%|█         | 4116/39832 [01:00<09:00, 66.06it/s][A
+Computing metrics:  10%|█         | 4124/39832 [01:00<08:47, 67.73it/s][A
+Computing metrics:  10%|█         | 4132/39832 [01:00<08:41, 68.50it/s][A
+Computing metrics:  10%|█         | 4140/39832 [01:00<08:37, 68.96it/s][A
+Computing metrics:  10%|█         | 4148/39832 [01:00<08:37, 69.00it/s][A
+Computing metrics:  10%|█         | 4155/39832 [01:00<08:35, 69.27it/s][A
+Computing metrics:  10%|█         | 4162/39832 [01:00<08:35, 69.23it/s][A
+Computing metrics:  10%|█         | 4169/39832 [01:01<08:38, 68.79it/s][A
+Computing metrics:  10%|█         | 4176/39832 [01:01<08:40, 68.45it/s][A
+Computing metrics:  11%|█         | 4183/39832 [01:01<09:36, 61.85it/s][A
+Computing metrics:  11%|█         | 4190/39832 [01:01<09:17, 63.90it/s][A
+Computing metrics:  11%|█         | 4197/39832 [01:01<09:05, 65.35it/s][A
+Computing metrics:  11%|█         | 4205/39832 [01:01<08:52, 66.90it/s][A
+Computing metrics:  11%|█         | 4213/39832 [01:01<08:42, 68.23it/s][A
+Computing metrics:  11%|█         | 4221/39832 [01:01<08:36, 69.01it/s][A
+Computing metrics:  11%|█         | 4229/39832 [01:01<08:30, 69.74it/s][A
+Computing metrics:  11%|█         | 4237/39832 [01:02<08:29, 69.80it/s][A
+Computing metrics:  11%|█         | 4244/39832 [01:02<08:33, 69.29it/s][A
+Computing metrics:  11%|█         | 4251/39832 [01:02<08:57, 66.24it/s][A
+Computing metrics:  11%|█         | 4258/39832 [01:02<08:53, 66.65it/s][A
+Computing metrics:  11%|█         | 4265/39832 [01:02<08:48, 67.35it/s][A
+Computing metrics:  11%|█         | 4272/39832 [01:02<08:44, 67.82it/s][A
+Computing metrics:  11%|█         | 4279/39832 [01:02<08:42, 68.03it/s][A
+Computing metrics:  11%|█         | 4286/39832 [01:02<08:40, 68.25it/s][A
+Computing metrics:  11%|█         | 4294/39832 [01:02<08:35, 68.89it/s][A
+Computing metrics:  11%|█         | 4302/39832 [01:02<08:33, 69.20it/s][A
+Computing metrics:  11%|█         | 4310/39832 [01:03<08:30, 69.64it/s][A
+Computing metrics:  11%|█         | 4317/39832 [01:03<08:29, 69.67it/s][A
+Computing metrics:  11%|█         | 4324/39832 [01:03<08:59, 65.79it/s][A
+Computing metrics:  11%|█         | 4331/39832 [01:03<08:55, 66.29it/s][A
+Computing metrics:  11%|█         | 4339/39832 [01:03<08:42, 67.92it/s][A
+Computing metrics:  11%|█         | 4346/39832 [01:03<08:42, 67.90it/s][A
+Computing metrics:  11%|█         | 4353/39832 [01:03<08:44, 67.65it/s][A
+Computing metrics:  11%|█         | 4360/39832 [01:03<08:43, 67.75it/s][A
+Computing metrics:  11%|█         | 4367/39832 [01:03<08:46, 67.39it/s][A
+Computing metrics:  11%|█         | 4374/39832 [01:04<08:46, 67.41it/s][A
+Computing metrics:  11%|█         | 4381/39832 [01:04<08:43, 67.78it/s][A
+Computing metrics:  11%|█         | 4388/39832 [01:04<08:59, 65.75it/s][A
+Computing metrics:  11%|█         | 4395/39832 [01:04<08:53, 66.48it/s][A
+Computing metrics:  11%|█         | 4402/39832 [01:04<08:48, 67.00it/s][A
+Computing metrics:  11%|█         | 4409/39832 [01:04<08:44, 67.54it/s][A
+Computing metrics:  11%|█         | 4416/39832 [01:04<08:46, 67.31it/s][A
+Computing metrics:  11%|█         | 4424/39832 [01:04<08:42, 67.75it/s][A
+Computing metrics:  11%|█         | 4431/39832 [01:04<08:38, 68.30it/s][A
+Computing metrics:  11%|█         | 4438/39832 [01:05<08:39, 68.10it/s][A
+Computing metrics:  11%|█         | 4445/39832 [01:05<08:42, 67.73it/s][A
+Computing metrics:  11%|█         | 4452/39832 [01:05<08:41, 67.86it/s][A
+Computing metrics:  11%|█         | 4459/39832 [01:05<09:15, 63.73it/s][A
+Computing metrics:  11%|█         | 4466/39832 [01:05<09:03, 65.10it/s][A
+Computing metrics:  11%|█         | 4474/39832 [01:05<08:48, 66.96it/s][A
+Computing metrics:  11%|█         | 4481/39832 [01:05<08:46, 67.16it/s][A
+Computing metrics:  11%|█▏        | 4489/39832 [01:05<08:36, 68.41it/s][A
+Computing metrics:  11%|█▏        | 4496/39832 [01:05<08:36, 68.47it/s][A
+Computing metrics:  11%|█▏        | 4504/39832 [01:05<08:34, 68.66it/s][A
+Computing metrics:  11%|█▏        | 4512/39832 [01:06<08:29, 69.32it/s][A
+Computing metrics:  11%|█▏        | 4520/39832 [01:06<08:27, 69.55it/s][A
+Computing metrics:  11%|█▏        | 4527/39832 [01:06<08:55, 65.98it/s][A
+Computing metrics:  11%|█▏        | 4535/39832 [01:06<08:46, 67.05it/s][A
+Computing metrics:  11%|█▏        | 4542/39832 [01:06<08:42, 67.57it/s][A
+Computing metrics:  11%|█▏        | 4550/39832 [01:06<08:35, 68.45it/s][A
+Computing metrics:  11%|█▏        | 4557/39832 [01:06<08:34, 68.53it/s][A
+Computing metrics:  11%|█▏        | 4564/39832 [01:06<08:34, 68.60it/s][A
+Computing metrics:  11%|█▏        | 4572/39832 [01:06<08:31, 69.00it/s][A
+Computing metrics:  11%|█▏        | 4580/39832 [01:07<08:30, 69.11it/s][A
+Computing metrics:  12%|█▏        | 4587/39832 [01:07<08:29, 69.13it/s][A
+Computing metrics:  12%|█▏        | 4594/39832 [01:07<09:32, 61.59it/s][A
+Computing metrics:  12%|█▏        | 4601/39832 [01:07<09:12, 63.80it/s][A
+Computing metrics:  12%|█▏        | 4609/39832 [01:07<08:56, 65.65it/s][A
+Computing metrics:  12%|█▏        | 4616/39832 [01:07<08:47, 66.71it/s][A
+Computing metrics:  12%|█▏        | 4624/39832 [01:07<08:37, 68.01it/s][A
+Computing metrics:  12%|█▏        | 4631/39832 [01:07<08:36, 68.22it/s][A
+Computing metrics:  12%|█▏        | 4638/39832 [01:07<08:35, 68.29it/s][A
+Computing metrics:  12%|█▏        | 4646/39832 [01:08<08:34, 68.45it/s][A
+Computing metrics:  12%|█▏        | 4654/39832 [01:08<08:30, 68.89it/s][A
+Computing metrics:  12%|█▏        | 4662/39832 [01:08<08:22, 69.99it/s][A
+Computing metrics:  12%|█▏        | 4670/39832 [01:08<08:59, 65.16it/s][A
+Computing metrics:  12%|█▏        | 4678/39832 [01:08<08:47, 66.67it/s][A
+Computing metrics:  12%|█▏        | 4685/39832 [01:08<08:45, 66.91it/s][A
+Computing metrics:  12%|█▏        | 4692/39832 [01:08<08:42, 67.32it/s][A
+Computing metrics:  12%|█▏        | 4699/39832 [01:08<08:40, 67.54it/s][A
+Computing metrics:  12%|█▏        | 4706/39832 [01:08<08:38, 67.79it/s][A
+Computing metrics:  12%|█▏        | 4713/39832 [01:09<08:35, 68.12it/s][A
+Computing metrics:  12%|█▏        | 4720/39832 [01:09<08:32, 68.52it/s][A
+Computing metrics:  12%|█▏        | 4727/39832 [01:09<08:31, 68.60it/s][A
+Computing metrics:  12%|█▏        | 4734/39832 [01:09<09:07, 64.06it/s][A
+Computing metrics:  12%|█▏        | 4741/39832 [01:09<08:55, 65.50it/s][A
+Computing metrics:  12%|█▏        | 4748/39832 [01:09<08:52, 65.91it/s][A
+Computing metrics:  12%|█▏        | 4755/39832 [01:09<08:44, 66.83it/s][A
+Computing metrics:  12%|█▏        | 4763/39832 [01:09<08:33, 68.29it/s][A
+Computing metrics:  12%|█▏        | 4770/39832 [01:09<08:31, 68.57it/s][A
+Computing metrics:  12%|█▏        | 4777/39832 [01:10<08:28, 68.88it/s][A
+Computing metrics:  12%|█▏        | 4785/39832 [01:10<08:27, 69.09it/s][A
+Computing metrics:  12%|█▏        | 4793/39832 [01:10<08:23, 69.56it/s][A
+Computing metrics:  12%|█▏        | 4801/39832 [01:10<08:21, 69.90it/s][A
+Computing metrics:  12%|█▏        | 4808/39832 [01:10<09:04, 64.27it/s][A
+Computing metrics:  12%|█▏        | 4815/39832 [01:10<08:53, 65.68it/s][A
+Computing metrics:  12%|█▏        | 4822/39832 [01:10<08:43, 66.87it/s][A
+Computing metrics:  12%|█▏        | 4829/39832 [01:10<08:39, 67.35it/s][A
+Computing metrics:  12%|█▏        | 4837/39832 [01:10<08:29, 68.68it/s][A
+Computing metrics:  12%|█▏        | 4845/39832 [01:11<08:25, 69.17it/s][A
+Computing metrics:  12%|█▏        | 4853/39832 [01:11<08:22, 69.56it/s][A
+Computing metrics:  12%|█▏        | 4861/39832 [01:11<08:21, 69.80it/s][A
+Computing metrics:  12%|█▏        | 4869/39832 [01:11<08:21, 69.71it/s][A
+Computing metrics:  12%|█▏        | 4876/39832 [01:11<08:35, 67.87it/s][A
+Computing metrics:  12%|█▏        | 4884/39832 [01:11<08:25, 69.10it/s][A
+Computing metrics:  12%|█▏        | 4891/39832 [01:11<08:28, 68.66it/s][A
+Computing metrics:  12%|█▏        | 4898/39832 [01:11<08:29, 68.60it/s][A
+Computing metrics:  12%|█▏        | 4906/39832 [01:11<08:25, 69.14it/s][A
+Computing metrics:  12%|█▏        | 4914/39832 [01:12<08:22, 69.46it/s][A
+Computing metrics:  12%|█▏        | 4922/39832 [01:12<08:15, 70.46it/s][A
+Computing metrics:  12%|█▏        | 4930/39832 [01:12<08:13, 70.66it/s][A
+Computing metrics:  12%|█▏        | 4938/39832 [01:12<08:14, 70.58it/s][A
+Computing metrics:  12%|█▏        | 4946/39832 [01:12<08:28, 68.55it/s][A
+Computing metrics:  12%|█▏        | 4954/39832 [01:12<08:21, 69.59it/s][A
+Computing metrics:  12%|█▏        | 4962/39832 [01:12<08:13, 70.61it/s][A
+Computing metrics:  12%|█▏        | 4970/39832 [01:12<08:12, 70.73it/s][A
+Computing metrics:  12%|█▏        | 4978/39832 [01:12<08:11, 70.92it/s][A
+Computing metrics:  13%|█▎        | 4986/39832 [01:13<08:11, 70.95it/s][A
+Computing metrics:  13%|█▎        | 4994/39832 [01:13<08:10, 71.06it/s][A
+Computing metrics:  13%|█▎        | 5002/39832 [01:13<08:11, 70.83it/s][A
+Computing metrics:  13%|█▎        | 5010/39832 [01:13<08:11, 70.89it/s][A
+Computing metrics:  13%|█▎        | 5018/39832 [01:13<08:42, 66.67it/s][A
+Computing metrics:  13%|█▎        | 5025/39832 [01:13<08:38, 67.07it/s][A
+Computing metrics:  13%|█▎        | 5033/39832 [01:13<08:28, 68.46it/s][A
+Computing metrics:  13%|█▎        | 5041/39832 [01:13<08:21, 69.32it/s][A
+Computing metrics:  13%|█▎        | 5048/39832 [01:13<08:21, 69.41it/s][A
+Computing metrics:  13%|█▎        | 5056/39832 [01:14<08:15, 70.22it/s][A
+Computing metrics:  13%|█▎        | 5064/39832 [01:14<08:10, 70.93it/s][A
+Computing metrics:  13%|█▎        | 5072/39832 [01:14<08:11, 70.68it/s][A
+Computing metrics:  13%|█▎        | 5080/39832 [01:14<08:12, 70.56it/s][A
+Computing metrics:  13%|█▎        | 5088/39832 [01:14<08:54, 64.96it/s][A
+Computing metrics:  13%|█▎        | 5095/39832 [01:14<08:45, 66.05it/s][A
+Computing metrics:  13%|█▎        | 5103/39832 [01:14<08:31, 67.86it/s][A
+Computing metrics:  13%|█▎        | 5111/39832 [01:14<08:24, 68.76it/s][A
+Computing metrics:  13%|█▎        | 5119/39832 [01:14<08:19, 69.52it/s][A
+Computing metrics:  13%|█▎        | 5127/39832 [01:15<08:17, 69.78it/s][A
+Computing metrics:  13%|█▎        | 5135/39832 [01:15<08:14, 70.23it/s][A
+Computing metrics:  13%|█▎        | 5143/39832 [01:15<08:12, 70.43it/s][A
+Computing metrics:  13%|█▎        | 5151/39832 [01:15<08:15, 69.99it/s][A
+Computing metrics:  13%|█▎        | 5159/39832 [01:15<08:44, 66.06it/s][A
+Computing metrics:  13%|█▎        | 5167/39832 [01:15<08:33, 67.51it/s][A
+Computing metrics:  13%|█▎        | 5175/39832 [01:15<08:25, 68.51it/s][A
+Computing metrics:  13%|█▎        | 5183/39832 [01:15<08:20, 69.17it/s][A
+Computing metrics:  13%|█▎        | 5191/39832 [01:16<08:17, 69.62it/s][A
+Computing metrics:  13%|█▎        | 5199/39832 [01:16<08:14, 70.04it/s][A
+Computing metrics:  13%|█▎        | 5207/39832 [01:16<08:15, 69.93it/s][A
+Computing metrics:  13%|█▎        | 5215/39832 [01:16<08:14, 69.95it/s][A
+Computing metrics:  13%|█▎        | 5223/39832 [01:16<08:13, 70.15it/s][A
+Computing metrics:  13%|█▎        | 5231/39832 [01:16<08:40, 66.53it/s][A
+Computing metrics:  13%|█▎        | 5238/39832 [01:16<08:33, 67.38it/s][A
+Computing metrics:  13%|█▎        | 5245/39832 [01:16<08:31, 67.58it/s][A
+Computing metrics:  13%|█▎        | 5253/39832 [01:16<08:24, 68.51it/s][A
+Computing metrics:  13%|█▎        | 5261/39832 [01:17<08:21, 68.89it/s][A
+Computing metrics:  13%|█▎        | 5269/39832 [01:17<08:16, 69.59it/s][A
+Computing metrics:  13%|█▎        | 5277/39832 [01:17<08:16, 69.59it/s][A
+Computing metrics:  13%|█▎        | 5285/39832 [01:17<08:16, 69.62it/s][A
+Computing metrics:  13%|█▎        | 5293/39832 [01:17<08:11, 70.24it/s][A
+Computing metrics:  13%|█▎        | 5301/39832 [01:17<08:25, 68.34it/s][A
+Computing metrics:  13%|█▎        | 5308/39832 [01:17<08:22, 68.74it/s][A
+Computing metrics:  13%|█▎        | 5315/39832 [01:17<08:32, 67.32it/s][A
+Computing metrics:  13%|█▎        | 5322/39832 [01:17<08:32, 67.28it/s][A
+Computing metrics:  13%|█▎        | 5329/39832 [01:18<08:29, 67.78it/s][A
+Computing metrics:  13%|█▎        | 5336/39832 [01:18<08:25, 68.30it/s][A
+Computing metrics:  13%|█▎        | 5343/39832 [01:18<08:23, 68.47it/s][A
+Computing metrics:  13%|█▎        | 5350/39832 [01:18<08:22, 68.65it/s][A
+Computing metrics:  13%|█▎        | 5357/39832 [01:18<08:20, 68.90it/s][A
+Computing metrics:  13%|█▎        | 5365/39832 [01:18<08:18, 69.17it/s][A
+Computing metrics:  13%|█▎        | 5372/39832 [01:18<08:46, 65.43it/s][A
+Computing metrics:  14%|█▎        | 5380/39832 [01:18<08:37, 66.57it/s][A
+Computing metrics:  14%|█▎        | 5387/39832 [01:18<08:31, 67.36it/s][A
+Computing metrics:  14%|█▎        | 5394/39832 [01:19<08:31, 67.38it/s][A
+Computing metrics:  14%|█▎        | 5401/39832 [01:19<08:31, 67.28it/s][A
+Computing metrics:  14%|█▎        | 5408/39832 [01:19<08:28, 67.76it/s][A
+Computing metrics:  14%|█▎        | 5415/39832 [01:19<08:25, 68.09it/s][A
+Computing metrics:  14%|█▎        | 5423/39832 [01:19<08:20, 68.75it/s][A
+Computing metrics:  14%|█▎        | 5431/39832 [01:19<08:19, 68.85it/s][A
+Computing metrics:  14%|█▎        | 5438/39832 [01:19<08:53, 64.48it/s][A
+Computing metrics:  14%|█▎        | 5446/39832 [01:19<08:37, 66.50it/s][A
+Computing metrics:  14%|█▎        | 5453/39832 [01:19<08:31, 67.24it/s][A
+Computing metrics:  14%|█▎        | 5461/39832 [01:19<08:24, 68.13it/s][A
+Computing metrics:  14%|█▎        | 5469/39832 [01:20<08:18, 69.00it/s][A
+Computing metrics:  14%|█▍        | 5477/39832 [01:20<08:12, 69.77it/s][A
+Computing metrics:  14%|█▍        | 5484/39832 [01:20<08:13, 69.54it/s][A
+Computing metrics:  14%|█▍        | 5491/39832 [01:20<08:16, 69.12it/s][A
+Computing metrics:  14%|█▍        | 5498/39832 [01:20<08:16, 69.19it/s][A
+Computing metrics:  14%|█▍        | 5505/39832 [01:20<08:37, 66.28it/s][A
+Computing metrics:  14%|█▍        | 5512/39832 [01:20<08:37, 66.31it/s][A
+Computing metrics:  14%|█▍        | 5519/39832 [01:20<08:31, 67.13it/s][A
+Computing metrics:  14%|█▍        | 5526/39832 [01:20<08:27, 67.65it/s][A
+Computing metrics:  14%|█▍        | 5533/39832 [01:21<08:25, 67.91it/s][A
+Computing metrics:  14%|█▍        | 5540/39832 [01:21<08:24, 68.01it/s][A
+Computing metrics:  14%|█▍        | 5547/39832 [01:21<08:25, 67.76it/s][A
+Computing metrics:  14%|█▍        | 5554/39832 [01:21<08:21, 68.36it/s][A
+Computing metrics:  14%|█▍        | 5561/39832 [01:21<08:20, 68.41it/s][A
+Computing metrics:  14%|█▍        | 5568/39832 [01:21<08:26, 67.68it/s][A
+Computing metrics:  14%|█▍        | 5575/39832 [01:21<08:42, 65.62it/s][A
+Computing metrics:  14%|█▍        | 5582/39832 [01:21<08:34, 66.51it/s][A
+Computing metrics:  14%|█▍        | 5589/39832 [01:21<08:29, 67.20it/s][A
+Computing metrics:  14%|█▍        | 5596/39832 [01:21<08:26, 67.64it/s][A
+Computing metrics:  14%|█▍        | 5603/39832 [01:22<08:22, 68.11it/s][A
+Computing metrics:  14%|█▍        | 5610/39832 [01:22<08:20, 68.41it/s][A
+Computing metrics:  14%|█▍        | 5617/39832 [01:22<08:19, 68.56it/s][A
+Computing metrics:  14%|█▍        | 5624/39832 [01:22<08:17, 68.82it/s][A
+Computing metrics:  14%|█▍        | 5632/39832 [01:22<08:13, 69.31it/s][A
+Computing metrics:  14%|█▍        | 5639/39832 [01:22<08:13, 69.23it/s][A
+Computing metrics:  14%|█▍        | 5646/39832 [01:22<08:45, 65.01it/s][A
+Computing metrics:  14%|█▍        | 5654/39832 [01:22<08:34, 66.38it/s][A
+Computing metrics:  14%|█▍        | 5661/39832 [01:22<08:27, 67.36it/s][A
+Computing metrics:  14%|█▍        | 5669/39832 [01:23<08:21, 68.12it/s][A
+Computing metrics:  14%|█▍        | 5677/39832 [01:23<08:15, 68.97it/s][A
+Computing metrics:  14%|█▍        | 5685/39832 [01:23<08:11, 69.40it/s][A
+Computing metrics:  14%|█▍        | 5693/39832 [01:23<08:07, 70.01it/s][A
+Computing metrics:  14%|█▍        | 5701/39832 [01:23<08:09, 69.75it/s][A
+Computing metrics:  14%|█▍        | 5708/39832 [01:23<08:11, 69.47it/s][A
+Computing metrics:  14%|█▍        | 5715/39832 [01:23<08:30, 66.85it/s][A
+Computing metrics:  14%|█▍        | 5722/39832 [01:23<08:25, 67.54it/s][A
+Computing metrics:  14%|█▍        | 5729/39832 [01:23<08:22, 67.93it/s][A
+Computing metrics:  14%|█▍        | 5736/39832 [01:24<08:23, 67.77it/s][A
+Computing metrics:  14%|█▍        | 5744/39832 [01:24<08:16, 68.64it/s][A
+Computing metrics:  14%|█▍        | 5751/39832 [01:24<08:13, 69.01it/s][A
+Computing metrics:  14%|█▍        | 5759/39832 [01:24<08:10, 69.42it/s][A
+Computing metrics:  14%|█▍        | 5766/39832 [01:24<08:10, 69.52it/s][A
+Computing metrics:  14%|█▍        | 5774/39832 [01:24<08:06, 70.04it/s][A
+Computing metrics:  15%|█▍        | 5782/39832 [01:24<08:31, 66.56it/s][A
+Computing metrics:  15%|█▍        | 5790/39832 [01:24<08:23, 67.68it/s][A
+Computing metrics:  15%|█▍        | 5797/39832 [01:24<08:23, 67.63it/s][A
+Computing metrics:  15%|█▍        | 5805/39832 [01:25<08:15, 68.65it/s][A
+Computing metrics:  15%|█▍        | 5813/39832 [01:25<08:11, 69.28it/s][A
+Computing metrics:  15%|█▍        | 5821/39832 [01:25<08:09, 69.48it/s][A
+Computing metrics:  15%|█▍        | 5829/39832 [01:25<08:07, 69.82it/s][A
+Computing metrics:  15%|█▍        | 5837/39832 [01:25<08:01, 70.55it/s][A
+Computing metrics:  15%|█▍        | 5845/39832 [01:25<07:58, 71.03it/s][A
+Computing metrics:  15%|█▍        | 5853/39832 [01:25<08:18, 68.15it/s][A
+Computing metrics:  15%|█▍        | 5861/39832 [01:25<08:12, 68.96it/s][A
+Computing metrics:  15%|█▍        | 5869/39832 [01:25<08:07, 69.64it/s][A
+Computing metrics:  15%|█▍        | 5877/39832 [01:26<08:03, 70.24it/s][A
+Computing metrics:  15%|█▍        | 5885/39832 [01:26<07:59, 70.76it/s][A
+Computing metrics:  15%|█▍        | 5893/39832 [01:26<08:02, 70.33it/s][A
+Computing metrics:  15%|█▍        | 5901/39832 [01:26<08:01, 70.47it/s][A
+Computing metrics:  15%|█▍        | 5909/39832 [01:26<07:59, 70.76it/s][A
+Computing metrics:  15%|█▍        | 5917/39832 [01:26<07:56, 71.20it/s][A
+Computing metrics:  15%|█▍        | 5925/39832 [01:26<08:20, 67.79it/s][A
+Computing metrics:  15%|█▍        | 5933/39832 [01:26<08:13, 68.69it/s][A
+Computing metrics:  15%|█▍        | 5941/39832 [01:26<08:07, 69.54it/s][A
+Computing metrics:  15%|█▍        | 5949/39832 [01:27<08:01, 70.32it/s][A
+Computing metrics:  15%|█▍        | 5957/39832 [01:27<08:00, 70.54it/s][A
+Computing metrics:  15%|█▍        | 5965/39832 [01:27<08:00, 70.43it/s][A
+Computing metrics:  15%|█▍        | 5973/39832 [01:27<08:01, 70.30it/s][A
+Computing metrics:  15%|█▌        | 5981/39832 [01:27<07:59, 70.54it/s][A
+Computing metrics:  15%|█▌        | 5989/39832 [01:27<08:00, 70.43it/s][A
+Computing metrics:  15%|█▌        | 5997/39832 [01:27<08:36, 65.55it/s][A
+Computing metrics:  15%|█▌        | 6004/39832 [01:27<08:28, 66.49it/s][A
+Computing metrics:  15%|█▌        | 6012/39832 [01:28<08:19, 67.70it/s][A
+Computing metrics:  15%|█▌        | 6020/39832 [01:28<08:11, 68.82it/s][A
+Computing metrics:  15%|█▌        | 6028/39832 [01:28<08:04, 69.75it/s][A
+Computing metrics:  15%|█▌        | 6036/39832 [01:28<07:59, 70.55it/s][A
+Computing metrics:  15%|█▌        | 6044/39832 [01:28<07:55, 71.02it/s][A
+Computing metrics:  15%|█▌        | 6052/39832 [01:28<07:52, 71.54it/s][A
+Computing metrics:  15%|█▌        | 6060/39832 [01:28<07:53, 71.37it/s][A
+Computing metrics:  15%|█▌        | 6068/39832 [01:28<08:09, 68.96it/s][A
+Computing metrics:  15%|█▌        | 6076/39832 [01:28<08:05, 69.59it/s][A
+Computing metrics:  15%|█▌        | 6084/39832 [01:29<07:59, 70.37it/s][A
+Computing metrics:  15%|█▌        | 6092/39832 [01:29<07:58, 70.46it/s][A
+Computing metrics:  15%|█▌        | 6100/39832 [01:29<07:58, 70.50it/s][A
+Computing metrics:  15%|█▌        | 6108/39832 [01:29<07:59, 70.30it/s][A
+Computing metrics:  15%|█▌        | 6116/39832 [01:29<07:57, 70.64it/s][A
+Computing metrics:  15%|█▌        | 6124/39832 [01:29<07:56, 70.77it/s][A
+Computing metrics:  15%|█▌        | 6132/39832 [01:29<07:58, 70.50it/s][A
+Computing metrics:  15%|█▌        | 6140/39832 [01:29<08:11, 68.52it/s][A
+Computing metrics:  15%|█▌        | 6147/39832 [01:29<08:09, 68.78it/s][A
+Computing metrics:  15%|█▌        | 6154/39832 [01:30<08:11, 68.55it/s][A
+Computing metrics:  15%|█▌        | 6161/39832 [01:30<08:12, 68.38it/s][A
+Computing metrics:  15%|█▌        | 6169/39832 [01:30<08:06, 69.25it/s][A
+Computing metrics:  16%|█▌        | 6177/39832 [01:30<08:05, 69.33it/s][A
+Computing metrics:  16%|█▌        | 6185/39832 [01:30<08:02, 69.69it/s][A
+Computing metrics:  16%|█▌        | 6193/39832 [01:30<07:58, 70.24it/s][A
+Computing metrics:  16%|█▌        | 6201/39832 [01:30<07:54, 70.82it/s][A
+Computing metrics:  16%|█▌        | 6209/39832 [01:30<08:11, 68.47it/s][A
+Computing metrics:  16%|█▌        | 6217/39832 [01:30<08:05, 69.20it/s][A
+Computing metrics:  16%|█▌        | 6224/39832 [01:31<08:04, 69.41it/s][A
+Computing metrics:  16%|█▌        | 6232/39832 [01:31<08:00, 69.89it/s][A
+Computing metrics:  16%|█▌        | 6239/39832 [01:31<08:02, 69.65it/s][A
+Computing metrics:  16%|█▌        | 6247/39832 [01:31<07:59, 70.04it/s][A
+Computing metrics:  16%|█▌        | 6255/39832 [01:31<07:58, 70.22it/s][A
+Computing metrics:  16%|█▌        | 6263/39832 [01:31<07:53, 70.86it/s][A
+Computing metrics:  16%|█▌        | 6271/39832 [01:31<07:54, 70.79it/s][A
+Computing metrics:  16%|█▌        | 6279/39832 [01:31<07:57, 70.28it/s][A
+Computing metrics:  16%|█▌        | 6287/39832 [01:31<08:31, 65.62it/s][A
+Computing metrics:  16%|█▌        | 6295/39832 [01:32<08:21, 66.91it/s][A
+Computing metrics:  16%|█▌        | 6303/39832 [01:32<08:12, 68.11it/s][A
+Computing metrics:  16%|█▌        | 6311/39832 [01:32<08:03, 69.34it/s][A
+Computing metrics:  16%|█▌        | 6318/39832 [01:32<08:02, 69.40it/s][A
+Computing metrics:  16%|█▌        | 6325/39832 [01:32<08:02, 69.45it/s][A
+Computing metrics:  16%|█▌        | 6332/39832 [01:32<08:02, 69.44it/s][A
+Computing metrics:  16%|█▌        | 6340/39832 [01:32<08:01, 69.62it/s][A
+Computing metrics:  16%|█▌        | 6347/39832 [01:32<08:06, 68.81it/s][A
+Computing metrics:  16%|█▌        | 6354/39832 [01:32<08:34, 65.05it/s][A
+Computing metrics:  16%|█▌        | 6362/39832 [01:33<08:21, 66.75it/s][A
+Computing metrics:  16%|█▌        | 6370/39832 [01:33<08:14, 67.66it/s][A
+Computing metrics:  16%|█▌        | 6378/39832 [01:33<08:08, 68.53it/s][A
+Computing metrics:  16%|█▌        | 6385/39832 [01:33<08:06, 68.81it/s][A
+Computing metrics:  16%|█▌        | 6393/39832 [01:33<08:00, 69.62it/s][A
+Computing metrics:  16%|█▌        | 6401/39832 [01:33<07:57, 70.07it/s][A
+Computing metrics:  16%|█▌        | 6409/39832 [01:33<07:59, 69.68it/s][A
+Computing metrics:  16%|█▌        | 6417/39832 [01:33<07:56, 70.08it/s][A
+Computing metrics:  16%|█▌        | 6425/39832 [01:33<08:14, 67.55it/s][A
+Computing metrics:  16%|█▌        | 6433/39832 [01:34<08:09, 68.24it/s][A
+Computing metrics:  16%|█▌        | 6441/39832 [01:34<08:07, 68.44it/s][A
+Computing metrics:  16%|█▌        | 6449/39832 [01:34<08:04, 68.94it/s][A
+Computing metrics:  16%|█▌        | 6456/39832 [01:34<08:03, 69.01it/s][A
+Computing metrics:  16%|█▌        | 6464/39832 [01:34<07:58, 69.79it/s][A
+Computing metrics:  16%|█▌        | 6472/39832 [01:34<07:55, 70.17it/s][A
+Computing metrics:  16%|█▋        | 6480/39832 [01:34<07:55, 70.21it/s][A
+Computing metrics:  16%|█▋        | 6488/39832 [01:34<07:55, 70.16it/s][A
+Computing metrics:  16%|█▋        | 6496/39832 [01:35<08:23, 66.14it/s][A
+Computing metrics:  16%|█▋        | 6504/39832 [01:35<08:13, 67.53it/s][A
+Computing metrics:  16%|█▋        | 6511/39832 [01:35<08:09, 68.06it/s][A
+Computing metrics:  16%|█▋        | 6519/39832 [01:35<08:04, 68.69it/s][A
+Computing metrics:  16%|█▋        | 6526/39832 [01:35<08:03, 68.95it/s][A
+Computing metrics:  16%|█▋        | 6534/39832 [01:35<07:55, 70.01it/s][A
+Computing metrics:  16%|█▋        | 6542/39832 [01:35<07:50, 70.81it/s][A
+Computing metrics:  16%|█▋        | 6550/39832 [01:35<07:46, 71.38it/s][A
+Computing metrics:  16%|█▋        | 6558/39832 [01:35<07:44, 71.59it/s][A
+Computing metrics:  16%|█▋        | 6566/39832 [01:36<08:16, 67.00it/s][A
+Computing metrics:  17%|█▋        | 6574/39832 [01:36<08:07, 68.21it/s][A
+Computing metrics:  17%|█▋        | 6582/39832 [01:36<08:02, 68.91it/s][A
+Computing metrics:  17%|█▋        | 6590/39832 [01:36<07:56, 69.78it/s][A
+Computing metrics:  17%|█▋        | 6598/39832 [01:36<07:51, 70.43it/s][A
+Computing metrics:  17%|█▋        | 6606/39832 [01:36<07:57, 69.61it/s][A
+Computing metrics:  17%|█▋        | 6613/39832 [01:36<08:05, 68.37it/s][A
+Computing metrics:  17%|█▋        | 6620/39832 [01:36<08:02, 68.77it/s][A
+Computing metrics:  17%|█▋        | 6627/39832 [01:36<08:03, 68.71it/s][A
+Computing metrics:  17%|█▋        | 6634/39832 [01:37<08:22, 66.02it/s][A
+Computing metrics:  17%|█▋        | 6641/39832 [01:37<08:18, 66.56it/s][A
+Computing metrics:  17%|█▋        | 6648/39832 [01:37<08:20, 66.36it/s][A
+Computing metrics:  17%|█▋        | 6655/39832 [01:37<08:15, 66.92it/s][A
+Computing metrics:  17%|█▋        | 6662/39832 [01:37<08:12, 67.30it/s][A
+Computing metrics:  17%|█▋        | 6669/39832 [01:37<08:09, 67.75it/s][A
+Computing metrics:  17%|█▋        | 6676/39832 [01:37<08:12, 67.35it/s][A
+Computing metrics:  17%|█▋        | 6683/39832 [01:37<08:07, 68.05it/s][A
+Computing metrics:  17%|█▋        | 6690/39832 [01:37<08:11, 67.49it/s][A
+Computing metrics:  17%|█▋        | 6697/39832 [01:37<08:14, 67.07it/s][A
+Computing metrics:  17%|█▋        | 6704/39832 [01:38<08:14, 66.97it/s][A
+Computing metrics:  17%|█▋        | 6712/39832 [01:38<08:11, 67.40it/s][A
+Computing metrics:  17%|█▋        | 6720/39832 [01:38<08:02, 68.64it/s][A
+Computing metrics:  17%|█▋        | 6727/39832 [01:38<08:06, 68.09it/s][A
+Computing metrics:  17%|█▋        | 6734/39832 [01:38<08:07, 67.83it/s][A
+Computing metrics:  17%|█▋        | 6741/39832 [01:38<08:04, 68.25it/s][A
+Computing metrics:  17%|█▋        | 6748/39832 [01:38<08:06, 68.03it/s][A
+Computing metrics:  17%|█▋        | 6756/39832 [01:38<07:58, 69.06it/s][A
+Computing metrics:  17%|█▋        | 6763/39832 [01:38<08:00, 68.75it/s][A
+Computing metrics:  17%|█▋        | 6770/39832 [01:39<08:36, 64.04it/s][A
+Computing metrics:  17%|█▋        | 6777/39832 [01:39<08:26, 65.27it/s][A
+Computing metrics:  17%|█▋        | 6784/39832 [01:39<08:22, 65.74it/s][A
+Computing metrics:  17%|█▋        | 6791/39832 [01:39<08:16, 66.54it/s][A
+Computing metrics:  17%|█▋        | 6799/39832 [01:39<08:06, 67.91it/s][A
+Computing metrics:  17%|█▋        | 6806/39832 [01:39<08:07, 67.69it/s][A
+Computing metrics:  17%|█▋        | 6813/39832 [01:39<08:03, 68.31it/s][A
+Computing metrics:  17%|█▋        | 6820/39832 [01:39<08:00, 68.64it/s][A
+Computing metrics:  17%|█▋        | 6827/39832 [01:39<08:02, 68.38it/s][A
+Computing metrics:  17%|█▋        | 6834/39832 [01:39<08:20, 65.97it/s][A
+Computing metrics:  17%|█▋        | 6841/39832 [01:40<08:18, 66.21it/s][A
+Computing metrics:  17%|█▋        | 6848/39832 [01:40<08:15, 66.63it/s][A
+Computing metrics:  17%|█▋        | 6855/39832 [01:40<08:11, 67.08it/s][A
+Computing metrics:  17%|█▋        | 6862/39832 [01:40<08:07, 67.57it/s][A
+Computing metrics:  17%|█▋        | 6870/39832 [01:40<07:59, 68.73it/s][A
+Computing metrics:  17%|█▋        | 6877/39832 [01:40<08:01, 68.50it/s][A
+Computing metrics:  17%|█▋        | 6885/39832 [01:40<07:57, 69.04it/s][A
+Computing metrics:  17%|█▋        | 6893/39832 [01:40<07:56, 69.16it/s][A
+Computing metrics:  17%|█▋        | 6901/39832 [01:40<07:53, 69.57it/s][A
+Computing metrics:  17%|█▋        | 6908/39832 [01:41<08:19, 65.93it/s][A
+Computing metrics:  17%|█▋        | 6915/39832 [01:41<08:12, 66.82it/s][A
+Computing metrics:  17%|█▋        | 6923/39832 [01:41<07:58, 68.76it/s][A
+Computing metrics:  17%|█▋        | 6931/39832 [01:41<07:56, 69.06it/s][A
+Computing metrics:  17%|█▋        | 6938/39832 [01:41<07:55, 69.18it/s][A
+Computing metrics:  17%|█▋        | 6945/39832 [01:41<08:00, 68.40it/s][A
+Computing metrics:  17%|█▋        | 6953/39832 [01:41<07:54, 69.26it/s][A
+Computing metrics:  17%|█▋        | 6961/39832 [01:41<07:51, 69.66it/s][A
+Computing metrics:  17%|█▋        | 6969/39832 [01:41<07:47, 70.34it/s][A
+Computing metrics:  18%|█▊        | 6977/39832 [01:42<08:07, 67.33it/s][A
+Computing metrics:  18%|█▊        | 6985/39832 [01:42<07:58, 68.66it/s][A
+Computing metrics:  18%|█▊        | 6992/39832 [01:42<07:58, 68.60it/s][A
+Computing metrics:  18%|█▊        | 6999/39832 [01:42<07:56, 68.90it/s][A
+Computing metrics:  18%|█▊        | 7007/39832 [01:42<07:46, 70.30it/s][A
+Computing metrics:  18%|█▊        | 7015/39832 [01:42<07:47, 70.22it/s][A
+Computing metrics:  18%|█▊        | 7023/39832 [01:42<07:41, 71.04it/s][A
+Computing metrics:  18%|█▊        | 7031/39832 [01:42<07:44, 70.66it/s][A
+Computing metrics:  18%|█▊        | 7039/39832 [01:42<07:48, 70.06it/s][A
+Computing metrics:  18%|█▊        | 7047/39832 [01:43<08:34, 63.68it/s][A
+Computing metrics:  18%|█▊        | 7054/39832 [01:43<08:32, 63.94it/s][A
+Computing metrics:  18%|█▊        | 7061/39832 [01:43<08:30, 64.18it/s][A
+Computing metrics:  18%|█▊        | 7068/39832 [01:43<08:24, 64.94it/s][A
+Computing metrics:  18%|█▊        | 7075/39832 [01:43<08:22, 65.13it/s][A
+Computing metrics:  18%|█▊        | 7082/39832 [01:43<08:21, 65.34it/s][A
+Computing metrics:  18%|█▊        | 7089/39832 [01:43<08:13, 66.29it/s][A
+Computing metrics:  18%|█▊        | 7096/39832 [01:43<08:13, 66.30it/s][A
+Computing metrics:  18%|█▊        | 7103/39832 [01:43<08:12, 66.46it/s][A
+Computing metrics:  18%|█▊        | 7111/39832 [01:44<08:07, 67.11it/s][A
+Computing metrics:  18%|█▊        | 7118/39832 [01:44<08:36, 63.39it/s][A
+Computing metrics:  18%|█▊        | 7126/39832 [01:44<08:19, 65.42it/s][A
+Computing metrics:  18%|█▊        | 7133/39832 [01:44<08:13, 66.28it/s][A
+Computing metrics:  18%|█▊        | 7140/39832 [01:44<08:10, 66.62it/s][A
+Computing metrics:  18%|█▊        | 7147/39832 [01:44<08:05, 67.36it/s][A
+Computing metrics:  18%|█▊        | 7154/39832 [01:44<08:03, 67.55it/s][A
+Computing metrics:  18%|█▊        | 7161/39832 [01:44<08:02, 67.66it/s][A
+Computing metrics:  18%|█▊        | 7168/39832 [01:44<08:02, 67.73it/s][A
+Computing metrics:  18%|█▊        | 7175/39832 [01:45<08:03, 67.57it/s][A
+Computing metrics:  18%|█▊        | 7182/39832 [01:45<08:29, 64.14it/s][A
+Computing metrics:  18%|█▊        | 7189/39832 [01:45<08:17, 65.61it/s][A
+Computing metrics:  18%|█▊        | 7196/39832 [01:45<08:11, 66.38it/s][A
+Computing metrics:  18%|█▊        | 7203/39832 [01:45<08:09, 66.61it/s][A
+Computing metrics:  18%|█▊        | 7210/39832 [01:45<08:06, 67.06it/s][A
+Computing metrics:  18%|█▊        | 7217/39832 [01:45<08:04, 67.37it/s][A
+Computing metrics:  18%|█▊        | 7224/39832 [01:45<08:06, 67.02it/s][A
+Computing metrics:  18%|█▊        | 7231/39832 [01:45<08:04, 67.29it/s][A
+Computing metrics:  18%|█▊        | 7238/39832 [01:45<08:03, 67.35it/s][A
+Computing metrics:  18%|█▊        | 7245/39832 [01:46<08:06, 66.92it/s][A
+Computing metrics:  18%|█▊        | 7252/39832 [01:46<08:27, 64.14it/s][A
+Computing metrics:  18%|█▊        | 7260/39832 [01:46<08:14, 65.82it/s][A
+Computing metrics:  18%|█▊        | 7267/39832 [01:46<08:07, 66.81it/s][A
+Computing metrics:  18%|█▊        | 7275/39832 [01:46<07:41, 70.55it/s][A
+Computing metrics:  18%|█▊        | 7283/39832 [01:46<07:42, 70.31it/s][A
+Computing metrics:  18%|█▊        | 7291/39832 [01:46<07:32, 71.90it/s][A
+Computing metrics:  18%|█▊        | 7300/39832 [01:46<07:13, 75.12it/s][A
+Computing metrics:  18%|█▊        | 7309/39832 [01:46<06:59, 77.54it/s][A
+Computing metrics:  18%|█▊        | 7317/39832 [01:47<07:08, 75.96it/s][A
+Computing metrics:  18%|█▊        | 7325/39832 [01:47<07:39, 70.68it/s][A
+Computing metrics:  18%|█▊        | 7333/39832 [01:47<07:45, 69.77it/s][A
+Computing metrics:  18%|█▊        | 7341/39832 [01:47<07:49, 69.21it/s][A
+Computing metrics:  18%|█▊        | 7348/39832 [01:47<07:52, 68.80it/s][A
+Computing metrics:  18%|█▊        | 7355/39832 [01:47<07:55, 68.27it/s][A
+Computing metrics:  18%|█▊        | 7362/39832 [01:47<07:55, 68.36it/s][A
+Computing metrics:  19%|█▊        | 7370/39832 [01:47<07:51, 68.86it/s][A
+Computing metrics:  19%|█▊        | 7377/39832 [01:47<07:51, 68.91it/s][A
+Computing metrics:  19%|█▊        | 7384/39832 [01:48<07:54, 68.34it/s][A
+Computing metrics:  19%|█▊        | 7391/39832 [01:48<08:23, 64.49it/s][A
+Computing metrics:  19%|█▊        | 7399/39832 [01:48<08:13, 65.75it/s][A
+Computing metrics:  19%|█▊        | 7406/39832 [01:48<08:05, 66.79it/s][A
+Computing metrics:  19%|█▊        | 7413/39832 [01:48<08:02, 67.21it/s][A
+Computing metrics:  19%|█▊        | 7421/39832 [01:48<07:55, 68.11it/s][A
+Computing metrics:  19%|█▊        | 7428/39832 [01:48<07:53, 68.37it/s][A
+Computing metrics:  19%|█▊        | 7435/39832 [01:48<07:53, 68.49it/s][A
+Computing metrics:  19%|█▊        | 7442/39832 [01:48<07:51, 68.73it/s][A
+Computing metrics:  19%|█▊        | 7449/39832 [01:49<07:49, 69.04it/s][A
+Computing metrics:  19%|█▊        | 7457/39832 [01:49<07:45, 69.48it/s][A
+Computing metrics:  19%|█▊        | 7464/39832 [01:49<08:18, 64.90it/s][A
+Computing metrics:  19%|█▉        | 7471/39832 [01:49<08:11, 65.83it/s][A
+Computing metrics:  19%|█▉        | 7478/39832 [01:49<08:04, 66.80it/s][A
+Computing metrics:  19%|█▉        | 7485/39832 [01:49<07:58, 67.53it/s][A
+Computing metrics:  19%|█▉        | 7493/39832 [01:49<07:53, 68.34it/s][A
+Computing metrics:  19%|█▉        | 7500/39832 [01:49<07:51, 68.55it/s][A
+Computing metrics:  19%|█▉        | 7508/39832 [01:49<07:46, 69.32it/s][A
+Computing metrics:  19%|█▉        | 7516/39832 [01:50<07:44, 69.55it/s][A
+Computing metrics:  19%|█▉        | 7524/39832 [01:50<07:44, 69.62it/s][A
+Computing metrics:  19%|█▉        | 7531/39832 [01:50<08:26, 63.75it/s][A
+Computing metrics:  19%|█▉        | 7538/39832 [01:50<08:13, 65.38it/s][A
+Computing metrics:  19%|█▉        | 7545/39832 [01:50<08:05, 66.56it/s][A
+Computing metrics:  19%|█▉        | 7552/39832 [01:50<07:58, 67.51it/s][A
+Computing metrics:  19%|█▉        | 7560/39832 [01:50<07:54, 67.97it/s][A
+Computing metrics:  19%|█▉        | 7568/39832 [01:50<07:50, 68.59it/s][A
+Computing metrics:  19%|█▉        | 7576/39832 [01:50<07:44, 69.41it/s][A
+Computing metrics:  19%|█▉        | 7584/39832 [01:51<07:41, 69.83it/s][A
+Computing metrics:  19%|█▉        | 7591/39832 [01:51<07:42, 69.65it/s][A
+Computing metrics:  19%|█▉        | 7598/39832 [01:51<08:24, 63.85it/s][A
+Computing metrics:  19%|█▉        | 7605/39832 [01:51<08:11, 65.51it/s][A
+Computing metrics:  19%|█▉        | 7613/39832 [01:51<08:02, 66.76it/s][A
+Computing metrics:  19%|█▉        | 7620/39832 [01:51<07:56, 67.58it/s][A
+Computing metrics:  19%|█▉        | 7627/39832 [01:51<07:55, 67.76it/s][A
+Computing metrics:  19%|█▉        | 7635/39832 [01:51<07:51, 68.28it/s][A
+Computing metrics:  19%|█▉        | 7642/39832 [01:51<07:48, 68.75it/s][A
+Computing metrics:  19%|█▉        | 7649/39832 [01:51<07:46, 68.95it/s][A
+Computing metrics:  19%|█▉        | 7657/39832 [01:52<07:45, 69.06it/s][A
+Computing metrics:  19%|█▉        | 7665/39832 [01:52<07:42, 69.56it/s][A
+Computing metrics:  19%|█▉        | 7672/39832 [01:52<08:13, 65.21it/s][A
+Computing metrics:  19%|█▉        | 7680/39832 [01:52<08:00, 66.96it/s][A
+Computing metrics:  19%|█▉        | 7687/39832 [01:52<07:56, 67.46it/s][A
+Computing metrics:  19%|█▉        | 7694/39832 [01:52<07:53, 67.83it/s][A
+Computing metrics:  19%|█▉        | 7702/39832 [01:52<07:43, 69.38it/s][A
+Computing metrics:  19%|█▉        | 7709/39832 [01:52<07:41, 69.54it/s][A
+Computing metrics:  19%|█▉        | 7717/39832 [01:52<07:41, 69.61it/s][A
+Computing metrics:  19%|█▉        | 7725/39832 [01:53<07:39, 69.83it/s][A
+Computing metrics:  19%|█▉        | 7733/39832 [01:53<07:32, 71.01it/s][A
+Computing metrics:  19%|█▉        | 7741/39832 [01:53<07:44, 69.14it/s][A
+Computing metrics:  19%|█▉        | 7748/39832 [01:53<07:43, 69.22it/s][A
+Computing metrics:  19%|█▉        | 7755/39832 [01:53<07:42, 69.35it/s][A
+Computing metrics:  19%|█▉        | 7763/39832 [01:53<07:40, 69.63it/s][A
+Computing metrics:  20%|█▉        | 7770/39832 [01:53<07:43, 69.14it/s][A
+Computing metrics:  20%|█▉        | 7777/39832 [01:53<07:45, 68.88it/s][A
+Computing metrics:  20%|█▉        | 7785/39832 [01:53<07:45, 68.79it/s][A
+Computing metrics:  20%|█▉        | 7793/39832 [01:54<07:44, 68.96it/s][A
+Computing metrics:  20%|█▉        | 7801/39832 [01:54<07:37, 70.03it/s][A
+Computing metrics:  20%|█▉        | 7809/39832 [01:54<08:15, 64.56it/s][A
+Computing metrics:  20%|█▉        | 7817/39832 [01:54<08:04, 66.06it/s][A
+Computing metrics:  20%|█▉        | 7825/39832 [01:54<07:53, 67.53it/s][A
+Computing metrics:  20%|█▉        | 7832/39832 [01:54<07:51, 67.88it/s][A
+Computing metrics:  20%|█▉        | 7839/39832 [01:54<07:49, 68.07it/s][A
+Computing metrics:  20%|█▉        | 7847/39832 [01:54<07:42, 69.15it/s][A
+Computing metrics:  20%|█▉        | 7855/39832 [01:54<07:38, 69.74it/s][A
+Computing metrics:  20%|█▉        | 7863/39832 [01:55<07:34, 70.35it/s][A
+Computing metrics:  20%|█▉        | 7871/39832 [01:55<07:34, 70.33it/s][A
+Computing metrics:  20%|█▉        | 7879/39832 [01:55<07:35, 70.14it/s][A
+Computing metrics:  20%|█▉        | 7887/39832 [01:55<08:15, 64.49it/s][A
+Computing metrics:  20%|█▉        | 7894/39832 [01:55<08:08, 65.40it/s][A
+Computing metrics:  20%|█▉        | 7901/39832 [01:55<08:04, 65.96it/s][A
+Computing metrics:  20%|█▉        | 7909/39832 [01:55<07:50, 67.91it/s][A
+Computing metrics:  20%|█▉        | 7916/39832 [01:55<07:47, 68.33it/s][A
+Computing metrics:  20%|█▉        | 7923/39832 [01:55<07:48, 68.11it/s][A
+Computing metrics:  20%|█▉        | 7931/39832 [01:56<07:43, 68.86it/s][A
+Computing metrics:  20%|█▉        | 7939/39832 [01:56<07:36, 69.84it/s][A
+Computing metrics:  20%|█▉        | 7946/39832 [01:56<07:37, 69.70it/s][A
+Computing metrics:  20%|█▉        | 7953/39832 [01:56<08:05, 65.64it/s][A
+Computing metrics:  20%|█▉        | 7960/39832 [01:56<07:56, 66.83it/s][A
+Computing metrics:  20%|██        | 7967/39832 [01:56<07:51, 67.64it/s][A
+Computing metrics:  20%|██        | 7974/39832 [01:56<07:47, 68.18it/s][A
+Computing metrics:  20%|██        | 7981/39832 [01:56<07:47, 68.14it/s][A
+Computing metrics:  20%|██        | 7988/39832 [01:56<07:45, 68.39it/s][A
+Computing metrics:  20%|██        | 7996/39832 [01:57<07:41, 69.02it/s][A
+Computing metrics:  20%|██        | 8003/39832 [01:57<07:40, 69.13it/s][A
+Computing metrics:  20%|██        | 8010/39832 [01:57<07:41, 68.96it/s][A
+Computing metrics:  20%|██        | 8017/39832 [01:57<07:45, 68.29it/s][A
+Computing metrics:  20%|██        | 8024/39832 [01:57<07:44, 68.51it/s][A
+Computing metrics:  20%|██        | 8031/39832 [01:57<07:41, 68.90it/s][A
+Computing metrics:  20%|██        | 8038/39832 [01:57<07:39, 69.22it/s][A
+Computing metrics:  20%|██        | 8045/39832 [01:57<07:40, 69.06it/s][A
+Computing metrics:  20%|██        | 8052/39832 [01:57<07:41, 68.90it/s][A
+Computing metrics:  20%|██        | 8059/39832 [01:57<07:45, 68.26it/s][A
+Computing metrics:  20%|██        | 8066/39832 [01:58<07:45, 68.20it/s][A
+Computing metrics:  20%|██        | 8073/39832 [01:58<07:46, 68.06it/s][A
+Computing metrics:  20%|██        | 8080/39832 [01:58<07:47, 67.99it/s][A
+Computing metrics:  20%|██        | 8087/39832 [01:58<08:17, 63.79it/s][A
+Computing metrics:  20%|██        | 8094/39832 [01:58<08:05, 65.39it/s][A
+Computing metrics:  20%|██        | 8101/39832 [01:58<07:58, 66.26it/s][A
+Computing metrics:  20%|██        | 8108/39832 [01:58<07:54, 66.93it/s][A
+Computing metrics:  20%|██        | 8115/39832 [01:58<07:47, 67.80it/s][A
+Computing metrics:  20%|██        | 8122/39832 [01:58<07:43, 68.41it/s][A
+Computing metrics:  20%|██        | 8129/39832 [01:59<07:43, 68.42it/s][A
+Computing metrics:  20%|██        | 8136/39832 [01:59<07:42, 68.57it/s][A
+Computing metrics:  20%|██        | 8143/39832 [01:59<07:39, 68.95it/s][A
+Computing metrics:  20%|██        | 8150/39832 [01:59<07:38, 69.04it/s][A
+Computing metrics:  20%|██        | 8157/39832 [01:59<07:54, 66.80it/s][A
+Computing metrics:  20%|██        | 8164/39832 [01:59<07:50, 67.30it/s][A
+Computing metrics:  21%|██        | 8172/39832 [01:59<07:45, 68.08it/s][A
+Computing metrics:  21%|██        | 8180/39832 [01:59<07:41, 68.55it/s][A
+Computing metrics:  21%|██        | 8187/39832 [01:59<07:40, 68.68it/s][A
+Computing metrics:  21%|██        | 8194/39832 [01:59<07:42, 68.38it/s][A
+Computing metrics:  21%|██        | 8201/39832 [02:00<07:41, 68.61it/s][A
+Computing metrics:  21%|██        | 8209/39832 [02:00<07:39, 68.80it/s][A
+Computing metrics:  21%|██        | 8216/39832 [02:00<07:39, 68.75it/s][A
+Computing metrics:  21%|██        | 8223/39832 [02:00<07:43, 68.27it/s][A
+Computing metrics:  21%|██        | 8230/39832 [02:00<08:22, 62.89it/s][A
+Computing metrics:  21%|██        | 8237/39832 [02:00<08:10, 64.46it/s][A
+Computing metrics:  21%|██        | 8244/39832 [02:00<08:00, 65.76it/s][A
+Computing metrics:  21%|██        | 8251/39832 [02:00<07:55, 66.37it/s][A
+Computing metrics:  21%|██        | 8258/39832 [02:00<07:57, 66.19it/s][A
+Computing metrics:  21%|██        | 8266/39832 [02:01<07:48, 67.44it/s][A
+Computing metrics:  21%|██        | 8273/39832 [02:01<07:45, 67.84it/s][A
+Computing metrics:  21%|██        | 8280/39832 [02:01<07:48, 67.36it/s][A
+Computing metrics:  21%|██        | 8287/39832 [02:01<07:49, 67.18it/s][A
+Computing metrics:  21%|██        | 8294/39832 [02:01<08:06, 64.80it/s][A
+Computing metrics:  21%|██        | 8301/39832 [02:01<07:59, 65.73it/s][A
+Computing metrics:  21%|██        | 8309/39832 [02:01<07:50, 67.00it/s][A
+Computing metrics:  21%|██        | 8316/39832 [02:01<07:46, 67.59it/s][A
+Computing metrics:  21%|██        | 8323/39832 [02:01<07:45, 67.64it/s][A
+Computing metrics:  21%|██        | 8330/39832 [02:02<07:45, 67.68it/s][A
+Computing metrics:  21%|██        | 8337/39832 [02:02<07:42, 68.08it/s][A
+Computing metrics:  21%|██        | 8344/39832 [02:02<07:42, 68.04it/s][A
+Computing metrics:  21%|██        | 8351/39832 [02:02<07:47, 67.38it/s][A
+Computing metrics:  21%|██        | 8358/39832 [02:02<07:47, 67.32it/s][A
+Computing metrics:  21%|██        | 8365/39832 [02:02<08:18, 63.14it/s][A
+Computing metrics:  21%|██        | 8372/39832 [02:02<08:06, 64.71it/s][A
+Computing metrics:  21%|██        | 8380/39832 [02:02<07:53, 66.47it/s][A
+Computing metrics:  21%|██        | 8387/39832 [02:02<08:25, 62.25it/s][A
+Computing metrics:  21%|██        | 8395/39832 [02:03<08:05, 64.78it/s][A
+Computing metrics:  21%|██        | 8403/39832 [02:03<07:49, 66.88it/s][A
+Computing metrics:  21%|██        | 8410/39832 [02:03<07:45, 67.53it/s][A
+Computing metrics:  21%|██        | 8417/39832 [02:03<07:42, 67.89it/s][A
+Computing metrics:  21%|██        | 8425/39832 [02:03<07:40, 68.15it/s][A
+Computing metrics:  21%|██        | 8432/39832 [02:03<08:16, 63.26it/s][A
+Computing metrics:  21%|██        | 8439/39832 [02:03<08:05, 64.63it/s][A
+Computing metrics:  21%|██        | 8446/39832 [02:03<07:54, 66.09it/s][A
+Computing metrics:  21%|██        | 8453/39832 [02:03<07:49, 66.77it/s][A
+Computing metrics:  21%|██        | 8460/39832 [02:03<07:44, 67.48it/s][A
+Computing metrics:  21%|██▏       | 8467/39832 [02:04<07:40, 68.11it/s][A
+Computing metrics:  21%|██▏       | 8474/39832 [02:04<07:42, 67.87it/s][A
+Computing metrics:  21%|██▏       | 8481/39832 [02:04<07:40, 68.02it/s][A
+Computing metrics:  21%|██▏       | 8488/39832 [02:04<07:42, 67.78it/s][A
+Computing metrics:  21%|██▏       | 8495/39832 [02:04<08:09, 63.96it/s][A
+Computing metrics:  21%|██▏       | 8503/39832 [02:04<07:58, 65.50it/s][A
+Computing metrics:  21%|██▏       | 8511/39832 [02:04<07:45, 67.35it/s][A
+Computing metrics:  21%|██▏       | 8519/39832 [02:04<07:31, 69.31it/s][A
+Computing metrics:  21%|██▏       | 8526/39832 [02:04<07:34, 68.90it/s][A
+Computing metrics:  21%|██▏       | 8533/39832 [02:05<07:35, 68.71it/s][A
+Computing metrics:  21%|██▏       | 8541/39832 [02:05<07:34, 68.87it/s][A
+Computing metrics:  21%|██▏       | 8548/39832 [02:05<07:34, 68.90it/s][A
+Computing metrics:  21%|██▏       | 8555/39832 [02:05<07:37, 68.32it/s][A
+Computing metrics:  21%|██▏       | 8562/39832 [02:05<07:39, 68.11it/s][A
+Computing metrics:  22%|██▏       | 8569/39832 [02:05<08:05, 64.46it/s][A
+Computing metrics:  22%|██▏       | 8576/39832 [02:05<07:58, 65.31it/s][A
+Computing metrics:  22%|██▏       | 8584/39832 [02:05<07:46, 66.93it/s][A
+Computing metrics:  22%|██▏       | 8591/39832 [02:05<07:42, 67.61it/s][A
+Computing metrics:  22%|██▏       | 8598/39832 [02:06<07:39, 68.05it/s][A
+Computing metrics:  22%|██▏       | 8605/39832 [02:06<07:36, 68.39it/s][A
+Computing metrics:  22%|██▏       | 8613/39832 [02:06<07:32, 69.06it/s][A
+Computing metrics:  22%|██▏       | 8621/39832 [02:06<07:31, 69.13it/s][A
+Computing metrics:  22%|██▏       | 8629/39832 [02:06<07:29, 69.35it/s][A
+Computing metrics:  22%|██▏       | 8636/39832 [02:06<07:40, 67.67it/s][A
+Computing metrics:  22%|██▏       | 8643/39832 [02:06<07:41, 67.52it/s][A
+Computing metrics:  22%|██▏       | 8650/39832 [02:06<07:40, 67.77it/s][A
+Computing metrics:  22%|██▏       | 8658/39832 [02:06<07:37, 68.19it/s][A
+Computing metrics:  22%|██▏       | 8666/39832 [02:07<07:32, 68.81it/s][A
+Computing metrics:  22%|██▏       | 8674/39832 [02:07<07:29, 69.35it/s][A
+Computing metrics:  22%|██▏       | 8681/39832 [02:07<07:28, 69.40it/s][A
+Computing metrics:  22%|██▏       | 8688/39832 [02:07<07:30, 69.08it/s][A
+Computing metrics:  22%|██▏       | 8695/39832 [02:07<07:29, 69.22it/s][A
+Computing metrics:  22%|██▏       | 8703/39832 [02:07<07:28, 69.34it/s][A
+Computing metrics:  22%|██▏       | 8710/39832 [02:07<08:06, 63.97it/s][A
+Computing metrics:  22%|██▏       | 8717/39832 [02:07<07:54, 65.61it/s][A
+Computing metrics:  22%|██▏       | 8724/39832 [02:07<07:47, 66.56it/s][A
+Computing metrics:  22%|██▏       | 8731/39832 [02:07<07:43, 67.03it/s][A
+Computing metrics:  22%|██▏       | 8738/39832 [02:08<07:43, 67.04it/s][A
+Computing metrics:  22%|██▏       | 8745/39832 [02:08<07:40, 67.50it/s][A
+Computing metrics:  22%|██▏       | 8752/39832 [02:08<07:39, 67.70it/s][A
+Computing metrics:  22%|██▏       | 8760/39832 [02:08<07:33, 68.52it/s][A
+Computing metrics:  22%|██▏       | 8767/39832 [02:08<07:30, 68.92it/s][A
+Computing metrics:  22%|██▏       | 8774/39832 [02:08<08:00, 64.59it/s][A
+Computing metrics:  22%|██▏       | 8781/39832 [02:08<07:50, 65.98it/s][A
+Computing metrics:  22%|██▏       | 8788/39832 [02:08<07:43, 67.00it/s][A
+Computing metrics:  22%|██▏       | 8795/39832 [02:08<07:42, 67.14it/s][A
+Computing metrics:  22%|██▏       | 8802/39832 [02:09<07:37, 67.82it/s][A
+Computing metrics:  22%|██▏       | 8809/39832 [02:09<07:37, 67.75it/s][A
+Computing metrics:  22%|██▏       | 8816/39832 [02:09<07:35, 68.07it/s][A
+Computing metrics:  22%|██▏       | 8824/39832 [02:09<07:31, 68.75it/s][A
+Computing metrics:  22%|██▏       | 8832/39832 [02:09<07:26, 69.43it/s][A
+Computing metrics:  22%|██▏       | 8839/39832 [02:09<07:29, 69.01it/s][A
+Computing metrics:  22%|██▏       | 8846/39832 [02:09<07:49, 65.98it/s][A
+Computing metrics:  22%|██▏       | 8853/39832 [02:09<07:42, 67.02it/s][A
+Computing metrics:  22%|██▏       | 8861/39832 [02:09<07:34, 68.12it/s][A
+Computing metrics:  22%|██▏       | 8869/39832 [02:10<07:29, 68.84it/s][A
+Computing metrics:  22%|██▏       | 8877/39832 [02:10<07:25, 69.42it/s][A
+Computing metrics:  22%|██▏       | 8884/39832 [02:10<07:26, 69.36it/s][A
+Computing metrics:  22%|██▏       | 8892/39832 [02:10<07:23, 69.75it/s][A
+Computing metrics:  22%|██▏       | 8899/39832 [02:10<07:23, 69.70it/s][A
+Computing metrics:  22%|██▏       | 8907/39832 [02:10<07:22, 69.94it/s][A
+Computing metrics:  22%|██▏       | 8914/39832 [02:10<07:45, 66.35it/s][A
+Computing metrics:  22%|██▏       | 8922/39832 [02:10<07:36, 67.65it/s][A
+Computing metrics:  22%|██▏       | 8930/39832 [02:10<07:29, 68.67it/s][A
+Computing metrics:  22%|██▏       | 8938/39832 [02:11<07:25, 69.29it/s][A
+Computing metrics:  22%|██▏       | 8946/39832 [02:11<07:20, 70.14it/s][A
+Computing metrics:  22%|██▏       | 8954/39832 [02:11<07:19, 70.19it/s][A
+Computing metrics:  22%|██▏       | 8962/39832 [02:11<07:21, 69.87it/s][A
+Computing metrics:  23%|██▎       | 8969/39832 [02:11<07:23, 69.58it/s][A
+Computing metrics:  23%|██▎       | 8977/39832 [02:11<07:20, 70.12it/s][A
+Computing metrics:  23%|██▎       | 8985/39832 [02:11<07:45, 66.27it/s][A
+Computing metrics:  23%|██▎       | 8992/39832 [02:11<07:39, 67.15it/s][A
+Computing metrics:  23%|██▎       | 8999/39832 [02:11<07:34, 67.82it/s][A
+Computing metrics:  23%|██▎       | 9007/39832 [02:12<07:30, 68.49it/s][A
+Computing metrics:  23%|██▎       | 9015/39832 [02:12<07:26, 68.95it/s][A
+Computing metrics:  23%|██▎       | 9023/39832 [02:12<07:22, 69.68it/s][A
+Computing metrics:  23%|██▎       | 9030/39832 [02:12<07:23, 69.49it/s][A
+Computing metrics:  23%|██▎       | 9037/39832 [02:12<07:22, 69.55it/s][A
+Computing metrics:  23%|██▎       | 9045/39832 [02:12<07:20, 69.87it/s][A
+Computing metrics:  23%|██▎       | 9052/39832 [02:12<07:34, 67.68it/s][A
+Computing metrics:  23%|██▎       | 9060/39832 [02:12<07:27, 68.72it/s][A
+Computing metrics:  23%|██▎       | 9067/39832 [02:12<07:26, 68.86it/s][A
+Computing metrics:  23%|██▎       | 9075/39832 [02:12<07:22, 69.58it/s][A
+Computing metrics:  23%|██▎       | 9082/39832 [02:13<07:21, 69.66it/s][A
+Computing metrics:  23%|██▎       | 9089/39832 [02:13<07:21, 69.59it/s][A
+Computing metrics:  23%|██▎       | 9096/39832 [02:13<07:21, 69.58it/s][A
+Computing metrics:  23%|██▎       | 9103/39832 [02:13<07:24, 69.18it/s][A
+Computing metrics:  23%|██▎       | 9111/39832 [02:13<07:19, 69.96it/s][A
+Computing metrics:  23%|██▎       | 9118/39832 [02:13<07:23, 69.23it/s][A
+Computing metrics:  23%|██▎       | 9125/39832 [02:13<08:06, 63.09it/s][A
+Computing metrics:  23%|██▎       | 9132/39832 [02:13<07:57, 64.36it/s][A
+Computing metrics:  23%|██▎       | 9140/39832 [02:13<07:46, 65.84it/s][A
+Computing metrics:  23%|██▎       | 9148/39832 [02:14<07:34, 67.44it/s][A
+Computing metrics:  23%|██▎       | 9156/39832 [02:14<07:27, 68.53it/s][A
+Computing metrics:  23%|██▎       | 9164/39832 [02:14<07:25, 68.87it/s][A
+Computing metrics:  23%|██▎       | 9172/39832 [02:14<07:19, 69.76it/s][A
+Computing metrics:  23%|██▎       | 9180/39832 [02:14<07:16, 70.25it/s][A
+Computing metrics:  23%|██▎       | 9188/39832 [02:14<07:14, 70.51it/s][A
+Computing metrics:  23%|██▎       | 9196/39832 [02:14<07:44, 65.90it/s][A
+Computing metrics:  23%|██▎       | 9204/39832 [02:14<07:36, 67.12it/s][A
+Computing metrics:  23%|██▎       | 9211/39832 [02:14<07:31, 67.81it/s][A
+Computing metrics:  23%|██▎       | 9218/39832 [02:15<07:27, 68.41it/s][A
+Computing metrics:  23%|██▎       | 9226/39832 [02:15<07:20, 69.46it/s][A
+Computing metrics:  23%|██▎       | 9234/39832 [02:15<07:18, 69.85it/s][A
+Computing metrics:  23%|██▎       | 9242/39832 [02:15<07:22, 69.21it/s][A
+Computing metrics:  23%|██▎       | 9249/39832 [02:15<07:23, 69.02it/s][A
+Computing metrics:  23%|██▎       | 9257/39832 [02:15<07:16, 69.97it/s][A
+Computing metrics:  23%|██▎       | 9265/39832 [02:15<07:41, 66.29it/s][A
+Computing metrics:  23%|██▎       | 9272/39832 [02:15<07:38, 66.64it/s][A
+Computing metrics:  23%|██▎       | 9280/39832 [02:16<07:34, 67.18it/s][A
+Computing metrics:  23%|██▎       | 9287/39832 [02:16<07:30, 67.77it/s][A
+Computing metrics:  23%|██▎       | 9294/39832 [02:16<07:29, 67.89it/s][A
+Computing metrics:  23%|██▎       | 9301/39832 [02:16<07:28, 68.14it/s][A
+Computing metrics:  23%|██▎       | 9308/39832 [02:16<07:28, 68.08it/s][A
+Computing metrics:  23%|██▎       | 9316/39832 [02:16<07:20, 69.22it/s][A
+Computing metrics:  23%|██▎       | 9323/39832 [02:16<07:19, 69.39it/s][A
+Computing metrics:  23%|██▎       | 9330/39832 [02:16<07:37, 66.62it/s][A
+Computing metrics:  23%|██▎       | 9337/39832 [02:16<07:32, 67.45it/s][A
+Computing metrics:  23%|██▎       | 9345/39832 [02:16<07:27, 68.17it/s][A
+Computing metrics:  23%|██▎       | 9352/39832 [02:17<07:28, 67.98it/s][A
+Computing metrics:  23%|██▎       | 9359/39832 [02:17<07:29, 67.83it/s][A
+Computing metrics:  24%|██▎       | 9366/39832 [02:17<07:28, 67.95it/s][A
+Computing metrics:  24%|██▎       | 9373/39832 [02:17<07:26, 68.21it/s][A
+Computing metrics:  24%|██▎       | 9380/39832 [02:17<07:25, 68.29it/s][A
+Computing metrics:  24%|██▎       | 9387/39832 [02:17<07:29, 67.73it/s][A
+Computing metrics:  24%|██▎       | 9394/39832 [02:17<07:34, 67.00it/s][A
+Computing metrics:  24%|██▎       | 9401/39832 [02:17<07:52, 64.44it/s][A
+Computing metrics:  24%|██▎       | 9408/39832 [02:17<07:44, 65.43it/s][A
+Computing metrics:  24%|██▎       | 9415/39832 [02:18<07:38, 66.29it/s][A
+Computing metrics:  24%|██▎       | 9423/39832 [02:18<07:26, 68.04it/s][A
+Computing metrics:  24%|██▎       | 9430/39832 [02:18<07:24, 68.33it/s][A
+Computing metrics:  24%|██▎       | 9438/39832 [02:18<07:18, 69.29it/s][A
+Computing metrics:  24%|██▎       | 9446/39832 [02:18<07:17, 69.41it/s][A
+Computing metrics:  24%|██▎       | 9453/39832 [02:18<07:16, 69.56it/s][A
+Computing metrics:  24%|██▎       | 9460/39832 [02:18<07:18, 69.26it/s][A
+Computing metrics:  24%|██▍       | 9467/39832 [02:18<07:54, 63.94it/s][A
+Computing metrics:  24%|██▍       | 9474/39832 [02:18<07:43, 65.56it/s][A
+Computing metrics:  24%|██▍       | 9481/39832 [02:18<07:36, 66.51it/s][A
+Computing metrics:  24%|██▍       | 9489/39832 [02:19<07:27, 67.75it/s][A
+Computing metrics:  24%|██▍       | 9497/39832 [02:19<07:19, 69.00it/s][A
+Computing metrics:  24%|██▍       | 9504/39832 [02:19<07:20, 68.89it/s][A
+Computing metrics:  24%|██▍       | 9512/39832 [02:19<07:16, 69.40it/s][A
+Computing metrics:  24%|██▍       | 9519/39832 [02:19<07:17, 69.24it/s][A
+Computing metrics:  24%|██▍       | 9526/39832 [02:19<07:20, 68.79it/s][A
+Computing metrics:  24%|██▍       | 9533/39832 [02:19<07:18, 69.06it/s][A
+Computing metrics:  24%|██▍       | 9540/39832 [02:19<07:34, 66.68it/s][A
+Computing metrics:  24%|██▍       | 9547/39832 [02:19<07:29, 67.30it/s][A
+Computing metrics:  24%|██▍       | 9554/39832 [02:20<07:25, 67.93it/s][A
+Computing metrics:  24%|██▍       | 9561/39832 [02:20<07:24, 68.17it/s][A
+Computing metrics:  24%|██▍       | 9569/39832 [02:20<07:16, 69.39it/s][A
+Computing metrics:  24%|██▍       | 9577/39832 [02:20<07:13, 69.72it/s][A
+Computing metrics:  24%|██▍       | 9585/39832 [02:20<07:11, 70.05it/s][A
+Computing metrics:  24%|██▍       | 9593/39832 [02:20<07:12, 69.85it/s][A
+Computing metrics:  24%|██▍       | 9600/39832 [02:20<07:13, 69.66it/s][A
+Computing metrics:  24%|██▍       | 9607/39832 [02:20<07:43, 65.18it/s][A
+Computing metrics:  24%|██▍       | 9614/39832 [02:20<07:39, 65.82it/s][A
+Computing metrics:  24%|██▍       | 9621/39832 [02:21<07:32, 66.83it/s][A
+Computing metrics:  24%|██▍       | 9628/39832 [02:21<07:25, 67.73it/s][A
+Computing metrics:  24%|██▍       | 9635/39832 [02:21<07:25, 67.78it/s][A
+Computing metrics:  24%|██▍       | 9642/39832 [02:21<07:26, 67.61it/s][A
+Computing metrics:  24%|██▍       | 9649/39832 [02:21<07:25, 67.68it/s][A
+Computing metrics:  24%|██▍       | 9656/39832 [02:21<07:22, 68.18it/s][A
+Computing metrics:  24%|██▍       | 9663/39832 [02:21<07:19, 68.62it/s][A
+Computing metrics:  24%|██▍       | 9671/39832 [02:21<07:13, 69.56it/s][A
+Computing metrics:  24%|██▍       | 9678/39832 [02:21<07:26, 67.47it/s][A
+Computing metrics:  24%|██▍       | 9686/39832 [02:21<07:21, 68.24it/s][A
+Computing metrics:  24%|██▍       | 9694/39832 [02:22<07:18, 68.76it/s][A
+Computing metrics:  24%|██▍       | 9701/39832 [02:22<07:17, 68.90it/s][A
+Computing metrics:  24%|██▍       | 9709/39832 [02:22<07:13, 69.47it/s][A
+Computing metrics:  24%|██▍       | 9717/39832 [02:22<07:10, 69.94it/s][A
+Computing metrics:  24%|██▍       | 9724/39832 [02:22<07:12, 69.69it/s][A
+Computing metrics:  24%|██▍       | 9731/39832 [02:22<07:13, 69.37it/s][A
+Computing metrics:  24%|██▍       | 9738/39832 [02:22<07:13, 69.39it/s][A
+Computing metrics:  24%|██▍       | 9746/39832 [02:22<07:13, 69.42it/s][A
+Computing metrics:  24%|██▍       | 9753/39832 [02:22<07:35, 66.10it/s][A
+Computing metrics:  25%|██▍       | 9761/39832 [02:23<07:27, 67.22it/s][A
+Computing metrics:  25%|██▍       | 9768/39832 [02:23<07:23, 67.76it/s][A
+Computing metrics:  25%|██▍       | 9776/39832 [02:23<07:15, 69.03it/s][A
+Computing metrics:  25%|██▍       | 9783/39832 [02:23<07:13, 69.28it/s][A
+Computing metrics:  25%|██▍       | 9791/39832 [02:23<07:13, 69.30it/s][A
+Computing metrics:  25%|██▍       | 9799/39832 [02:23<07:10, 69.82it/s][A
+Computing metrics:  25%|██▍       | 9807/39832 [02:23<07:07, 70.22it/s][A
+Computing metrics:  25%|██▍       | 9815/39832 [02:23<07:07, 70.29it/s][A
+Computing metrics:  25%|██▍       | 9823/39832 [02:23<07:30, 66.64it/s][A
+Computing metrics:  25%|██▍       | 9830/39832 [02:24<07:24, 67.52it/s][A
+Computing metrics:  25%|██▍       | 9838/39832 [02:24<07:18, 68.41it/s][A
+Computing metrics:  25%|██▍       | 9846/39832 [02:24<07:13, 69.18it/s][A
+Computing metrics:  25%|██▍       | 9853/39832 [02:24<07:14, 68.96it/s][A
+Computing metrics:  25%|██▍       | 9860/39832 [02:24<07:13, 69.16it/s][A
+Computing metrics:  25%|██▍       | 9868/39832 [02:24<07:10, 69.65it/s][A
+Computing metrics:  25%|██▍       | 9875/39832 [02:24<07:11, 69.50it/s][A
+Computing metrics:  25%|██▍       | 9882/39832 [02:24<07:10, 69.60it/s][A
+Computing metrics:  25%|██▍       | 9889/39832 [02:24<07:29, 66.57it/s][A
+Computing metrics:  25%|██▍       | 9897/39832 [02:25<07:21, 67.79it/s][A
+Computing metrics:  25%|██▍       | 9904/39832 [02:25<07:21, 67.84it/s][A
+Computing metrics:  25%|██▍       | 9912/39832 [02:25<07:15, 68.73it/s][A
+Computing metrics:  25%|██▍       | 9919/39832 [02:25<07:17, 68.40it/s][A
+Computing metrics:  25%|██▍       | 9927/39832 [02:25<07:15, 68.73it/s][A
+Computing metrics:  25%|██▍       | 9935/39832 [02:25<07:10, 69.39it/s][A
+Computing metrics:  25%|██▍       | 9943/39832 [02:25<07:08, 69.83it/s][A
+Computing metrics:  25%|██▍       | 9950/39832 [02:25<07:09, 69.63it/s][A
+Computing metrics:  25%|██▍       | 9957/39832 [02:25<07:09, 69.50it/s][A
+Computing metrics:  25%|██▌       | 9964/39832 [02:26<07:28, 66.66it/s][A
+Computing metrics:  25%|██▌       | 9972/39832 [02:26<07:20, 67.75it/s][A
+Computing metrics:  25%|██▌       | 9980/39832 [02:26<07:12, 69.02it/s][A
+Computing metrics:  25%|██▌       | 9988/39832 [02:26<07:10, 69.38it/s][A
+Computing metrics:  25%|██▌       | 9996/39832 [02:26<07:05, 70.16it/s][A
+Computing metrics:  25%|██▌       | 10004/39832 [02:26<07:02, 70.56it/s][A
+Computing metrics:  25%|██▌       | 10012/39832 [02:26<07:00, 70.88it/s][A
+Computing metrics:  25%|██▌       | 10020/39832 [02:26<07:04, 70.28it/s][A
+Computing metrics:  25%|██▌       | 10028/39832 [02:26<07:05, 69.97it/s][A
+Computing metrics:  25%|██▌       | 10035/39832 [02:27<07:29, 66.25it/s][A
+Computing metrics:  25%|██▌       | 10042/39832 [02:27<07:23, 67.12it/s][A
+Computing metrics:  25%|██▌       | 10049/39832 [02:27<07:18, 67.91it/s][A
+Computing metrics:  25%|██▌       | 10057/39832 [02:27<07:13, 68.62it/s][A
+Computing metrics:  25%|██▌       | 10065/39832 [02:27<07:09, 69.24it/s][A
+Computing metrics:  25%|██▌       | 10073/39832 [02:27<07:06, 69.83it/s][A
+Computing metrics:  25%|██▌       | 10081/39832 [02:27<07:03, 70.29it/s][A
+Computing metrics:  25%|██▌       | 10089/39832 [02:27<07:04, 70.04it/s][A
+Computing metrics:  25%|██▌       | 10097/39832 [02:27<07:02, 70.41it/s][A
+Computing metrics:  25%|██▌       | 10105/39832 [02:28<07:32, 65.67it/s][A
+Computing metrics:  25%|██▌       | 10112/39832 [02:28<07:30, 65.97it/s][A
+Computing metrics:  25%|██▌       | 10119/39832 [02:28<07:23, 67.05it/s][A
+Computing metrics:  25%|██▌       | 10126/39832 [02:28<07:17, 67.86it/s][A
+Computing metrics:  25%|██▌       | 10134/39832 [02:28<07:11, 68.87it/s][A
+Computing metrics:  25%|██▌       | 10141/39832 [02:28<07:10, 68.96it/s][A
+Computing metrics:  25%|██▌       | 10149/39832 [02:28<07:09, 69.18it/s][A
+Computing metrics:  25%|██▌       | 10157/39832 [02:28<07:04, 69.83it/s][A
+Computing metrics:  26%|██▌       | 10164/39832 [02:28<07:06, 69.63it/s][A
+Computing metrics:  26%|██▌       | 10171/39832 [02:29<07:35, 65.13it/s][A
+Computing metrics:  26%|██▌       | 10178/39832 [02:29<07:26, 66.40it/s][A
+Computing metrics:  26%|██▌       | 10186/39832 [02:29<07:18, 67.68it/s][A
+Computing metrics:  26%|██▌       | 10193/39832 [02:29<07:15, 68.00it/s][A
+Computing metrics:  26%|██▌       | 10201/39832 [02:29<07:12, 68.50it/s][A
+Computing metrics:  26%|██▌       | 10209/39832 [02:29<07:10, 68.88it/s][A
+Computing metrics:  26%|██▌       | 10217/39832 [02:29<07:09, 69.00it/s][A
+Computing metrics:  26%|██▌       | 10224/39832 [02:29<07:09, 69.00it/s][A
+Computing metrics:  26%|██▌       | 10231/39832 [02:29<07:10, 68.80it/s][A
+Computing metrics:  26%|██▌       | 10238/39832 [02:30<07:27, 66.18it/s][A
+Computing metrics:  26%|██▌       | 10245/39832 [02:30<07:21, 66.94it/s][A
+Computing metrics:  26%|██▌       | 10252/39832 [02:30<07:16, 67.71it/s][A
+Computing metrics:  26%|██▌       | 10259/39832 [02:30<07:13, 68.17it/s][A
+Computing metrics:  26%|██▌       | 10266/39832 [02:30<07:13, 68.17it/s][A
+Computing metrics:  26%|██▌       | 10273/39832 [02:30<07:17, 67.62it/s][A
+Computing metrics:  26%|██▌       | 10280/39832 [02:30<07:13, 68.23it/s][A
+Computing metrics:  26%|██▌       | 10287/39832 [02:30<07:14, 68.06it/s][A
+Computing metrics:  26%|██▌       | 10294/39832 [02:30<07:13, 68.15it/s][A
+Computing metrics:  26%|██▌       | 10301/39832 [02:30<07:13, 68.14it/s][A
+Computing metrics:  26%|██▌       | 10308/39832 [02:31<07:36, 64.63it/s][A
+Computing metrics:  26%|██▌       | 10315/39832 [02:31<07:31, 65.43it/s][A
+Computing metrics:  26%|██▌       | 10323/39832 [02:31<07:21, 66.86it/s][A
+Computing metrics:  26%|██▌       | 10331/39832 [02:31<07:12, 68.13it/s][A
+Computing metrics:  26%|██▌       | 10339/39832 [02:31<07:09, 68.72it/s][A
+Computing metrics:  26%|██▌       | 10347/39832 [02:31<07:06, 69.16it/s][A
+Computing metrics:  26%|██▌       | 10355/39832 [02:31<07:04, 69.39it/s][A
+Computing metrics:  26%|██▌       | 10362/39832 [02:31<07:06, 69.09it/s][A
+Computing metrics:  26%|██▌       | 10370/39832 [02:31<07:04, 69.39it/s][A
+Computing metrics:  26%|██▌       | 10377/39832 [02:32<07:08, 68.79it/s][A
+Computing metrics:  26%|██▌       | 10384/39832 [02:32<07:07, 68.88it/s][A
+Computing metrics:  26%|██▌       | 10391/39832 [02:32<07:06, 68.97it/s][A
+Computing metrics:  26%|██▌       | 10398/39832 [02:32<07:06, 69.06it/s][A
+Computing metrics:  26%|██▌       | 10405/39832 [02:32<07:06, 68.99it/s][A
+Computing metrics:  26%|██▌       | 10412/39832 [02:32<07:04, 69.26it/s][A
+Computing metrics:  26%|██▌       | 10419/39832 [02:32<07:05, 69.09it/s][A
+Computing metrics:  26%|██▌       | 10426/39832 [02:32<07:05, 69.08it/s][A
+Computing metrics:  26%|██▌       | 10434/39832 [02:32<07:02, 69.61it/s][A
+Computing metrics:  26%|██▌       | 10441/39832 [02:33<07:02, 69.54it/s][A
+Computing metrics:  26%|██▌       | 10448/39832 [02:33<07:31, 65.09it/s][A
+Computing metrics:  26%|██▌       | 10455/39832 [02:33<07:26, 65.77it/s][A
+Computing metrics:  26%|██▋       | 10462/39832 [02:33<07:19, 66.84it/s][A
+Computing metrics:  26%|██▋       | 10470/39832 [02:33<07:11, 68.05it/s][A
+Computing metrics:  26%|██▋       | 10478/39832 [02:33<07:04, 69.10it/s][A
+Computing metrics:  26%|██▋       | 10485/39832 [02:33<07:08, 68.47it/s][A
+Computing metrics:  26%|██▋       | 10493/39832 [02:33<07:02, 69.43it/s][A
+Computing metrics:  26%|██▋       | 10501/39832 [02:33<06:57, 70.27it/s][A
+Computing metrics:  26%|██▋       | 10509/39832 [02:33<06:53, 70.95it/s][A
+Computing metrics:  26%|██▋       | 10517/39832 [02:34<07:21, 66.34it/s][A
+Computing metrics:  26%|██▋       | 10525/39832 [02:34<07:16, 67.13it/s][A
+Computing metrics:  26%|██▋       | 10533/39832 [02:34<07:09, 68.17it/s][A
+Computing metrics:  26%|██▋       | 10540/39832 [02:34<07:07, 68.51it/s][A
+Computing metrics:  26%|██▋       | 10548/39832 [02:34<07:01, 69.55it/s][A
+Computing metrics:  27%|██▋       | 10556/39832 [02:34<06:57, 70.06it/s][A
+Computing metrics:  27%|██▋       | 10564/39832 [02:34<06:56, 70.34it/s][A
+Computing metrics:  27%|██▋       | 10572/39832 [02:34<06:56, 70.29it/s][A
+Computing metrics:  27%|██▋       | 10580/39832 [02:35<06:55, 70.42it/s][A
+Computing metrics:  27%|██▋       | 10588/39832 [02:35<07:08, 68.25it/s][A
+Computing metrics:  27%|██▋       | 10596/39832 [02:35<07:06, 68.58it/s][A
+Computing metrics:  27%|██▋       | 10604/39832 [02:35<07:02, 69.17it/s][A
+Computing metrics:  27%|██▋       | 10612/39832 [02:35<06:58, 69.81it/s][A
+Computing metrics:  27%|██▋       | 10620/39832 [02:35<06:56, 70.17it/s][A
+Computing metrics:  27%|██▋       | 10628/39832 [02:35<06:51, 71.02it/s][A
+Computing metrics:  27%|██▋       | 10636/39832 [02:35<06:51, 70.96it/s][A
+Computing metrics:  27%|██▋       | 10644/39832 [02:35<06:52, 70.75it/s][A
+Computing metrics:  27%|██▋       | 10652/39832 [02:36<06:48, 71.46it/s][A
+Computing metrics:  27%|██▋       | 10660/39832 [02:36<07:08, 68.03it/s][A
+Computing metrics:  27%|██▋       | 10668/39832 [02:36<07:04, 68.71it/s][A
+Computing metrics:  27%|██▋       | 10676/39832 [02:36<06:59, 69.52it/s][A
+Computing metrics:  27%|██▋       | 10683/39832 [02:36<07:00, 69.25it/s][A
+Computing metrics:  27%|██▋       | 10691/39832 [02:36<06:58, 69.61it/s][A
+Computing metrics:  27%|██▋       | 10699/39832 [02:36<06:52, 70.67it/s][A
+Computing metrics:  27%|██▋       | 10707/39832 [02:36<06:49, 71.20it/s][A
+Computing metrics:  27%|██▋       | 10715/39832 [02:36<06:51, 70.83it/s][A
+Computing metrics:  27%|██▋       | 10723/39832 [02:37<06:50, 70.97it/s][A
+Computing metrics:  27%|██▋       | 10731/39832 [02:37<07:05, 68.31it/s][A
+Computing metrics:  27%|██▋       | 10739/39832 [02:37<07:04, 68.60it/s][A
+Computing metrics:  27%|██▋       | 10747/39832 [02:37<07:00, 69.17it/s][A
+Computing metrics:  27%|██▋       | 10754/39832 [02:37<07:00, 69.22it/s][A
+Computing metrics:  27%|██▋       | 10762/39832 [02:37<06:57, 69.71it/s][A
+Computing metrics:  27%|██▋       | 10770/39832 [02:37<06:55, 69.87it/s][A
+Computing metrics:  27%|██▋       | 10778/39832 [02:37<06:55, 69.86it/s][A
+Computing metrics:  27%|██▋       | 10786/39832 [02:37<06:57, 69.63it/s][A
+Computing metrics:  27%|██▋       | 10794/39832 [02:38<06:56, 69.74it/s][A
+Computing metrics:  27%|██▋       | 10801/39832 [02:38<07:13, 66.93it/s][A
+Computing metrics:  27%|██▋       | 10809/39832 [02:38<07:07, 67.85it/s][A
+Computing metrics:  27%|██▋       | 10816/39832 [02:38<07:04, 68.37it/s][A
+Computing metrics:  27%|██▋       | 10824/39832 [02:38<07:01, 68.81it/s][A
+Computing metrics:  27%|██▋       | 10832/39832 [02:38<06:57, 69.47it/s][A
+Computing metrics:  27%|██▋       | 10840/39832 [02:38<06:53, 70.14it/s][A
+Computing metrics:  27%|██▋       | 10848/39832 [02:38<06:51, 70.47it/s][A
+Computing metrics:  27%|██▋       | 10856/39832 [02:38<06:50, 70.63it/s][A
+Computing metrics:  27%|██▋       | 10864/39832 [02:39<06:49, 70.79it/s][A
+Computing metrics:  27%|██▋       | 10872/39832 [02:39<07:04, 68.23it/s][A
+Computing metrics:  27%|██▋       | 10879/39832 [02:39<07:05, 68.12it/s][A
+Computing metrics:  27%|██▋       | 10887/39832 [02:39<06:59, 68.99it/s][A
+Computing metrics:  27%|██▋       | 10895/39832 [02:39<06:56, 69.56it/s][A
+Computing metrics:  27%|██▋       | 10902/39832 [02:39<06:58, 69.09it/s][A
+Computing metrics:  27%|██▋       | 10909/39832 [02:39<07:02, 68.52it/s][A
+Computing metrics:  27%|██▋       | 10916/39832 [02:39<07:03, 68.22it/s][A
+Computing metrics:  27%|██▋       | 10923/39832 [02:39<07:04, 68.14it/s][A
+Computing metrics:  27%|██▋       | 10930/39832 [02:40<07:02, 68.40it/s][A
+Computing metrics:  27%|██▋       | 10938/39832 [02:40<07:00, 68.76it/s][A
+Computing metrics:  27%|██▋       | 10945/39832 [02:40<07:28, 64.48it/s][A
+Computing metrics:  27%|██▋       | 10952/39832 [02:40<07:22, 65.32it/s][A
+Computing metrics:  28%|██▊       | 10959/39832 [02:40<07:15, 66.28it/s][A
+Computing metrics:  28%|██▊       | 10967/39832 [02:40<07:09, 67.21it/s][A
+Computing metrics:  28%|██▊       | 10975/39832 [02:40<07:03, 68.20it/s][A
+Computing metrics:  28%|██▊       | 10982/39832 [02:40<07:01, 68.37it/s][A
+Computing metrics:  28%|██▊       | 10990/39832 [02:40<06:58, 68.87it/s][A
+Computing metrics:  28%|██▊       | 10998/39832 [02:41<06:55, 69.41it/s][A
+Computing metrics:  28%|██▊       | 11005/39832 [02:41<06:55, 69.33it/s][A
+Computing metrics:  28%|██▊       | 11012/39832 [02:41<07:22, 65.19it/s][A
+Computing metrics:  28%|██▊       | 11019/39832 [02:41<07:16, 66.06it/s][A
+Computing metrics:  28%|██▊       | 11027/39832 [02:41<07:07, 67.43it/s][A
+Computing metrics:  28%|██▊       | 11035/39832 [02:41<06:58, 68.74it/s][A
+Computing metrics:  28%|██▊       | 11043/39832 [02:41<06:55, 69.25it/s][A
+Computing metrics:  28%|██▊       | 11050/39832 [02:41<06:54, 69.39it/s][A
+Computing metrics:  28%|██▊       | 11058/39832 [02:41<06:51, 69.95it/s][A
+Computing metrics:  28%|██▊       | 11065/39832 [02:42<06:52, 69.77it/s][A
+Computing metrics:  28%|██▊       | 11072/39832 [02:42<06:52, 69.65it/s][A
+Computing metrics:  28%|██▊       | 11079/39832 [02:42<07:09, 66.99it/s][A
+Computing metrics:  28%|██▊       | 11087/39832 [02:42<07:03, 67.91it/s][A
+Computing metrics:  28%|██▊       | 11095/39832 [02:42<06:59, 68.49it/s][A
+Computing metrics:  28%|██▊       | 11103/39832 [02:42<06:56, 68.99it/s][A
+Computing metrics:  28%|██▊       | 11111/39832 [02:42<06:54, 69.21it/s][A
+Computing metrics:  28%|██▊       | 11118/39832 [02:42<06:53, 69.38it/s][A
+Computing metrics:  28%|██▊       | 11125/39832 [02:42<06:53, 69.36it/s][A
+Computing metrics:  28%|██▊       | 11133/39832 [02:43<06:53, 69.36it/s][A
+Computing metrics:  28%|██▊       | 11141/39832 [02:43<06:51, 69.75it/s][A
+Computing metrics:  28%|██▊       | 11148/39832 [02:43<07:22, 64.85it/s][A
+Computing metrics:  28%|██▊       | 11155/39832 [02:43<07:14, 66.04it/s][A
+Computing metrics:  28%|██▊       | 11163/39832 [02:43<07:03, 67.77it/s][A
+Computing metrics:  28%|██▊       | 11170/39832 [02:43<07:05, 67.39it/s][A
+Computing metrics:  28%|██▊       | 11178/39832 [02:43<06:58, 68.53it/s][A
+Computing metrics:  28%|██▊       | 11186/39832 [02:43<06:51, 69.69it/s][A
+Computing metrics:  28%|██▊       | 11194/39832 [02:43<06:49, 70.02it/s][A
+Computing metrics:  28%|██▊       | 11202/39832 [02:44<06:44, 70.72it/s][A
+Computing metrics:  28%|██▊       | 11210/39832 [02:44<06:42, 71.10it/s][A
+Computing metrics:  28%|██▊       | 11218/39832 [02:44<07:10, 66.47it/s][A
+Computing metrics:  28%|██▊       | 11226/39832 [02:44<07:03, 67.51it/s][A
+Computing metrics:  28%|██▊       | 11234/39832 [02:44<06:58, 68.33it/s][A
+Computing metrics:  28%|██▊       | 11241/39832 [02:44<06:56, 68.60it/s][A
+Computing metrics:  28%|██▊       | 11249/39832 [02:44<06:51, 69.42it/s][A
+Computing metrics:  28%|██▊       | 11256/39832 [02:44<06:50, 69.55it/s][A
+Computing metrics:  28%|██▊       | 11264/39832 [02:44<06:49, 69.78it/s][A
+Computing metrics:  28%|██▊       | 11271/39832 [02:45<06:49, 69.67it/s][A
+Computing metrics:  28%|██▊       | 11279/39832 [02:45<06:49, 69.65it/s][A
+Computing metrics:  28%|██▊       | 11286/39832 [02:45<07:14, 65.68it/s][A
+Computing metrics:  28%|██▊       | 11294/39832 [02:45<07:00, 67.84it/s][A
+Computing metrics:  28%|██▊       | 11302/39832 [02:45<06:53, 68.93it/s][A
+Computing metrics:  28%|██▊       | 11310/39832 [02:45<06:48, 69.86it/s][A
+Computing metrics:  28%|██▊       | 11318/39832 [02:45<06:46, 70.20it/s][A
+Computing metrics:  28%|██▊       | 11326/39832 [02:45<06:45, 70.38it/s][A
+Computing metrics:  28%|██▊       | 11334/39832 [02:45<06:42, 70.84it/s][A
+Computing metrics:  28%|██▊       | 11342/39832 [02:46<06:38, 71.43it/s][A
+Computing metrics:  28%|██▊       | 11350/39832 [02:46<06:38, 71.39it/s][A
+Computing metrics:  29%|██▊       | 11358/39832 [02:46<07:03, 67.30it/s][A
+Computing metrics:  29%|██▊       | 11365/39832 [02:46<07:02, 67.45it/s][A
+Computing metrics:  29%|██▊       | 11373/39832 [02:46<06:56, 68.40it/s][A
+Computing metrics:  29%|██▊       | 11381/39832 [02:46<06:51, 69.13it/s][A
+Computing metrics:  29%|██▊       | 11389/39832 [02:46<06:47, 69.80it/s][A
+Computing metrics:  29%|██▊       | 11397/39832 [02:46<06:41, 70.81it/s][A
+Computing metrics:  29%|██▊       | 11405/39832 [02:46<06:38, 71.35it/s][A
+Computing metrics:  29%|██▊       | 11413/39832 [02:47<06:38, 71.38it/s][A
+Computing metrics:  29%|██▊       | 11421/39832 [02:47<06:36, 71.70it/s][A
+Computing metrics:  29%|██▊       | 11429/39832 [02:47<07:11, 65.85it/s][A
+Computing metrics:  29%|██▊       | 11437/39832 [02:47<07:00, 67.50it/s][A
+Computing metrics:  29%|██▊       | 11445/39832 [02:47<06:54, 68.56it/s][A
+Computing metrics:  29%|██▉       | 11453/39832 [02:47<06:48, 69.44it/s][A
+Computing metrics:  29%|██▉       | 11461/39832 [02:47<06:44, 70.21it/s][A
+Computing metrics:  29%|██▉       | 11469/39832 [02:47<06:37, 71.40it/s][A
+Computing metrics:  29%|██▉       | 11477/39832 [02:47<06:33, 71.97it/s][A
+Computing metrics:  29%|██▉       | 11485/39832 [02:48<06:31, 72.33it/s][A
+Computing metrics:  29%|██▉       | 11493/39832 [02:48<06:30, 72.60it/s][A
+Computing metrics:  29%|██▉       | 11501/39832 [02:48<07:07, 66.33it/s][A
+Computing metrics:  29%|██▉       | 11509/39832 [02:48<06:55, 68.22it/s][A
+Computing metrics:  29%|██▉       | 11517/39832 [02:48<06:48, 69.25it/s][A
+Computing metrics:  29%|██▉       | 11525/39832 [02:48<06:40, 70.59it/s][A
+Computing metrics:  29%|██▉       | 11533/39832 [02:48<06:36, 71.43it/s][A
+Computing metrics:  29%|██▉       | 11541/39832 [02:48<06:41, 70.47it/s][A
+Computing metrics:  29%|██▉       | 11549/39832 [02:49<06:40, 70.60it/s][A
+Computing metrics:  29%|██▉       | 11557/39832 [02:49<06:43, 70.03it/s][A
+Computing metrics:  29%|██▉       | 11565/39832 [02:49<06:44, 69.93it/s][A
+Computing metrics:  29%|██▉       | 11573/39832 [02:49<07:17, 64.60it/s][A
+Computing metrics:  29%|██▉       | 11580/39832 [02:49<07:08, 65.93it/s][A
+Computing metrics:  29%|██▉       | 11587/39832 [02:49<07:08, 65.96it/s][A
+Computing metrics:  29%|██▉       | 11594/39832 [02:49<07:04, 66.58it/s][A
+Computing metrics:  29%|██▉       | 11601/39832 [02:49<07:04, 66.58it/s][A
+Computing metrics:  29%|██▉       | 11609/39832 [02:49<06:55, 67.95it/s][A
+Computing metrics:  29%|██▉       | 11616/39832 [02:50<06:53, 68.25it/s][A
+Computing metrics:  29%|██▉       | 11623/39832 [02:50<06:53, 68.18it/s][A
+Computing metrics:  29%|██▉       | 11630/39832 [02:50<06:51, 68.57it/s][A
+Computing metrics:  29%|██▉       | 11637/39832 [02:50<06:55, 67.78it/s][A
+Computing metrics:  29%|██▉       | 11644/39832 [02:50<07:23, 63.60it/s][A
+Computing metrics:  29%|██▉       | 11651/39832 [02:50<07:14, 64.87it/s][A
+Computing metrics:  29%|██▉       | 11658/39832 [02:50<07:06, 66.11it/s][A
+Computing metrics:  29%|██▉       | 11666/39832 [02:50<06:59, 67.14it/s][A
+Computing metrics:  29%|██▉       | 11673/39832 [02:50<06:56, 67.63it/s][A
+Computing metrics:  29%|██▉       | 11680/39832 [02:50<06:56, 67.58it/s][A
+Computing metrics:  29%|██▉       | 11688/39832 [02:51<06:47, 69.12it/s][A
+Computing metrics:  29%|██▉       | 11695/39832 [02:51<06:48, 68.87it/s][A
+Computing metrics:  29%|██▉       | 11702/39832 [02:51<06:49, 68.71it/s][A
+Computing metrics:  29%|██▉       | 11709/39832 [02:51<07:21, 63.67it/s][A
+Computing metrics:  29%|██▉       | 11716/39832 [02:51<07:11, 65.09it/s][A
+Computing metrics:  29%|██▉       | 11723/39832 [02:51<07:07, 65.77it/s][A
+Computing metrics:  29%|██▉       | 11730/39832 [02:51<07:01, 66.68it/s][A
+Computing metrics:  29%|██▉       | 11737/39832 [02:51<06:57, 67.24it/s][A
+Computing metrics:  29%|██▉       | 11745/39832 [02:51<06:53, 67.93it/s][A
+Computing metrics:  30%|██▉       | 11752/39832 [02:52<06:52, 68.10it/s][A
+Computing metrics:  30%|██▉       | 11759/39832 [02:52<06:52, 68.08it/s][A
+Computing metrics:  30%|██▉       | 11766/39832 [02:52<06:49, 68.60it/s][A
+Computing metrics:  30%|██▉       | 11773/39832 [02:52<06:54, 67.67it/s][A
+Computing metrics:  30%|██▉       | 11780/39832 [02:52<07:25, 62.99it/s][A
+Computing metrics:  30%|██▉       | 11787/39832 [02:52<07:15, 64.35it/s][A
+Computing metrics:  30%|██▉       | 11794/39832 [02:52<07:08, 65.41it/s][A
+Computing metrics:  30%|██▉       | 11801/39832 [02:52<07:05, 65.95it/s][A
+Computing metrics:  30%|██▉       | 11809/39832 [02:52<07:00, 66.66it/s][A
+Computing metrics:  30%|██▉       | 11817/39832 [02:53<06:54, 67.58it/s][A
+Computing metrics:  30%|██▉       | 11824/39832 [02:53<06:54, 67.63it/s][A
+Computing metrics:  30%|██▉       | 11831/39832 [02:53<06:55, 67.44it/s][A
+Computing metrics:  30%|██▉       | 11838/39832 [02:53<06:51, 67.95it/s][A
+Computing metrics:  30%|██▉       | 11845/39832 [02:53<07:25, 62.88it/s][A
+Computing metrics:  30%|██▉       | 11852/39832 [02:53<07:15, 64.24it/s][A
+Computing metrics:  30%|██▉       | 11859/39832 [02:53<07:09, 65.09it/s][A
+Computing metrics:  30%|██▉       | 11866/39832 [02:53<07:02, 66.14it/s][A
+Computing metrics:  30%|██▉       | 11873/39832 [02:53<06:58, 66.73it/s][A
+Computing metrics:  30%|██▉       | 11880/39832 [02:53<06:54, 67.43it/s][A
+Computing metrics:  30%|██▉       | 11887/39832 [02:54<06:52, 67.68it/s][A
+Computing metrics:  30%|██▉       | 11894/39832 [02:54<06:54, 67.36it/s][A
+Computing metrics:  30%|██▉       | 11902/39832 [02:54<06:47, 68.61it/s][A
+Computing metrics:  30%|██▉       | 11909/39832 [02:54<06:47, 68.56it/s][A
+Computing metrics:  30%|██▉       | 11916/39832 [02:54<07:13, 64.34it/s][A
+Computing metrics:  30%|██▉       | 11923/39832 [02:54<07:05, 65.57it/s][A
+Computing metrics:  30%|██▉       | 11930/39832 [02:54<07:02, 66.00it/s][A
+Computing metrics:  30%|██▉       | 11937/39832 [02:54<07:01, 66.23it/s][A
+Computing metrics:  30%|██▉       | 11945/39832 [02:54<06:56, 66.99it/s][A
+Computing metrics:  30%|███       | 11953/39832 [02:55<06:51, 67.71it/s][A
+Computing metrics:  30%|███       | 11960/39832 [02:55<06:49, 68.14it/s][A
+Computing metrics:  30%|███       | 11967/39832 [02:55<06:48, 68.24it/s][A
+Computing metrics:  30%|███       | 11975/39832 [02:55<06:43, 68.97it/s][A
+Computing metrics:  30%|███       | 11982/39832 [02:55<06:55, 67.06it/s][A
+Computing metrics:  30%|███       | 11989/39832 [02:55<06:53, 67.29it/s][A
+Computing metrics:  30%|███       | 11996/39832 [02:55<06:54, 67.22it/s][A
+Computing metrics:  30%|███       | 12004/39832 [02:55<06:48, 68.15it/s][A
+Computing metrics:  30%|███       | 12011/39832 [02:55<06:47, 68.33it/s][A
+Computing metrics:  30%|███       | 12018/39832 [02:56<06:45, 68.56it/s][A
+Computing metrics:  30%|███       | 12026/39832 [02:56<06:45, 68.49it/s][A
+Computing metrics:  30%|███       | 12033/39832 [02:56<06:44, 68.69it/s][A
+Computing metrics:  30%|███       | 12040/39832 [02:56<06:45, 68.59it/s][A
+Computing metrics:  30%|███       | 12047/39832 [02:56<06:45, 68.49it/s][A
+Computing metrics:  30%|███       | 12054/39832 [02:56<07:16, 63.63it/s][A
+Computing metrics:  30%|███       | 12062/39832 [02:56<07:04, 65.39it/s][A
+Computing metrics:  30%|███       | 12069/39832 [02:56<07:00, 66.07it/s][A
+Computing metrics:  30%|███       | 12076/39832 [02:56<06:57, 66.43it/s][A
+Computing metrics:  30%|███       | 12084/39832 [02:57<06:51, 67.44it/s][A
+Computing metrics:  30%|███       | 12092/39832 [02:57<06:46, 68.31it/s][A
+Computing metrics:  30%|███       | 12099/39832 [02:57<06:43, 68.67it/s][A
+Computing metrics:  30%|███       | 12106/39832 [02:57<06:45, 68.35it/s][A
+Computing metrics:  30%|███       | 12113/39832 [02:57<06:43, 68.64it/s][A
+Computing metrics:  30%|███       | 12120/39832 [02:57<07:24, 62.34it/s][A
+Computing metrics:  30%|███       | 12128/39832 [02:57<07:07, 64.85it/s][A
+Computing metrics:  30%|███       | 12136/39832 [02:57<06:54, 66.79it/s][A
+Computing metrics:  30%|███       | 12143/39832 [02:57<06:50, 67.47it/s][A
+Computing metrics:  31%|███       | 12150/39832 [02:58<06:48, 67.75it/s][A
+Computing metrics:  31%|███       | 12158/39832 [02:58<06:43, 68.54it/s][A
+Computing metrics:  31%|███       | 12165/39832 [02:58<06:42, 68.73it/s][A
+Computing metrics:  31%|███       | 12172/39832 [02:58<06:45, 68.27it/s][A
+Computing metrics:  31%|███       | 12180/39832 [02:58<06:40, 68.96it/s][A
+Computing metrics:  31%|███       | 12188/39832 [02:58<06:37, 69.49it/s][A
+Computing metrics:  31%|███       | 12195/39832 [02:58<06:47, 67.84it/s][A
+Computing metrics:  31%|███       | 12202/39832 [02:58<06:48, 67.65it/s][A
+Computing metrics:  31%|███       | 12210/39832 [02:58<06:46, 67.87it/s][A
+Computing metrics:  31%|███       | 12217/39832 [02:58<06:45, 68.14it/s][A
+Computing metrics:  31%|███       | 12224/39832 [02:59<06:48, 67.63it/s][A
+Computing metrics:  31%|███       | 12231/39832 [02:59<06:47, 67.76it/s][A
+Computing metrics:  31%|███       | 12239/39832 [02:59<06:42, 68.62it/s][A
+Computing metrics:  31%|███       | 12246/39832 [02:59<06:43, 68.35it/s][A
+Computing metrics:  31%|███       | 12253/39832 [02:59<06:42, 68.48it/s][A
+Computing metrics:  31%|███       | 12260/39832 [02:59<07:12, 63.81it/s][A
+Computing metrics:  31%|███       | 12268/39832 [02:59<06:58, 65.94it/s][A
+Computing metrics:  31%|███       | 12275/39832 [02:59<06:51, 66.98it/s][A
+Computing metrics:  31%|███       | 12282/39832 [02:59<06:53, 66.66it/s][A
+Computing metrics:  31%|███       | 12289/39832 [03:00<06:50, 67.15it/s][A
+Computing metrics:  31%|███       | 12296/39832 [03:00<06:46, 67.69it/s][A
+Computing metrics:  31%|███       | 12303/39832 [03:00<06:44, 68.03it/s][A
+Computing metrics:  31%|███       | 12311/39832 [03:00<06:40, 68.74it/s][A
+Computing metrics:  31%|███       | 12319/39832 [03:00<06:35, 69.49it/s][A
+Computing metrics:  31%|███       | 12326/39832 [03:00<06:57, 65.88it/s][A
+Computing metrics:  31%|███       | 12333/39832 [03:00<06:51, 66.90it/s][A
+Computing metrics:  31%|███       | 12340/39832 [03:00<06:48, 67.23it/s][A
+Computing metrics:  31%|███       | 12347/39832 [03:00<06:48, 67.34it/s][A
+Computing metrics:  31%|███       | 12354/39832 [03:01<06:43, 68.08it/s][A
+Computing metrics:  31%|███       | 12362/39832 [03:01<06:41, 68.41it/s][A
+Computing metrics:  31%|███       | 12369/39832 [03:01<06:40, 68.59it/s][A
+Computing metrics:  31%|███       | 12376/39832 [03:01<06:39, 68.80it/s][A
+Computing metrics:  31%|███       | 12383/39832 [03:01<06:37, 69.03it/s][A
+Computing metrics:  31%|███       | 12390/39832 [03:01<06:37, 69.04it/s][A
+Computing metrics:  31%|███       | 12397/39832 [03:01<07:01, 65.06it/s][A
+Computing metrics:  31%|███       | 12404/39832 [03:01<06:53, 66.35it/s][A
+Computing metrics:  31%|███       | 12412/39832 [03:01<06:46, 67.40it/s][A
+Computing metrics:  31%|███       | 12420/39832 [03:01<06:40, 68.41it/s][A
+Computing metrics:  31%|███       | 12428/39832 [03:02<06:33, 69.68it/s][A
+Computing metrics:  31%|███       | 12436/39832 [03:02<06:30, 70.21it/s][A
+Computing metrics:  31%|███       | 12444/39832 [03:02<06:30, 70.21it/s][A
+Computing metrics:  31%|███▏      | 12452/39832 [03:02<06:33, 69.56it/s][A
+Computing metrics:  31%|███▏      | 12460/39832 [03:02<06:31, 69.91it/s][A
+Computing metrics:  31%|███▏      | 12467/39832 [03:02<06:58, 65.31it/s][A
+Computing metrics:  31%|███▏      | 12475/39832 [03:02<06:50, 66.64it/s][A
+Computing metrics:  31%|███▏      | 12483/39832 [03:02<06:42, 67.96it/s][A
+Computing metrics:  31%|███▏      | 12490/39832 [03:03<06:41, 68.09it/s][A
+Computing metrics:  31%|███▏      | 12497/39832 [03:03<06:43, 67.74it/s][A
+Computing metrics:  31%|███▏      | 12504/39832 [03:03<06:44, 67.59it/s][A
+Computing metrics:  31%|███▏      | 12511/39832 [03:03<06:44, 67.52it/s][A
+Computing metrics:  31%|███▏      | 12518/39832 [03:03<06:43, 67.72it/s][A
+Computing metrics:  31%|███▏      | 12526/39832 [03:03<06:37, 68.62it/s][A
+Computing metrics:  31%|███▏      | 12533/39832 [03:03<07:11, 63.25it/s][A
+Computing metrics:  31%|███▏      | 12540/39832 [03:03<06:59, 65.05it/s][A
+Computing metrics:  32%|███▏      | 12548/39832 [03:03<06:51, 66.29it/s][A
+Computing metrics:  32%|███▏      | 12555/39832 [03:03<06:46, 67.14it/s][A
+Computing metrics:  32%|███▏      | 12562/39832 [03:04<06:45, 67.19it/s][A
+Computing metrics:  32%|███▏      | 12569/39832 [03:04<06:44, 67.32it/s][A
+Computing metrics:  32%|███▏      | 12577/39832 [03:04<06:38, 68.44it/s][A
+Computing metrics:  32%|███▏      | 12584/39832 [03:04<06:37, 68.51it/s][A
+Computing metrics:  32%|███▏      | 12591/39832 [03:04<06:40, 68.06it/s][A
+Computing metrics:  32%|███▏      | 12598/39832 [03:04<06:39, 68.17it/s][A
+Computing metrics:  32%|███▏      | 12605/39832 [03:04<07:09, 63.36it/s][A
+Computing metrics:  32%|███▏      | 12612/39832 [03:04<07:02, 64.48it/s][A
+Computing metrics:  32%|███▏      | 12619/39832 [03:04<06:54, 65.71it/s][A
+Computing metrics:  32%|███▏      | 12626/39832 [03:05<06:50, 66.27it/s][A
+Computing metrics:  32%|███▏      | 12634/39832 [03:05<06:43, 67.33it/s][A
+Computing metrics:  32%|███▏      | 12642/39832 [03:05<06:40, 67.96it/s][A
+Computing metrics:  32%|███▏      | 12649/39832 [03:05<06:37, 68.42it/s][A
+Computing metrics:  32%|███▏      | 12656/39832 [03:05<06:37, 68.33it/s][A
+Computing metrics:  32%|███▏      | 12664/39832 [03:05<06:36, 68.58it/s][A
+Computing metrics:  32%|███▏      | 12671/39832 [03:05<06:54, 65.45it/s][A
+Computing metrics:  32%|███▏      | 12678/39832 [03:05<06:47, 66.69it/s][A
+Computing metrics:  32%|███▏      | 12685/39832 [03:05<06:44, 67.12it/s][A
+Computing metrics:  32%|███▏      | 12692/39832 [03:06<06:45, 66.96it/s][A
+Computing metrics:  32%|███▏      | 12700/39832 [03:06<06:41, 67.65it/s][A
+Computing metrics:  32%|███▏      | 12708/39832 [03:06<06:37, 68.18it/s][A
+Computing metrics:  32%|███▏      | 12715/39832 [03:06<06:37, 68.22it/s][A
+Computing metrics:  32%|███▏      | 12722/39832 [03:06<06:37, 68.15it/s][A
+Computing metrics:  32%|███▏      | 12730/39832 [03:06<06:34, 68.68it/s][A
+Computing metrics:  32%|███▏      | 12737/39832 [03:06<06:33, 68.84it/s][A
+Computing metrics:  32%|███▏      | 12744/39832 [03:06<07:00, 64.44it/s][A
+Computing metrics:  32%|███▏      | 12751/39832 [03:06<06:51, 65.78it/s][A
+Computing metrics:  32%|███▏      | 12758/39832 [03:07<06:46, 66.53it/s][A
+Computing metrics:  32%|███▏      | 12765/39832 [03:07<06:41, 67.49it/s][A
+Computing metrics:  32%|███▏      | 12772/39832 [03:07<06:39, 67.81it/s][A
+Computing metrics:  32%|███▏      | 12779/39832 [03:07<06:35, 68.32it/s][A
+Computing metrics:  32%|███▏      | 12786/39832 [03:07<06:33, 68.69it/s][A
+Computing metrics:  32%|███▏      | 12793/39832 [03:07<06:36, 68.25it/s][A
+Computing metrics:  32%|███▏      | 12800/39832 [03:07<06:37, 68.03it/s][A
+Computing metrics:  32%|███▏      | 12808/39832 [03:07<06:34, 68.46it/s][A
+Computing metrics:  32%|███▏      | 12815/39832 [03:07<06:50, 65.79it/s][A
+Computing metrics:  32%|███▏      | 12822/39832 [03:07<06:44, 66.76it/s][A
+Computing metrics:  32%|███▏      | 12829/39832 [03:08<06:41, 67.27it/s][A
+Computing metrics:  32%|███▏      | 12836/39832 [03:08<06:39, 67.49it/s][A
+Computing metrics:  32%|███▏      | 12843/39832 [03:08<06:37, 67.96it/s][A
+Computing metrics:  32%|███▏      | 12850/39832 [03:08<06:37, 67.81it/s][A
+Computing metrics:  32%|███▏      | 12857/39832 [03:08<06:35, 68.20it/s][A
+Computing metrics:  32%|███▏      | 12864/39832 [03:08<06:34, 68.41it/s][A
+Computing metrics:  32%|███▏      | 12871/39832 [03:08<06:40, 67.24it/s][A
+Computing metrics:  32%|███▏      | 12878/39832 [03:08<07:10, 62.56it/s][A
+Computing metrics:  32%|███▏      | 12885/39832 [03:08<07:02, 63.82it/s][A
+Computing metrics:  32%|███▏      | 12893/39832 [03:09<06:49, 65.85it/s][A
+Computing metrics:  32%|███▏      | 12901/39832 [03:09<06:40, 67.27it/s][A
+Computing metrics:  32%|███▏      | 12908/39832 [03:09<06:39, 67.37it/s][A
+Computing metrics:  32%|███▏      | 12915/39832 [03:09<06:41, 67.03it/s][A
+Computing metrics:  32%|███▏      | 12922/39832 [03:09<06:38, 67.45it/s][A
+Computing metrics:  32%|███▏      | 12929/39832 [03:09<06:36, 67.85it/s][A
+Computing metrics:  32%|███▏      | 12936/39832 [03:09<06:36, 67.79it/s][A
+Computing metrics:  32%|███▏      | 12943/39832 [03:09<06:36, 67.79it/s][A
+Computing metrics:  33%|███▎      | 12950/39832 [03:09<07:04, 63.37it/s][A
+Computing metrics:  33%|███▎      | 12957/39832 [03:09<06:52, 65.18it/s][A
+Computing metrics:  33%|███▎      | 12964/39832 [03:10<06:48, 65.85it/s][A
+Computing metrics:  33%|███▎      | 12971/39832 [03:10<06:42, 66.70it/s][A
+Computing metrics:  33%|███▎      | 12979/39832 [03:10<06:37, 67.50it/s][A
+Computing metrics:  33%|███▎      | 12987/39832 [03:10<06:32, 68.37it/s][A
+Computing metrics:  33%|███▎      | 12994/39832 [03:10<06:35, 67.87it/s][A
+Computing metrics:  33%|███▎      | 13001/39832 [03:10<06:32, 68.28it/s][A
+Computing metrics:  33%|███▎      | 13008/39832 [03:10<06:30, 68.61it/s][A
+Computing metrics:  33%|███▎      | 13015/39832 [03:10<06:57, 64.29it/s][A
+Computing metrics:  33%|███▎      | 13022/39832 [03:10<06:48, 65.68it/s][A
+Computing metrics:  33%|███▎      | 13029/39832 [03:11<06:43, 66.37it/s][A
+Computing metrics:  33%|███▎      | 13036/39832 [03:11<06:38, 67.23it/s][A
+Computing metrics:  33%|███▎      | 13043/39832 [03:11<06:37, 67.36it/s][A
+Computing metrics:  33%|███▎      | 13050/39832 [03:11<06:33, 67.99it/s][A
+Computing metrics:  33%|███▎      | 13058/39832 [03:11<06:27, 69.05it/s][A
+Computing metrics:  33%|███▎      | 13065/39832 [03:11<06:26, 69.27it/s][A
+Computing metrics:  33%|███▎      | 13072/39832 [03:11<06:26, 69.16it/s][A
+Computing metrics:  33%|███▎      | 13080/39832 [03:11<06:25, 69.44it/s][A
+Computing metrics:  33%|███▎      | 13087/39832 [03:11<06:59, 63.71it/s][A
+Computing metrics:  33%|███▎      | 13095/39832 [03:12<06:48, 65.43it/s][A
+Computing metrics:  33%|███▎      | 13103/39832 [03:12<06:39, 66.88it/s][A
+Computing metrics:  33%|███▎      | 13110/39832 [03:12<06:35, 67.51it/s][A
+Computing metrics:  33%|███▎      | 13117/39832 [03:12<06:35, 67.59it/s][A
+Computing metrics:  33%|███▎      | 13125/39832 [03:12<06:30, 68.38it/s][A
+Computing metrics:  33%|███▎      | 13133/39832 [03:12<06:26, 69.08it/s][A
+Computing metrics:  33%|███▎      | 13141/39832 [03:12<06:24, 69.50it/s][A
+Computing metrics:  33%|███▎      | 13148/39832 [03:12<06:23, 69.52it/s][A
+Computing metrics:  33%|███▎      | 13155/39832 [03:12<06:46, 65.60it/s][A
+Computing metrics:  33%|███▎      | 13163/39832 [03:13<06:36, 67.18it/s][A
+Computing metrics:  33%|███▎      | 13171/39832 [03:13<06:27, 68.82it/s][A
+Computing metrics:  33%|███▎      | 13178/39832 [03:13<06:26, 69.01it/s][A
+Computing metrics:  33%|███▎      | 13185/39832 [03:13<06:25, 69.05it/s][A
+Computing metrics:  33%|███▎      | 13192/39832 [03:13<06:24, 69.29it/s][A
+Computing metrics:  33%|███▎      | 13199/39832 [03:13<06:25, 69.10it/s][A
+Computing metrics:  33%|███▎      | 13206/39832 [03:13<06:25, 69.12it/s][A
+Computing metrics:  33%|███▎      | 13214/39832 [03:13<06:23, 69.38it/s][A
+Computing metrics:  33%|███▎      | 13221/39832 [03:13<06:37, 66.91it/s][A
+Computing metrics:  33%|███▎      | 13229/39832 [03:13<06:29, 68.37it/s][A
+Computing metrics:  33%|███▎      | 13236/39832 [03:14<06:28, 68.42it/s][A
+Computing metrics:  33%|███▎      | 13243/39832 [03:14<06:26, 68.79it/s][A
+Computing metrics:  33%|███▎      | 13251/39832 [03:14<06:24, 69.05it/s][A
+Computing metrics:  33%|███▎      | 13259/39832 [03:14<06:22, 69.53it/s][A
+Computing metrics:  33%|███▎      | 13267/39832 [03:14<06:18, 70.16it/s][A
+Computing metrics:  33%|███▎      | 13275/39832 [03:14<06:16, 70.50it/s][A
+Computing metrics:  33%|███▎      | 13283/39832 [03:14<06:17, 70.25it/s][A
+Computing metrics:  33%|███▎      | 13291/39832 [03:14<07:06, 62.16it/s][A
+Computing metrics:  33%|███▎      | 13298/39832 [03:15<06:57, 63.62it/s][A
+Computing metrics:  33%|███▎      | 13306/39832 [03:15<06:46, 65.30it/s][A
+Computing metrics:  33%|███▎      | 13314/39832 [03:15<06:35, 67.02it/s][A
+Computing metrics:  33%|███▎      | 13321/39832 [03:15<06:34, 67.16it/s][A
+Computing metrics:  33%|███▎      | 13328/39832 [03:15<06:33, 67.32it/s][A
+Computing metrics:  33%|███▎      | 13336/39832 [03:15<06:29, 67.99it/s][A
+Computing metrics:  33%|███▎      | 13343/39832 [03:15<06:27, 68.32it/s][A
+Computing metrics:  34%|███▎      | 13350/39832 [03:15<06:25, 68.66it/s][A
+Computing metrics:  34%|███▎      | 13357/39832 [03:15<06:23, 69.04it/s][A
+Computing metrics:  34%|███▎      | 13364/39832 [03:16<06:55, 63.76it/s][A
+Computing metrics:  34%|███▎      | 13371/39832 [03:16<06:45, 65.31it/s][A
+Computing metrics:  34%|███▎      | 13379/39832 [03:16<06:33, 67.16it/s][A
+Computing metrics:  34%|███▎      | 13386/39832 [03:16<06:31, 67.56it/s][A
+Computing metrics:  34%|███▎      | 13394/39832 [03:16<06:22, 69.16it/s][A
+Computing metrics:  34%|███▎      | 13402/39832 [03:16<06:18, 69.74it/s][A
+Computing metrics:  34%|███▎      | 13409/39832 [03:16<06:21, 69.34it/s][A
+Computing metrics:  34%|███▎      | 13416/39832 [03:16<06:20, 69.41it/s][A
+Computing metrics:  34%|███▎      | 13423/39832 [03:16<06:22, 69.02it/s][A
+Computing metrics:  34%|███▎      | 13430/39832 [03:16<07:05, 61.98it/s][A
+Computing metrics:  34%|███▎      | 13437/39832 [03:17<06:51, 64.14it/s][A
+Computing metrics:  34%|███▍      | 13444/39832 [03:17<06:42, 65.63it/s][A
+Computing metrics:  34%|███▍      | 13452/39832 [03:17<06:34, 66.95it/s][A
+Computing metrics:  34%|███▍      | 13459/39832 [03:17<06:31, 67.34it/s][A
+Computing metrics:  34%|███▍      | 13466/39832 [03:17<06:28, 67.90it/s][A
+Computing metrics:  34%|███▍      | 13473/39832 [03:17<06:26, 68.18it/s][A
+Computing metrics:  34%|███▍      | 13481/39832 [03:17<06:23, 68.69it/s][A
+Computing metrics:  34%|███▍      | 13489/39832 [03:17<06:21, 69.10it/s][A
+Computing metrics:  34%|███▍      | 13496/39832 [03:17<06:24, 68.55it/s][A
+Computing metrics:  34%|███▍      | 13504/39832 [03:18<06:20, 69.13it/s][A
+Computing metrics:  34%|███▍      | 13511/39832 [03:18<06:19, 69.33it/s][A
+Computing metrics:  34%|███▍      | 13519/39832 [03:18<06:19, 69.31it/s][A
+Computing metrics:  34%|███▍      | 13527/39832 [03:18<06:16, 69.94it/s][A
+Computing metrics:  34%|███▍      | 13534/39832 [03:18<06:17, 69.62it/s][A
+Computing metrics:  34%|███▍      | 13542/39832 [03:18<06:16, 69.92it/s][A
+Computing metrics:  34%|███▍      | 13549/39832 [03:18<06:16, 69.76it/s][A
+Computing metrics:  34%|███▍      | 13556/39832 [03:18<06:17, 69.69it/s][A
+Computing metrics:  34%|███▍      | 13564/39832 [03:18<06:13, 70.25it/s][A
+Computing metrics:  34%|███▍      | 13572/39832 [03:19<06:29, 67.47it/s][A
+Computing metrics:  34%|███▍      | 13580/39832 [03:19<06:23, 68.46it/s][A
+Computing metrics:  34%|███▍      | 13587/39832 [03:19<06:22, 68.60it/s][A
+Computing metrics:  34%|███▍      | 13594/39832 [03:19<06:22, 68.66it/s][A
+Computing metrics:  34%|███▍      | 13601/39832 [03:19<06:20, 69.00it/s][A
+Computing metrics:  34%|███▍      | 13608/39832 [03:19<06:19, 69.16it/s][A
+Computing metrics:  34%|███▍      | 13615/39832 [03:19<06:20, 68.85it/s][A
+Computing metrics:  34%|███▍      | 13622/39832 [03:19<06:19, 69.07it/s][A
+Computing metrics:  34%|███▍      | 13630/39832 [03:19<06:17, 69.49it/s][A
+Computing metrics:  34%|███▍      | 13637/39832 [03:19<06:28, 67.37it/s][A
+Computing metrics:  34%|███▍      | 13644/39832 [03:20<06:26, 67.69it/s][A
+Computing metrics:  34%|███▍      | 13651/39832 [03:20<06:23, 68.30it/s][A
+Computing metrics:  34%|███▍      | 13658/39832 [03:20<06:20, 68.78it/s][A
+Computing metrics:  34%|███▍      | 13665/39832 [03:20<06:20, 68.84it/s][A
+Computing metrics:  34%|███▍      | 13673/39832 [03:20<06:18, 69.18it/s][A
+Computing metrics:  34%|███▍      | 13680/39832 [03:20<06:19, 68.85it/s][A
+Computing metrics:  34%|███▍      | 13688/39832 [03:20<06:16, 69.43it/s][A
+Computing metrics:  34%|███▍      | 13695/39832 [03:20<06:18, 69.03it/s][A
+Computing metrics:  34%|███▍      | 13702/39832 [03:20<06:20, 68.75it/s][A
+Computing metrics:  34%|███▍      | 13709/39832 [03:21<06:45, 64.35it/s][A
+Computing metrics:  34%|███▍      | 13716/39832 [03:21<06:38, 65.61it/s][A
+Computing metrics:  34%|███▍      | 13723/39832 [03:21<06:32, 66.54it/s][A
+Computing metrics:  34%|███▍      | 13730/39832 [03:21<06:31, 66.65it/s][A
+Computing metrics:  34%|███▍      | 13737/39832 [03:21<06:28, 67.10it/s][A
+Computing metrics:  35%|███▍      | 13745/39832 [03:21<06:22, 68.23it/s][A
+Computing metrics:  35%|███▍      | 13752/39832 [03:21<06:20, 68.48it/s][A
+Computing metrics:  35%|███▍      | 13759/39832 [03:21<06:21, 68.34it/s][A
+Computing metrics:  35%|███▍      | 13766/39832 [03:21<06:25, 67.67it/s][A
+Computing metrics:  35%|███▍      | 13773/39832 [03:22<06:36, 65.79it/s][A
+Computing metrics:  35%|███▍      | 13780/39832 [03:22<06:32, 66.38it/s][A
+Computing metrics:  35%|███▍      | 13787/39832 [03:22<06:26, 67.41it/s][A
+Computing metrics:  35%|███▍      | 13794/39832 [03:22<06:23, 67.93it/s][A
+Computing metrics:  35%|███▍      | 13802/39832 [03:22<06:19, 68.63it/s][A
+Computing metrics:  35%|███▍      | 13810/39832 [03:22<06:16, 69.06it/s][A
+Computing metrics:  35%|███▍      | 13817/39832 [03:22<06:16, 69.06it/s][A
+Computing metrics:  35%|███▍      | 13824/39832 [03:22<06:15, 69.26it/s][A
+Computing metrics:  35%|███▍      | 13831/39832 [03:22<06:14, 69.34it/s][A
+Computing metrics:  35%|███▍      | 13838/39832 [03:22<06:16, 69.01it/s][A
+Computing metrics:  35%|███▍      | 13845/39832 [03:23<06:43, 64.44it/s][A
+Computing metrics:  35%|███▍      | 13852/39832 [03:23<06:36, 65.60it/s][A
+Computing metrics:  35%|███▍      | 13860/39832 [03:23<06:28, 66.88it/s][A
+Computing metrics:  35%|███▍      | 13867/39832 [03:23<06:23, 67.74it/s][A
+Computing metrics:  35%|███▍      | 13874/39832 [03:23<06:22, 67.86it/s][A
+Computing metrics:  35%|███▍      | 13881/39832 [03:23<06:20, 68.13it/s][A
+Computing metrics:  35%|███▍      | 13888/39832 [03:23<06:18, 68.53it/s][A
+Computing metrics:  35%|███▍      | 13895/39832 [03:23<06:22, 67.84it/s][A
+Computing metrics:  35%|███▍      | 13902/39832 [03:23<06:19, 68.41it/s][A
+Computing metrics:  35%|███▍      | 13909/39832 [03:24<06:21, 67.87it/s][A
+Computing metrics:  35%|███▍      | 13916/39832 [03:24<07:05, 60.87it/s][A
+Computing metrics:  35%|███▍      | 13923/39832 [03:24<06:51, 63.02it/s][A
+Computing metrics:  35%|███▍      | 13931/39832 [03:24<06:33, 65.89it/s][A
+Computing metrics:  35%|███▍      | 13939/39832 [03:24<06:25, 67.25it/s][A
+Computing metrics:  35%|███▌      | 13946/39832 [03:24<06:22, 67.59it/s][A
+Computing metrics:  35%|███▌      | 13953/39832 [03:24<06:19, 68.24it/s][A
+Computing metrics:  35%|███▌      | 13960/39832 [03:24<06:18, 68.30it/s][A
+Computing metrics:  35%|███▌      | 13967/39832 [03:24<06:18, 68.36it/s][A
+Computing metrics:  35%|███▌      | 13975/39832 [03:25<06:15, 68.77it/s][A
+Computing metrics:  35%|███▌      | 13982/39832 [03:25<06:40, 64.59it/s][A
+Computing metrics:  35%|███▌      | 13990/39832 [03:25<06:29, 66.40it/s][A
+Computing metrics:  35%|███▌      | 13998/39832 [03:25<06:21, 67.66it/s][A
+Computing metrics:  35%|███▌      | 14006/39832 [03:25<06:17, 68.37it/s][A
+Computing metrics:  35%|███▌      | 14014/39832 [03:25<06:15, 68.68it/s][A
+Computing metrics:  35%|███▌      | 14022/39832 [03:25<06:14, 68.92it/s][A
+Computing metrics:  35%|███▌      | 14030/39832 [03:25<06:10, 69.63it/s][A
+Computing metrics:  35%|███▌      | 14038/39832 [03:25<06:10, 69.62it/s][A
+Computing metrics:  35%|███▌      | 14046/39832 [03:26<06:06, 70.43it/s][A
+Computing metrics:  35%|███▌      | 14054/39832 [03:26<06:32, 65.72it/s][A
+Computing metrics:  35%|███▌      | 14061/39832 [03:26<06:26, 66.76it/s][A
+Computing metrics:  35%|███▌      | 14068/39832 [03:26<06:21, 67.56it/s][A
+Computing metrics:  35%|███▌      | 14076/39832 [03:26<06:15, 68.59it/s][A
+Computing metrics:  35%|███▌      | 14083/39832 [03:26<06:16, 68.40it/s][A
+Computing metrics:  35%|███▌      | 14091/39832 [03:26<06:12, 69.09it/s][A
+Computing metrics:  35%|███▌      | 14098/39832 [03:26<06:13, 68.92it/s][A
+Computing metrics:  35%|███▌      | 14106/39832 [03:26<06:11, 69.23it/s][A
+Computing metrics:  35%|███▌      | 14114/39832 [03:27<06:09, 69.66it/s][A
+Computing metrics:  35%|███▌      | 14121/39832 [03:27<06:19, 67.71it/s][A
+Computing metrics:  35%|███▌      | 14128/39832 [03:27<06:16, 68.35it/s][A
+Computing metrics:  35%|███▌      | 14136/39832 [03:27<06:11, 69.20it/s][A
+Computing metrics:  36%|███▌      | 14144/39832 [03:27<06:05, 70.26it/s][A
+Computing metrics:  36%|███▌      | 14152/39832 [03:27<06:04, 70.48it/s][A
+Computing metrics:  36%|███▌      | 14160/39832 [03:27<06:01, 70.98it/s][A
+Computing metrics:  36%|███▌      | 14168/39832 [03:27<06:03, 70.57it/s][A
+Computing metrics:  36%|███▌      | 14176/39832 [03:27<06:02, 70.77it/s][A
+Computing metrics:  36%|███▌      | 14184/39832 [03:28<06:04, 70.45it/s][A
+Computing metrics:  36%|███▌      | 14192/39832 [03:28<06:15, 68.19it/s][A
+Computing metrics:  36%|███▌      | 14200/39832 [03:28<06:12, 68.86it/s][A
+Computing metrics:  36%|███▌      | 14208/39832 [03:28<06:09, 69.38it/s][A
+Computing metrics:  36%|███▌      | 14216/39832 [03:28<06:04, 70.33it/s][A
+Computing metrics:  36%|███▌      | 14224/39832 [03:28<06:01, 70.83it/s][A
+Computing metrics:  36%|███▌      | 14232/39832 [03:28<06:00, 70.98it/s][A
+Computing metrics:  36%|███▌      | 14240/39832 [03:28<05:58, 71.34it/s][A
+Computing metrics:  36%|███▌      | 14248/39832 [03:28<05:58, 71.40it/s][A
+Computing metrics:  36%|███▌      | 14256/39832 [03:29<06:03, 70.28it/s][A
+Computing metrics:  36%|███▌      | 14264/39832 [03:29<06:18, 67.62it/s][A
+Computing metrics:  36%|███▌      | 14272/39832 [03:29<06:13, 68.48it/s][A
+Computing metrics:  36%|███▌      | 14280/39832 [03:29<06:09, 69.06it/s][A
+Computing metrics:  36%|███▌      | 14288/39832 [03:29<06:05, 69.81it/s][A
+Computing metrics:  36%|███▌      | 14295/39832 [03:29<06:05, 69.83it/s][A
+Computing metrics:  36%|███▌      | 14303/39832 [03:29<06:04, 70.05it/s][A
+Computing metrics:  36%|███▌      | 14311/39832 [03:29<06:01, 70.61it/s][A
+Computing metrics:  36%|███▌      | 14319/39832 [03:29<06:01, 70.62it/s][A
+Computing metrics:  36%|███▌      | 14327/39832 [03:30<06:00, 70.82it/s][A
+Computing metrics:  36%|███▌      | 14335/39832 [03:30<06:20, 66.98it/s][A
+Computing metrics:  36%|███▌      | 14343/39832 [03:30<06:13, 68.20it/s][A
+Computing metrics:  36%|███▌      | 14351/39832 [03:30<06:09, 68.94it/s][A
+Computing metrics:  36%|███▌      | 14359/39832 [03:30<06:05, 69.74it/s][A
+Computing metrics:  36%|███▌      | 14367/39832 [03:30<06:02, 70.19it/s][A
+Computing metrics:  36%|███▌      | 14375/39832 [03:30<06:02, 70.26it/s][A
+Computing metrics:  36%|███▌      | 14383/39832 [03:30<05:59, 70.77it/s][A
+Computing metrics:  36%|███▌      | 14391/39832 [03:30<05:56, 71.29it/s][A
+Computing metrics:  36%|███▌      | 14399/39832 [03:31<05:54, 71.77it/s][A
+Computing metrics:  36%|███▌      | 14407/39832 [03:31<06:10, 68.56it/s][A
+Computing metrics:  36%|███▌      | 14415/39832 [03:31<06:07, 69.24it/s][A
+Computing metrics:  36%|███▌      | 14422/39832 [03:31<06:06, 69.40it/s][A
+Computing metrics:  36%|███▌      | 14430/39832 [03:31<06:03, 69.92it/s][A
+Computing metrics:  36%|███▌      | 14438/39832 [03:31<06:02, 69.99it/s][A
+Computing metrics:  36%|███▋      | 14446/39832 [03:31<06:01, 70.18it/s][A
+Computing metrics:  36%|███▋      | 14454/39832 [03:31<06:00, 70.42it/s][A
+Computing metrics:  36%|███▋      | 14462/39832 [03:32<06:00, 70.43it/s][A
+Computing metrics:  36%|███▋      | 14470/39832 [03:32<06:00, 70.44it/s][A
+Computing metrics:  36%|███▋      | 14478/39832 [03:32<06:11, 68.20it/s][A
+Computing metrics:  36%|███▋      | 14486/39832 [03:32<06:06, 69.08it/s][A
+Computing metrics:  36%|███▋      | 14494/39832 [03:32<06:02, 69.81it/s][A
+Computing metrics:  36%|███▋      | 14502/39832 [03:32<06:03, 69.68it/s][A
+Computing metrics:  36%|███▋      | 14510/39832 [03:32<06:02, 69.95it/s][A
+Computing metrics:  36%|███▋      | 14518/39832 [03:32<05:59, 70.49it/s][A
+Computing metrics:  36%|███▋      | 14526/39832 [03:32<05:56, 70.91it/s][A
+Computing metrics:  36%|███▋      | 14534/39832 [03:33<05:54, 71.29it/s][A
+Computing metrics:  37%|███▋      | 14542/39832 [03:33<05:54, 71.41it/s][A
+Computing metrics:  37%|███▋      | 14550/39832 [03:33<06:16, 67.07it/s][A
+Computing metrics:  37%|███▋      | 14558/39832 [03:33<06:06, 68.96it/s][A
+Computing metrics:  37%|███▋      | 14565/39832 [03:33<06:05, 69.11it/s][A
+Computing metrics:  37%|███▋      | 14573/39832 [03:33<06:01, 69.79it/s][A
+Computing metrics:  37%|███▋      | 14581/39832 [03:33<06:04, 69.35it/s][A
+Computing metrics:  37%|███▋      | 14588/39832 [03:33<06:04, 69.24it/s][A
+Computing metrics:  37%|███▋      | 14596/39832 [03:33<06:04, 69.26it/s][A
+Computing metrics:  37%|███▋      | 14604/39832 [03:34<06:04, 69.25it/s][A
+Computing metrics:  37%|███▋      | 14612/39832 [03:34<06:02, 69.50it/s][A
+Computing metrics:  37%|███▋      | 14619/39832 [03:34<06:23, 65.68it/s][A
+Computing metrics:  37%|███▋      | 14627/39832 [03:34<06:14, 67.35it/s][A
+Computing metrics:  37%|███▋      | 14635/39832 [03:34<06:08, 68.32it/s][A
+Computing metrics:  37%|███▋      | 14643/39832 [03:34<06:04, 69.04it/s][A
+Computing metrics:  37%|███▋      | 14651/39832 [03:34<06:01, 69.63it/s][A
+Computing metrics:  37%|███▋      | 14658/39832 [03:34<06:02, 69.51it/s][A
+Computing metrics:  37%|███▋      | 14665/39832 [03:34<06:04, 68.97it/s][A
+Computing metrics:  37%|███▋      | 14672/39832 [03:35<06:06, 68.65it/s][A
+Computing metrics:  37%|███▋      | 14680/39832 [03:35<06:05, 68.84it/s][A
+Computing metrics:  37%|███▋      | 14687/39832 [03:35<06:29, 64.52it/s][A
+Computing metrics:  37%|███▋      | 14694/39832 [03:35<06:24, 65.39it/s][A
+Computing metrics:  37%|███▋      | 14702/39832 [03:35<06:14, 67.05it/s][A
+Computing metrics:  37%|███▋      | 14710/39832 [03:35<06:09, 67.94it/s][A
+Computing metrics:  37%|███▋      | 14717/39832 [03:35<06:06, 68.46it/s][A
+Computing metrics:  37%|███▋      | 14724/39832 [03:35<06:05, 68.65it/s][A
+Computing metrics:  37%|███▋      | 14731/39832 [03:35<06:05, 68.70it/s][A
+Computing metrics:  37%|███▋      | 14739/39832 [03:36<06:01, 69.35it/s][A
+Computing metrics:  37%|███▋      | 14747/39832 [03:36<06:01, 69.44it/s][A
+Computing metrics:  37%|███▋      | 14754/39832 [03:36<06:18, 66.29it/s][A
+Computing metrics:  37%|███▋      | 14762/39832 [03:36<06:11, 67.45it/s][A
+Computing metrics:  37%|███▋      | 14769/39832 [03:36<06:07, 68.14it/s][A
+Computing metrics:  37%|███▋      | 14776/39832 [03:36<06:06, 68.38it/s][A
+Computing metrics:  37%|███▋      | 14783/39832 [03:36<06:06, 68.27it/s][A
+Computing metrics:  37%|███▋      | 14790/39832 [03:36<06:06, 68.40it/s][A
+Computing metrics:  37%|███▋      | 14797/39832 [03:36<06:07, 68.11it/s][A
+Computing metrics:  37%|███▋      | 14804/39832 [03:36<06:06, 68.36it/s][A
+Computing metrics:  37%|███▋      | 14812/39832 [03:37<06:00, 69.42it/s][A
+Computing metrics:  37%|███▋      | 14819/39832 [03:37<06:01, 69.25it/s][A
+Computing metrics:  37%|███▋      | 14826/39832 [03:37<06:23, 65.17it/s][A
+Computing metrics:  37%|███▋      | 14833/39832 [03:37<06:15, 66.52it/s][A
+Computing metrics:  37%|███▋      | 14841/39832 [03:37<06:10, 67.53it/s][A
+Computing metrics:  37%|███▋      | 14848/39832 [03:37<06:08, 67.74it/s][A
+Computing metrics:  37%|███▋      | 14855/39832 [03:37<06:05, 68.38it/s][A
+Computing metrics:  37%|███▋      | 14862/39832 [03:37<06:02, 68.83it/s][A
+Computing metrics:  37%|███▋      | 14870/39832 [03:37<06:01, 68.99it/s][A
+Computing metrics:  37%|███▋      | 14877/39832 [03:38<06:02, 68.77it/s][A
+Computing metrics:  37%|███▋      | 14884/39832 [03:38<06:06, 68.14it/s][A
+Computing metrics:  37%|███▋      | 14891/39832 [03:38<06:48, 61.12it/s][A
+Computing metrics:  37%|███▋      | 14898/39832 [03:38<06:34, 63.27it/s][A
+Computing metrics:  37%|███▋      | 14905/39832 [03:38<06:24, 64.88it/s][A
+Computing metrics:  37%|███▋      | 14912/39832 [03:38<06:16, 66.11it/s][A
+Computing metrics:  37%|███▋      | 14919/39832 [03:38<06:15, 66.39it/s][A
+Computing metrics:  37%|███▋      | 14926/39832 [03:38<06:09, 67.36it/s][A
+Computing metrics:  37%|███▋      | 14933/39832 [03:38<06:07, 67.82it/s][A
+Computing metrics:  38%|███▊      | 14940/39832 [03:39<06:08, 67.60it/s][A
+Computing metrics:  38%|███▊      | 14947/39832 [03:39<06:06, 67.85it/s][A
+Computing metrics:  38%|███▊      | 14954/39832 [03:39<06:05, 67.98it/s][A
+Computing metrics:  38%|███▊      | 14961/39832 [03:39<06:29, 63.88it/s][A
+Computing metrics:  38%|███▊      | 14968/39832 [03:39<06:21, 65.20it/s][A
+Computing metrics:  38%|███▊      | 14975/39832 [03:39<06:16, 66.08it/s][A
+Computing metrics:  38%|███▊      | 14982/39832 [03:39<06:11, 66.97it/s][A
+Computing metrics:  38%|███▊      | 14989/39832 [03:39<06:06, 67.69it/s][A
+Computing metrics:  38%|███▊      | 14996/39832 [03:39<06:05, 67.88it/s][A
+Computing metrics:  38%|███▊      | 15003/39832 [03:39<06:02, 68.47it/s][A
+Computing metrics:  38%|███▊      | 15010/39832 [03:40<06:01, 68.72it/s][A
+Computing metrics:  38%|███▊      | 15017/39832 [03:40<06:01, 68.58it/s][A
+Computing metrics:  38%|███▊      | 15024/39832 [03:40<06:02, 68.39it/s][A
+Computing metrics:  38%|███▊      | 15031/39832 [03:40<06:35, 62.77it/s][A
+Computing metrics:  38%|███▊      | 15039/39832 [03:40<06:21, 65.06it/s][A
+Computing metrics:  38%|███▊      | 15047/39832 [03:40<06:12, 66.62it/s][A
+Computing metrics:  38%|███▊      | 15054/39832 [03:40<06:07, 67.48it/s][A
+Computing metrics:  38%|███▊      | 15062/39832 [03:40<06:03, 68.10it/s][A
+Computing metrics:  38%|███▊      | 15070/39832 [03:40<06:00, 68.68it/s][A
+Computing metrics:  38%|███▊      | 15077/39832 [03:41<05:59, 68.80it/s][A
+Computing metrics:  38%|███▊      | 15084/39832 [03:41<05:58, 69.03it/s][A
+Computing metrics:  38%|███▊      | 15091/39832 [03:41<05:59, 68.87it/s][A
+Computing metrics:  38%|███▊      | 15098/39832 [03:41<06:22, 64.70it/s][A
+Computing metrics:  38%|███▊      | 15105/39832 [03:41<06:14, 66.09it/s][A
+Computing metrics:  38%|███▊      | 15113/39832 [03:41<06:06, 67.52it/s][A
+Computing metrics:  38%|███▊      | 15121/39832 [03:41<06:03, 67.99it/s][A
+Computing metrics:  38%|███▊      | 15129/39832 [03:41<06:00, 68.44it/s][A
+Computing metrics:  38%|███▊      | 15137/39832 [03:41<05:58, 68.79it/s][A
+Computing metrics:  38%|███▊      | 15145/39832 [03:42<05:58, 68.96it/s][A
+Computing metrics:  38%|███▊      | 15152/39832 [03:42<05:58, 68.89it/s][A
+Computing metrics:  38%|███▊      | 15159/39832 [03:42<05:58, 68.84it/s][A
+Computing metrics:  38%|███▊      | 15166/39832 [03:42<06:22, 64.43it/s][A
+Computing metrics:  38%|███▊      | 15174/39832 [03:42<06:13, 66.02it/s][A
+Computing metrics:  38%|███▊      | 15182/39832 [03:42<06:05, 67.49it/s][A
+Computing metrics:  38%|███▊      | 15190/39832 [03:42<06:00, 68.35it/s][A
+Computing metrics:  38%|███▊      | 15198/39832 [03:42<05:57, 68.86it/s][A
+Computing metrics:  38%|███▊      | 15206/39832 [03:42<05:50, 70.19it/s][A
+Computing metrics:  38%|███▊      | 15214/39832 [03:43<05:48, 70.60it/s][A
+Computing metrics:  38%|███▊      | 15222/39832 [03:43<05:50, 70.14it/s][A
+Computing metrics:  38%|███▊      | 15230/39832 [03:43<05:51, 70.06it/s][A
+Computing metrics:  38%|███▊      | 15238/39832 [03:43<06:13, 65.86it/s][A
+Computing metrics:  38%|███▊      | 15245/39832 [03:43<06:07, 66.82it/s][A
+Computing metrics:  38%|███▊      | 15253/39832 [03:43<06:02, 67.74it/s][A
+Computing metrics:  38%|███▊      | 15261/39832 [03:43<05:58, 68.49it/s][A
+Computing metrics:  38%|███▊      | 15269/39832 [03:43<05:53, 69.49it/s][A
+Computing metrics:  38%|███▊      | 15277/39832 [03:43<05:53, 69.49it/s][A
+Computing metrics:  38%|███▊      | 15285/39832 [03:44<05:50, 69.99it/s][A
+Computing metrics:  38%|███▊      | 15293/39832 [03:44<05:46, 70.80it/s][A
+Computing metrics:  38%|███▊      | 15301/39832 [03:44<05:46, 70.80it/s][A
+Computing metrics:  38%|███▊      | 15309/39832 [03:44<06:09, 66.45it/s][A
+Computing metrics:  38%|███▊      | 15317/39832 [03:44<06:02, 67.72it/s][A
+Computing metrics:  38%|███▊      | 15325/39832 [03:44<05:54, 69.09it/s][A
+Computing metrics:  38%|███▊      | 15333/39832 [03:44<05:52, 69.53it/s][A
+Computing metrics:  39%|███▊      | 15341/39832 [03:44<05:50, 69.96it/s][A
+Computing metrics:  39%|███▊      | 15349/39832 [03:45<05:48, 70.22it/s][A
+Computing metrics:  39%|███▊      | 15357/39832 [03:45<05:46, 70.73it/s][A
+Computing metrics:  39%|███▊      | 15365/39832 [03:45<05:44, 71.10it/s][A
+Computing metrics:  39%|███▊      | 15373/39832 [03:45<05:41, 71.58it/s][A
+Computing metrics:  39%|███▊      | 15381/39832 [03:45<06:02, 67.52it/s][A
+Computing metrics:  39%|███▊      | 15389/39832 [03:45<05:55, 68.82it/s][A
+Computing metrics:  39%|███▊      | 15397/39832 [03:45<05:50, 69.78it/s][A
+Computing metrics:  39%|███▊      | 15405/39832 [03:45<05:46, 70.41it/s][A
+Computing metrics:  39%|███▊      | 15413/39832 [03:45<05:47, 70.36it/s][A
+Computing metrics:  39%|███▊      | 15421/39832 [03:46<05:45, 70.66it/s][A
+Computing metrics:  39%|███▊      | 15429/39832 [03:46<05:44, 70.82it/s][A
+Computing metrics:  39%|███▉      | 15437/39832 [03:46<05:42, 71.22it/s][A
+Computing metrics:  39%|███▉      | 15445/39832 [03:46<05:42, 71.26it/s][A
+Computing metrics:  39%|███▉      | 15453/39832 [03:46<06:03, 67.03it/s][A
+Computing metrics:  39%|███▉      | 15461/39832 [03:46<05:56, 68.42it/s][A
+Computing metrics:  39%|███▉      | 15469/39832 [03:46<05:51, 69.24it/s][A
+Computing metrics:  39%|███▉      | 15477/39832 [03:46<05:47, 69.99it/s][A
+Computing metrics:  39%|███▉      | 15485/39832 [03:46<05:47, 70.08it/s][A
+Computing metrics:  39%|███▉      | 15493/39832 [03:47<05:45, 70.37it/s][A
+Computing metrics:  39%|███▉      | 15501/39832 [03:47<05:43, 70.78it/s][A
+Computing metrics:  39%|███▉      | 15509/39832 [03:47<05:43, 70.77it/s][A
+Computing metrics:  39%|███▉      | 15517/39832 [03:47<05:41, 71.14it/s][A
+Computing metrics:  39%|███▉      | 15525/39832 [03:47<06:00, 67.44it/s][A
+Computing metrics:  39%|███▉      | 15533/39832 [03:47<05:54, 68.56it/s][A
+Computing metrics:  39%|███▉      | 15541/39832 [03:47<05:51, 69.14it/s][A
+Computing metrics:  39%|███▉      | 15549/39832 [03:47<05:45, 70.28it/s][A
+Computing metrics:  39%|███▉      | 15557/39832 [03:48<05:39, 71.41it/s][A
+Computing metrics:  39%|███▉      | 15565/39832 [03:48<05:38, 71.70it/s][A
+Computing metrics:  39%|███▉      | 15573/39832 [03:48<05:38, 71.69it/s][A
+Computing metrics:  39%|███▉      | 15581/39832 [03:48<05:36, 72.11it/s][A
+Computing metrics:  39%|███▉      | 15589/39832 [03:48<05:35, 72.35it/s][A
+Computing metrics:  39%|███▉      | 15597/39832 [03:48<05:56, 68.00it/s][A
+Computing metrics:  39%|███▉      | 15605/39832 [03:48<05:51, 69.01it/s][A
+Computing metrics:  39%|███▉      | 15613/39832 [03:48<05:46, 69.80it/s][A
+Computing metrics:  39%|███▉      | 15621/39832 [03:48<05:42, 70.62it/s][A
+Computing metrics:  39%|███▉      | 15629/39832 [03:49<05:38, 71.41it/s][A
+Computing metrics:  39%|███▉      | 15637/39832 [03:49<05:39, 71.29it/s][A
+Computing metrics:  39%|███▉      | 15645/39832 [03:49<05:37, 71.60it/s][A
+Computing metrics:  39%|███▉      | 15653/39832 [03:49<05:36, 71.80it/s][A
+Computing metrics:  39%|███▉      | 15661/39832 [03:49<05:39, 71.14it/s][A
+Computing metrics:  39%|███▉      | 15669/39832 [03:49<05:58, 67.39it/s][A
+Computing metrics:  39%|███▉      | 15677/39832 [03:49<05:53, 68.42it/s][A
+Computing metrics:  39%|███▉      | 15685/39832 [03:49<05:48, 69.28it/s][A
+Computing metrics:  39%|███▉      | 15693/39832 [03:49<05:46, 69.65it/s][A
+Computing metrics:  39%|███▉      | 15701/39832 [03:50<05:44, 70.09it/s][A
+Computing metrics:  39%|███▉      | 15709/39832 [03:50<05:42, 70.51it/s][A
+Computing metrics:  39%|███▉      | 15717/39832 [03:50<05:42, 70.49it/s][A
+Computing metrics:  39%|███▉      | 15725/39832 [03:50<05:38, 71.28it/s][A
+Computing metrics:  39%|███▉      | 15733/39832 [03:50<05:38, 71.12it/s][A
+Computing metrics:  40%|███▉      | 15741/39832 [03:50<05:59, 66.97it/s][A
+Computing metrics:  40%|███▉      | 15749/39832 [03:50<05:52, 68.32it/s][A
+Computing metrics:  40%|███▉      | 15756/39832 [03:50<05:50, 68.62it/s][A
+Computing metrics:  40%|███▉      | 15764/39832 [03:50<05:47, 69.29it/s][A
+Computing metrics:  40%|███▉      | 15772/39832 [03:51<05:43, 70.04it/s][A
+Computing metrics:  40%|███▉      | 15780/39832 [03:51<05:40, 70.74it/s][A
+Computing metrics:  40%|███▉      | 15788/39832 [03:51<05:39, 70.82it/s][A
+Computing metrics:  40%|███▉      | 15796/39832 [03:51<05:41, 70.39it/s][A
+Computing metrics:  40%|███▉      | 15804/39832 [03:51<05:39, 70.74it/s][A
+Computing metrics:  40%|███▉      | 15812/39832 [03:51<06:00, 66.68it/s][A
+Computing metrics:  40%|███▉      | 15820/39832 [03:51<05:53, 67.86it/s][A
+Computing metrics:  40%|███▉      | 15828/39832 [03:51<05:48, 68.82it/s][A
+Computing metrics:  40%|███▉      | 15836/39832 [03:51<05:45, 69.40it/s][A
+Computing metrics:  40%|███▉      | 15843/39832 [03:52<05:45, 69.49it/s][A
+Computing metrics:  40%|███▉      | 15850/39832 [03:52<05:45, 69.42it/s][A
+Computing metrics:  40%|███▉      | 15858/39832 [03:52<05:43, 69.86it/s][A
+Computing metrics:  40%|███▉      | 15866/39832 [03:52<05:42, 69.93it/s][A
+Computing metrics:  40%|███▉      | 15873/39832 [03:52<05:43, 69.79it/s][A
+Computing metrics:  40%|███▉      | 15880/39832 [03:52<05:59, 66.58it/s][A
+Computing metrics:  40%|███▉      | 15888/39832 [03:52<05:55, 67.37it/s][A
+Computing metrics:  40%|███▉      | 15895/39832 [03:52<05:52, 67.96it/s][A
+Computing metrics:  40%|███▉      | 15903/39832 [03:52<05:49, 68.46it/s][A
+Computing metrics:  40%|███▉      | 15911/39832 [03:53<05:46, 69.11it/s][A
+Computing metrics:  40%|███▉      | 15918/39832 [03:53<05:48, 68.63it/s][A
+Computing metrics:  40%|███▉      | 15925/39832 [03:53<05:47, 68.82it/s][A
+Computing metrics:  40%|████      | 15933/39832 [03:53<05:44, 69.42it/s][A
+Computing metrics:  40%|████      | 15940/39832 [03:53<05:45, 69.06it/s][A
+Computing metrics:  40%|████      | 15947/39832 [03:53<06:10, 64.55it/s][A
+Computing metrics:  40%|████      | 15955/39832 [03:53<06:01, 66.06it/s][A
+Computing metrics:  40%|████      | 15963/39832 [03:53<05:52, 67.66it/s][A
+Computing metrics:  40%|████      | 15971/39832 [03:53<05:49, 68.32it/s][A
+Computing metrics:  40%|████      | 15979/39832 [03:54<05:44, 69.33it/s][A
+Computing metrics:  40%|████      | 15987/39832 [03:54<05:43, 69.42it/s][A
+Computing metrics:  40%|████      | 15995/39832 [03:54<05:42, 69.66it/s][A
+Computing metrics:  40%|████      | 16003/39832 [03:54<05:39, 70.13it/s][A
+Computing metrics:  40%|████      | 16011/39832 [03:54<05:40, 69.98it/s][A
+Computing metrics:  40%|████      | 16019/39832 [03:54<06:00, 66.09it/s][A
+Computing metrics:  40%|████      | 16027/39832 [03:54<05:53, 67.41it/s][A
+Computing metrics:  40%|████      | 16034/39832 [03:54<05:50, 67.92it/s][A
+Computing metrics:  40%|████      | 16041/39832 [03:54<05:49, 68.11it/s][A
+Computing metrics:  40%|████      | 16048/39832 [03:55<05:46, 68.61it/s][A
+Computing metrics:  40%|████      | 16056/39832 [03:55<05:41, 69.55it/s][A
+Computing metrics:  40%|████      | 16063/39832 [03:55<05:41, 69.58it/s][A
+Computing metrics:  40%|████      | 16071/39832 [03:55<05:39, 70.06it/s][A
+Computing metrics:  40%|████      | 16079/39832 [03:55<05:40, 69.83it/s][A
+Computing metrics:  40%|████      | 16086/39832 [03:55<06:02, 65.51it/s][A
+Computing metrics:  40%|████      | 16094/39832 [03:55<05:52, 67.39it/s][A
+Computing metrics:  40%|████      | 16102/39832 [03:55<05:47, 68.22it/s][A
+Computing metrics:  40%|████      | 16109/39832 [03:55<05:46, 68.38it/s][A
+Computing metrics:  40%|████      | 16117/39832 [03:56<05:43, 69.12it/s][A
+Computing metrics:  40%|████      | 16124/39832 [03:56<05:41, 69.35it/s][A
+Computing metrics:  41%|████      | 16132/39832 [03:56<05:41, 69.45it/s][A
+Computing metrics:  41%|████      | 16140/39832 [03:56<05:36, 70.48it/s][A
+Computing metrics:  41%|████      | 16148/39832 [03:56<05:32, 71.21it/s][A
+Computing metrics:  41%|████      | 16156/39832 [03:56<05:52, 67.11it/s][A
+Computing metrics:  41%|████      | 16164/39832 [03:56<05:47, 68.19it/s][A
+Computing metrics:  41%|████      | 16172/39832 [03:56<05:41, 69.36it/s][A
+Computing metrics:  41%|████      | 16180/39832 [03:57<05:38, 69.94it/s][A
+Computing metrics:  41%|████      | 16188/39832 [03:57<05:37, 70.08it/s][A
+Computing metrics:  41%|████      | 16196/39832 [03:57<05:36, 70.26it/s][A
+Computing metrics:  41%|████      | 16204/39832 [03:57<05:37, 69.92it/s][A
+Computing metrics:  41%|████      | 16212/39832 [03:57<05:36, 70.15it/s][A
+Computing metrics:  41%|████      | 16220/39832 [03:57<05:36, 70.21it/s][A
+Computing metrics:  41%|████      | 16228/39832 [03:57<05:47, 67.92it/s][A
+Computing metrics:  41%|████      | 16236/39832 [03:57<05:42, 68.84it/s][A
+Computing metrics:  41%|████      | 16243/39832 [03:57<05:41, 69.12it/s][A
+Computing metrics:  41%|████      | 16250/39832 [03:58<05:40, 69.22it/s][A
+Computing metrics:  41%|████      | 16258/39832 [03:58<05:37, 69.90it/s][A
+Computing metrics:  41%|████      | 16266/39832 [03:58<05:34, 70.37it/s][A
+Computing metrics:  41%|████      | 16274/39832 [03:58<05:33, 70.67it/s][A
+Computing metrics:  41%|████      | 16282/39832 [03:58<05:31, 71.00it/s][A
+Computing metrics:  41%|████      | 16290/39832 [03:58<05:33, 70.62it/s][A
+Computing metrics:  41%|████      | 16298/39832 [03:58<05:53, 66.54it/s][A
+Computing metrics:  41%|████      | 16306/39832 [03:58<05:49, 67.41it/s][A
+Computing metrics:  41%|████      | 16314/39832 [03:58<05:43, 68.55it/s][A
+Computing metrics:  41%|████      | 16322/39832 [03:59<05:40, 69.01it/s][A
+Computing metrics:  41%|████      | 16330/39832 [03:59<05:37, 69.66it/s][A
+Computing metrics:  41%|████      | 16338/39832 [03:59<05:34, 70.18it/s][A
+Computing metrics:  41%|████      | 16346/39832 [03:59<05:30, 71.01it/s][A
+Computing metrics:  41%|████      | 16354/39832 [03:59<05:27, 71.79it/s][A
+Computing metrics:  41%|████      | 16362/39832 [03:59<05:27, 71.56it/s][A
+Computing metrics:  41%|████      | 16370/39832 [03:59<05:48, 67.29it/s][A
+Computing metrics:  41%|████      | 16378/39832 [03:59<05:42, 68.50it/s][A
+Computing metrics:  41%|████      | 16386/39832 [03:59<05:37, 69.39it/s][A
+Computing metrics:  41%|████      | 16394/39832 [04:00<05:34, 70.11it/s][A
+Computing metrics:  41%|████      | 16402/39832 [04:00<05:31, 70.60it/s][A
+Computing metrics:  41%|████      | 16410/39832 [04:00<05:26, 71.68it/s][A
+Computing metrics:  41%|████      | 16418/39832 [04:00<05:26, 71.67it/s][A
+Computing metrics:  41%|████      | 16426/39832 [04:00<05:26, 71.78it/s][A
+Computing metrics:  41%|████▏     | 16434/39832 [04:00<05:24, 72.21it/s][A
+Computing metrics:  41%|████▏     | 16442/39832 [04:00<05:53, 66.17it/s][A
+Computing metrics:  41%|████▏     | 16450/39832 [04:00<05:44, 67.90it/s][A
+Computing metrics:  41%|████▏     | 16458/39832 [04:01<05:39, 68.91it/s][A
+Computing metrics:  41%|████▏     | 16466/39832 [04:01<05:34, 69.89it/s][A
+Computing metrics:  41%|████▏     | 16474/39832 [04:01<05:30, 70.75it/s][A
+Computing metrics:  41%|████▏     | 16482/39832 [04:01<05:30, 70.71it/s][A
+Computing metrics:  41%|████▏     | 16490/39832 [04:01<05:33, 70.03it/s][A
+Computing metrics:  41%|████▏     | 16498/39832 [04:01<05:33, 69.86it/s][A
+Computing metrics:  41%|████▏     | 16505/39832 [04:01<05:34, 69.81it/s][A
+Computing metrics:  41%|████▏     | 16512/39832 [04:01<06:08, 63.21it/s][A
+Computing metrics:  41%|████▏     | 16520/39832 [04:01<06:00, 64.61it/s][A
+Computing metrics:  41%|████▏     | 16528/39832 [04:02<05:49, 66.61it/s][A
+Computing metrics:  42%|████▏     | 16535/39832 [04:02<05:49, 66.68it/s][A
+Computing metrics:  42%|████▏     | 16543/39832 [04:02<05:44, 67.66it/s][A
+Computing metrics:  42%|████▏     | 16550/39832 [04:02<05:40, 68.29it/s][A
+Computing metrics:  42%|████▏     | 16557/39832 [04:02<05:39, 68.61it/s][A
+Computing metrics:  42%|████▏     | 16565/39832 [04:02<05:36, 69.15it/s][A
+Computing metrics:  42%|████▏     | 16572/39832 [04:02<05:40, 68.29it/s][A
+Computing metrics:  42%|████▏     | 16579/39832 [04:02<05:58, 64.84it/s][A
+Computing metrics:  42%|████▏     | 16586/39832 [04:02<05:51, 66.21it/s][A
+Computing metrics:  42%|████▏     | 16593/39832 [04:02<05:47, 66.86it/s][A
+Computing metrics:  42%|████▏     | 16600/39832 [04:03<05:44, 67.36it/s][A
+Computing metrics:  42%|████▏     | 16608/39832 [04:03<05:40, 68.30it/s][A
+Computing metrics:  42%|████▏     | 16616/39832 [04:03<05:36, 68.91it/s][A
+Computing metrics:  42%|████▏     | 16623/39832 [04:03<05:37, 68.82it/s][A
+Computing metrics:  42%|████▏     | 16630/39832 [04:03<05:37, 68.66it/s][A
+Computing metrics:  42%|████▏     | 16638/39832 [04:03<05:32, 69.74it/s][A
+Computing metrics:  42%|████▏     | 16645/39832 [04:03<05:34, 69.29it/s][A
+Computing metrics:  42%|████▏     | 16652/39832 [04:03<06:06, 63.27it/s][A
+Computing metrics:  42%|████▏     | 16659/39832 [04:03<05:56, 64.95it/s][A
+Computing metrics:  42%|████▏     | 16667/39832 [04:04<05:45, 67.00it/s][A
+Computing metrics:  42%|████▏     | 16674/39832 [04:04<05:44, 67.22it/s][A
+Computing metrics:  42%|████▏     | 16682/39832 [04:04<05:39, 68.28it/s][A
+Computing metrics:  42%|████▏     | 16689/39832 [04:04<05:41, 67.79it/s][A
+Computing metrics:  42%|████▏     | 16697/39832 [04:04<05:37, 68.46it/s][A
+Computing metrics:  42%|████▏     | 16704/39832 [04:04<05:37, 68.56it/s][A
+Computing metrics:  42%|████▏     | 16711/39832 [04:04<05:38, 68.39it/s][A
+Computing metrics:  42%|████▏     | 16718/39832 [04:04<06:02, 63.83it/s][A
+Computing metrics:  42%|████▏     | 16726/39832 [04:04<05:50, 65.94it/s][A
+Computing metrics:  42%|████▏     | 16734/39832 [04:05<05:40, 67.79it/s][A
+Computing metrics:  42%|████▏     | 16741/39832 [04:05<05:40, 67.77it/s][A
+Computing metrics:  42%|████▏     | 16748/39832 [04:05<05:40, 67.71it/s][A
+Computing metrics:  42%|████▏     | 16755/39832 [04:05<05:39, 68.07it/s][A
+Computing metrics:  42%|████▏     | 16762/39832 [04:05<05:37, 68.30it/s][A
+Computing metrics:  42%|████▏     | 16769/39832 [04:05<05:35, 68.65it/s][A
+Computing metrics:  42%|████▏     | 16776/39832 [04:05<05:35, 68.73it/s][A
+Computing metrics:  42%|████▏     | 16783/39832 [04:05<05:58, 64.21it/s][A
+Computing metrics:  42%|████▏     | 16791/39832 [04:05<05:52, 65.39it/s][A
+Computing metrics:  42%|████▏     | 16799/39832 [04:06<05:44, 66.78it/s][A
+Computing metrics:  42%|████▏     | 16806/39832 [04:06<05:41, 67.39it/s][A
+Computing metrics:  42%|████▏     | 16813/39832 [04:06<05:39, 67.83it/s][A
+Computing metrics:  42%|████▏     | 16820/39832 [04:06<05:36, 68.41it/s][A
+Computing metrics:  42%|████▏     | 16827/39832 [04:06<05:39, 67.82it/s][A
+Computing metrics:  42%|████▏     | 16834/39832 [04:06<05:36, 68.30it/s][A
+Computing metrics:  42%|████▏     | 16841/39832 [04:06<05:35, 68.48it/s][A
+Computing metrics:  42%|████▏     | 16848/39832 [04:06<05:36, 68.28it/s][A
+Computing metrics:  42%|████▏     | 16855/39832 [04:06<05:46, 66.22it/s][A
+Computing metrics:  42%|████▏     | 16862/39832 [04:06<05:44, 66.73it/s][A
+Computing metrics:  42%|████▏     | 16869/39832 [04:07<05:40, 67.43it/s][A
+Computing metrics:  42%|████▏     | 16877/39832 [04:07<05:33, 68.74it/s][A
+Computing metrics:  42%|████▏     | 16885/39832 [04:07<05:29, 69.58it/s][A
+Computing metrics:  42%|████▏     | 16892/39832 [04:07<05:30, 69.36it/s][A
+Computing metrics:  42%|████▏     | 16899/39832 [04:07<05:30, 69.33it/s][A
+Computing metrics:  42%|████▏     | 16906/39832 [04:07<05:30, 69.26it/s][A
+Computing metrics:  42%|████▏     | 16914/39832 [04:07<05:28, 69.67it/s][A
+Computing metrics:  42%|████▏     | 16921/39832 [04:07<05:55, 64.45it/s][A
+Computing metrics:  42%|████▏     | 16928/39832 [04:07<05:48, 65.66it/s][A
+Computing metrics:  43%|████▎     | 16936/39832 [04:08<05:42, 66.79it/s][A
+Computing metrics:  43%|████▎     | 16944/39832 [04:08<05:37, 67.76it/s][A
+Computing metrics:  43%|████▎     | 16951/39832 [04:08<05:35, 68.27it/s][A
+Computing metrics:  43%|████▎     | 16958/39832 [04:08<05:35, 68.10it/s][A
+Computing metrics:  43%|████▎     | 16966/39832 [04:08<05:31, 68.98it/s][A
+Computing metrics:  43%|████▎     | 16973/39832 [04:08<05:31, 69.00it/s][A
+Computing metrics:  43%|████▎     | 16980/39832 [04:08<05:29, 69.27it/s][A
+Computing metrics:  43%|████▎     | 16987/39832 [04:08<05:29, 69.34it/s][A
+Computing metrics:  43%|████▎     | 16994/39832 [04:08<05:48, 65.59it/s][A
+Computing metrics:  43%|████▎     | 17001/39832 [04:09<05:43, 66.50it/s][A
+Computing metrics:  43%|████▎     | 17008/39832 [04:09<05:38, 67.33it/s][A
+Computing metrics:  43%|████▎     | 17015/39832 [04:09<05:36, 67.73it/s][A
+Computing metrics:  43%|████▎     | 17022/39832 [04:09<05:36, 67.72it/s][A
+Computing metrics:  43%|████▎     | 17029/39832 [04:09<05:35, 67.90it/s][A
+Computing metrics:  43%|████▎     | 17036/39832 [04:09<05:36, 67.81it/s][A
+Computing metrics:  43%|████▎     | 17043/39832 [04:09<05:35, 67.86it/s][A
+Computing metrics:  43%|████▎     | 17050/39832 [04:09<05:33, 68.36it/s][A
+Computing metrics:  43%|████▎     | 17057/39832 [04:09<05:34, 68.10it/s][A
+Computing metrics:  43%|████▎     | 17064/39832 [04:09<06:00, 63.08it/s][A
+Computing metrics:  43%|████▎     | 17071/39832 [04:10<05:51, 64.76it/s][A
+Computing metrics:  43%|████▎     | 17078/39832 [04:10<05:45, 65.82it/s][A
+Computing metrics:  43%|████▎     | 17085/39832 [04:10<05:41, 66.53it/s][A
+Computing metrics:  43%|████▎     | 17092/39832 [04:10<05:40, 66.84it/s][A
+Computing metrics:  43%|████▎     | 17099/39832 [04:10<05:36, 67.51it/s][A
+Computing metrics:  43%|████▎     | 17106/39832 [04:10<05:35, 67.68it/s][A
+Computing metrics:  43%|████▎     | 17113/39832 [04:10<05:40, 66.77it/s][A
+Computing metrics:  43%|████▎     | 17120/39832 [04:10<05:36, 67.47it/s][A
+Computing metrics:  43%|████▎     | 17127/39832 [04:10<05:59, 63.12it/s][A
+Computing metrics:  43%|████▎     | 17134/39832 [04:11<05:50, 64.75it/s][A
+Computing metrics:  43%|████▎     | 17142/39832 [04:11<05:40, 66.69it/s][A
+Computing metrics:  43%|████▎     | 17149/39832 [04:11<05:38, 66.99it/s][A
+Computing metrics:  43%|████▎     | 17156/39832 [04:11<05:35, 67.62it/s][A
+Computing metrics:  43%|████▎     | 17164/39832 [04:11<05:30, 68.65it/s][A
+Computing metrics:  43%|████▎     | 17171/39832 [04:11<05:30, 68.46it/s][A
+Computing metrics:  43%|████▎     | 17179/39832 [04:11<05:27, 69.15it/s][A
+Computing metrics:  43%|████▎     | 17186/39832 [04:11<05:30, 68.53it/s][A
+Computing metrics:  43%|████▎     | 17194/39832 [04:11<05:28, 68.91it/s][A
+Computing metrics:  43%|████▎     | 17201/39832 [04:12<05:52, 64.22it/s][A
+Computing metrics:  43%|████▎     | 17208/39832 [04:12<05:44, 65.70it/s][A
+Computing metrics:  43%|████▎     | 17215/39832 [04:12<05:39, 66.54it/s][A
+Computing metrics:  43%|████▎     | 17223/39832 [04:12<05:33, 67.80it/s][A
+Computing metrics:  43%|████▎     | 17231/39832 [04:12<05:29, 68.54it/s][A
+Computing metrics:  43%|████▎     | 17238/39832 [04:12<05:28, 68.81it/s][A
+Computing metrics:  43%|████▎     | 17246/39832 [04:12<05:24, 69.59it/s][A
+Computing metrics:  43%|████▎     | 17253/39832 [04:12<05:28, 68.76it/s][A
+Computing metrics:  43%|████▎     | 17260/39832 [04:12<05:28, 68.82it/s][A
+Computing metrics:  43%|████▎     | 17267/39832 [04:12<05:49, 64.49it/s][A
+Computing metrics:  43%|████▎     | 17274/39832 [04:13<05:42, 65.92it/s][A
+Computing metrics:  43%|████▎     | 17281/39832 [04:13<05:39, 66.46it/s][A
+Computing metrics:  43%|████▎     | 17288/39832 [04:13<05:35, 67.22it/s][A
+Computing metrics:  43%|████▎     | 17296/39832 [04:13<05:30, 68.28it/s][A
+Computing metrics:  43%|████▎     | 17303/39832 [04:13<05:29, 68.39it/s][A
+Computing metrics:  43%|████▎     | 17311/39832 [04:13<05:26, 69.02it/s][A
+Computing metrics:  43%|████▎     | 17319/39832 [04:13<05:23, 69.64it/s][A
+Computing metrics:  44%|████▎     | 17327/39832 [04:13<05:19, 70.46it/s][A
+Computing metrics:  44%|████▎     | 17335/39832 [04:13<05:31, 67.76it/s][A
+Computing metrics:  44%|████▎     | 17343/39832 [04:14<05:26, 68.90it/s][A
+Computing metrics:  44%|████▎     | 17350/39832 [04:14<05:26, 68.93it/s][A
+Computing metrics:  44%|████▎     | 17358/39832 [04:14<05:23, 69.56it/s][A
+Computing metrics:  44%|████▎     | 17366/39832 [04:14<05:20, 70.10it/s][A
+Computing metrics:  44%|████▎     | 17374/39832 [04:14<05:15, 71.10it/s][A
+Computing metrics:  44%|████▎     | 17382/39832 [04:14<05:13, 71.51it/s][A
+Computing metrics:  44%|████▎     | 17390/39832 [04:14<05:14, 71.29it/s][A
+Computing metrics:  44%|████▎     | 17398/39832 [04:14<05:14, 71.43it/s][A
+Computing metrics:  44%|████▎     | 17406/39832 [04:15<05:39, 66.12it/s][A
+Computing metrics:  44%|████▎     | 17414/39832 [04:15<05:31, 67.54it/s][A
+Computing metrics:  44%|████▎     | 17422/39832 [04:15<05:28, 68.12it/s][A
+Computing metrics:  44%|████▍     | 17430/39832 [04:15<05:22, 69.46it/s][A

@@ -444,7 +444,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         eta_fn: Callable[[int], float]=None,
         initial_guesses=None,
         continue_training=False,
-        batch_size: int = 3,
+        batch_size: int = 30,
         reset_method: str = "dirichlet",
     ):
         """

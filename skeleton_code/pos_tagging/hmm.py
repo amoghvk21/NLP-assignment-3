@@ -46,6 +46,11 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         self.emission_prob = torch.full([self.num_states, self.num_obs], self.epsilon, device=self.device)
         self.log_scale = False
         self.cnt = 0  # Number of updates in sEM
+        
+        # Variables for staged sEM training (persist across stages)
+        self.sem_k = None  # Counter of batches performed - used for eta function
+        self.sem_global_trans_stats = None  # Global transition statistics (mu)
+        self.sem_global_emit_stats = None  # Global emission statistics (mu)
 
     def reset_logspace_random(self):
         """
@@ -471,15 +476,16 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
             self.log_scale = True
 
-        # Initialise mu
-        global_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1, device=self.device)
-        global_emit_stats = torch.zeros(self.num_states, self.num_obs, device=self.device)
+        # Only initialize when starting a new training (not continuing)
+        if not continue_training or self.sem_global_trans_stats is None:
+            # Initialise mu
+            self.sem_global_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1, device=self.device)
+            self.sem_global_emit_stats = torch.zeros(self.num_states, self.num_obs, device=self.device)
+            self.sem_k = 0  # Counter of batches performed - used for eta function
 
         # Allocating memory here and zeroing at each batch for efficiency
         batch_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1, device=self.device)
         batch_emit_stats = torch.zeros(self.num_states, self.num_obs, device=self.device)
-
-        k = 0  # Counter of batches performed - used for eta function
 
         # Iterate over epochs
         for epoch in range(num_iter):
@@ -523,19 +529,19 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                     continue
 
                 # Compute stepsize
-                stepsize = eta_fn(k)
+                stepsize = eta_fn(self.sem_k)
 
                 # Interpolate global stats and local (sentence) stats
-                global_trans_stats = ((1 - stepsize) * global_trans_stats) + (stepsize * batch_trans_stats)
-                global_emit_stats = ((1 - stepsize) * global_emit_stats) + (stepsize * batch_emit_stats)
+                self.sem_global_trans_stats = ((1 - stepsize) * self.sem_global_trans_stats) + (stepsize * batch_trans_stats)
+                self.sem_global_emit_stats = ((1 - stepsize) * self.sem_global_emit_stats) + (stepsize * batch_emit_stats)
 
-                k += 1
+                self.sem_k += 1
                 
                 # Update parameters after each sentence
                 # Add epsilon smoothing to avoid zero probabilities                
                 # Normalise into valid log probabilities
-                self.transition_prob = self._normalize_log(global_trans_stats + self.epsilon)
-                self.emission_prob = self._normalize_log(global_emit_stats + self.epsilon)
+                self.transition_prob = self._normalize_log(self.sem_global_trans_stats + self.epsilon)
+                self.emission_prob = self._normalize_log(self.sem_global_emit_stats + self.epsilon)
 
 
     def _forward_log(self, input_ids):

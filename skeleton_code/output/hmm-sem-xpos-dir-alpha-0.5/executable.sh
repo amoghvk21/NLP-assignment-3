@@ -16,6 +16,6 @@ source ../venv/bin/activate
 
 echo "running file"
 
-python3.12 -u -m main train-test hmm-sEM xpos --max-epochs 20 1 --save-path ./output/hmm-sem-xpos-dir-alpha-0.5/save/hmm-sem-xpos-dir-alpha-0.5.pt --res-path ./output/hmm-sem-xpos-dir-alpha-0.5/results/hmm-sem-xpos-dir-alpha-0.5.csv
+python3.12 -u -m main train-test hmm-sEM xpos --max-epochs 20 1 --save-path ./output/hmm-sem-xpos-dir-alpha-0.5/save/hmm-sem-xpos-dir-alpha-0.5.pt --res-path ./output/hmm-sem-xpos-dir-alpha-0.5/results/hmm-sem-xpos-dir-alpha-0.5.csv --alpha-sem 0.5
 
 echo "finished job"

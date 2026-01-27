@@ -15,7 +15,7 @@ This project implements the following models and algorithms:
 
 - Neural HMM
 
-- K-means over BERT Embeddings
+- K-means using BERT Embeddings
 
 HMM models employ log scale parameters to avoid underflow.
 
@@ -43,11 +43,12 @@ FYI: I will be training using staged training for each epoch so that:
 
 ```
 .
-|  AmoghVishwakarmaReport2526.pdf      # my report
+|  2403FReport.pdf                     # my report
 |  requirements.txt                    # python requirements
 |  experiments.sh                      # all experiments ran for the report
 |  Neural HMM Paper (Tran et al.).pdf  # Paper for Neural HMM implementation
 |  Online EM Paper.pdf                 # Paper for SEM implementation
+|  venv                                # venv directory to be created here
 └─skeleton_code
     │  argparser.py                    # argument parser
     │  hmm_pipeline.py                 # HMM training and testing pipelines

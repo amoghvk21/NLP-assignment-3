@@ -2,8 +2,4 @@
 - need to understand subword pooling in generate_bert_embeddings()
 
 
-- remove comments that say as per paper
-
-randomize -> randomise
-
-usw blind grading number on the report
+use blind grading number on the report

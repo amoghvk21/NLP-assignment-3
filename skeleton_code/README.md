@@ -43,7 +43,7 @@ FYI: I will be training using staged training for each epoch so that:
 
 ```
 .
-|  2403FReport.pdf                     # my report
+|  2403F_Report.pdf                    # my report
 |  requirements.txt                    # python requirements
 |  experiments.sh                      # all experiments ran for the report
 |  README.md

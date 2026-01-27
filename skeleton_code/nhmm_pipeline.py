@@ -27,14 +27,14 @@ def train(
     Train Neural HMM model.
     
     Args:
-        dataset_splits: Dataset splits (train/test)
+        dataset_splits: Dataset splits
         num_states: Number of hidden states (POS tags)
         vocab: List of sentences for building vocabulary
         tag_mapping: Dictionary mapping tag strings to integers
         device: Device to run model on
         max_epochs: Maximum number of training epochs
         save_path: Path to save the model
-        res_path: Path to save per-epoch training metrics CSV
+        res_path: Path to save per-epoch training metrics
     """
     logger.info("Training Neural HMM")
     
@@ -70,27 +70,16 @@ def eval(
 ):
     """
     Evaluate a trained NHMM model on the specified dataset split.
-    Writes results to res_path.
+    Saves results to res_path.
 
     Args:
         dataset_split: Dataset split to evaluate on
         model: Trained NeuralHMM model
         res_path: Path to save the results to
-
-    Returns:
-        Dictionary containing the evaluation metrics
-
-    Steps:
-        1. For each sentence in the evaluation dataset:
-           a. Predict cluster labels for each word using the model
-           b. Collect gold POS tags for each word
-        2. Compare predicted cluster labels with gold POS tags across all sentences
-        3. Compute evaluation metrics (Variation of Information, V-measure)
-        4. Save detailed predictions and computed metrics to `res_path`
     """
+
     logger.info("Evaluating NHMM")
 
-    # Evaluate
     num_samples = len(dataset_split)
     results = []
     all_true_tags = []
@@ -199,30 +188,25 @@ def train_and_test(
     Train and test NeuralHMM on the specified dataset.
 
     Args:
-        tag_name: "upos" or "xpos" for POS tag type
+        tag_name: "upos" or "xpos"
         subset: How many examples to use (None = all)
-        max_epochs: List with [max_epochs, ...] values for training epochs
+        max_epochs: List with [max_epochs, ...] values
         load_path: Path to load model (optional)
-        save_path: Path to save model (.pt)
-        res_path: Path to save per-epoch training metrics csv
-
-    Steps:
-        1. Load PTB dataset
-        2. Create tag mapping
-        3. Train NHMM model
-        4. Evaluate NHMM model
+        save_path: Path to save model
+        res_path: Path to save results
     """
+
     logger.info("Training and testing NeuralHMM")
     logger.warning(f"Using {tag_name} as tag")
 
     if save_path is None:
         raise ValueError("save_path must be provided for training and evaluation")
 
-    # 1. Load PTB dataset
+    # Load dataset
     sentences, upos_set, xpos_set = load_ptb_dataset(line_num=subset)
     dataset = wrap_dataset(sentences)
 
-    # 2. Create tag mapping
+    # Create tag mapping
     tag_mapping = {
         "upos": create_tag_mapping(upos_set),
         "xpos": create_tag_mapping(xpos_set)
@@ -242,7 +226,7 @@ def train_and_test(
     # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     device = torch.device("cpu")
 
-    # 3. Train NHMM model (needs gradients, so no torch.no_grad())
+    # Train NHMM model
     model = train(
         dataset_splits=dataset_splits,
         num_states=len(tag_mapping),
@@ -254,7 +238,7 @@ def train_and_test(
         res_path=res_path
     )
 
-    # 4. Evaluate NHMM model (use no_grad for inference)
+    # Evaluate NHMM model
     model.eval()
     with torch.no_grad():
         test_res_path = f"{res_path}_all_test.csv"
@@ -280,10 +264,10 @@ def test(
     Test NeuralHMM on the specified dataset.
 
     Args:
-        tag_name: "upos" or "xpos" for POS tag type
+        tag_name: "upos" or "xpos"
         subset: How many examples to use (None = all)
-        load_path: Path to load trained model (.pt)
-        res_path: Path to save results csv
+        load_path: Path to load trained model
+        res_path: Path to save results
     """
     logger.info("Testing NeuralHMM")
     logger.warning(f"Using {tag_name} as tag")
@@ -291,11 +275,11 @@ def test(
     if load_path is None:
         raise ValueError("load_path must be provided for testing")
 
-    # 1. Load PTB dataset
+    # Load dataset
     sentences, upos_set, xpos_set = load_ptb_dataset(line_num=subset)
     dataset = wrap_dataset(sentences)
 
-    # 2. Create tag mapping
+    # Create tag mapping
     tag_mapping = {
         "upos": create_tag_mapping(upos_set),
         "xpos": create_tag_mapping(xpos_set)
@@ -317,7 +301,6 @@ def test(
     device = torch.device("cpu")
     
     # Reconstruct model for evaluation
-    # Note: This requires the same vocab and tag_mapping used during training
     model = NeuralHMMClassifier(
         num_states=len(tag_mapping),
         vocab=sentences,
@@ -327,7 +310,7 @@ def test(
     model.load_state_dict(torch.load(load_path, map_location=device))
     model.eval()
 
-    # 4. Call eval() to do the actual evaluation
+    # Call eval() to do the actual evaluation
     with torch.no_grad():
         eval(
             dataset_splits["test"],

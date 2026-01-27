@@ -87,6 +87,7 @@ def train_hmm_stage(
             t_path.insert(-1, f"{i}")
             t_path = ".".join(t_path)
             logger.info(f"Saving HMM model to {t_path}")
+            
             # Create directory if it doesn't exist
             dir_path = os.path.dirname(t_path)
             if dir_path:

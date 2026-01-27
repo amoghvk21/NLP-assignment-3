@@ -108,30 +108,15 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
     
     def _get_initial_log_probs(self) -> torch.Tensor:
         """
-        Compute initial state log probabilities using learnable parameter.
+        Compute initial state log probabilities
         
         Returns:
             log_probs: Tensor of shape (num_states,) with log probabilities
         """
-        # Use learnable parameter vector for initial probabilities
+
         log_probs = F.log_softmax(self.initial_param, dim=0)
         return log_probs
     
-    def _get_transition_log_probs(self, prev_state: int) -> torch.Tensor:
-        """
-        Compute transition log probabilities from previous state.
-        
-        Args:
-            prev_state: Previous state index (0-indexed)
-            
-        Returns:
-            log_probs: Tensor of shape (num_states,) with log probabilities for next states
-        """
-        
-        flat_T = self.transition_net(self.query_vector)
-        T_matrix = flat_T.view(self.num_states, self.num_states)  # Reshape into (num_states, num_states)
-        log_T_matrix = F.log_softmax(T_matrix, dim=1)
-        return log_T_matrix[prev_state]
     
     def _get_transition_log_matrix(self) -> torch.Tensor:
         """
@@ -146,22 +131,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         log_T_matrix = F.log_softmax(T_matrix, dim=1)
         return log_T_matrix
 
-    def _get_emission_log_prob(self, word_idx: int, state: int) -> torch.Tensor:
-        """
-        Compute emission log probability for word given state.
-        
-        Args:
-            word_idx: Word index
-            state: State index (0-indexed)
-            
-        Returns:
-            log_prob: Scalar tensor with log probability
-        """
-        state_tensor = torch.tensor(state, device=self.device)
-        logits = self.emission_net(state_tensor)    # (vocab_size,)
-        log_probs = F.log_softmax(logits, dim=0) # turn into log probs
-        return log_probs[word_idx]
-    
+
     def _get_emission_log_matrix(self) -> torch.Tensor:
         """
         Compute emission log matrix.
@@ -174,14 +144,15 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         logits = self.emission_net(all_state_indicies)   # Pass it in all states at once
         log_E_matrix = F.log_softmax(logits, dim=1)  # normalise across columns
         return log_E_matrix
+        
 
     def compute_metrics(self, dataset: Dataset) -> dict:
         """
-        Compute clustering metrics (normalized VI, homogeneity, completeness, V-score) 
+        Compute metrics (normalized VI, homogeneity, completeness, V-score) 
         for the dataset.
         
         Args:
-            dataset: Dataset with "form" (words) and "upos" (true labels)
+            dataset: Dataset with "form" (words) and "tags" (true labels)
             
         Returns:
             Dictionary with metrics: normalized_vi, homogeneity, completeness, v_score
@@ -228,7 +199,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         """
         Compute forward probabilities in log space for a batch of sequences.
         log_alpha = log P(x_1...x_t, y_t = s | theta)
-        prob of seeing sequence x_1 ... x_t and being in state s at time t given the model parameters
+        prob of seeing sequence x_1 ... x_t and being in state s at time t given the model parameters theta
 
         Args:
             input_ids_padded: Padded word indices (batch_size, max_len)
@@ -302,6 +273,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         
         Args:
             batch: List of dicts
+            Inside batch:
                 form: List of words
                 input_ids: List of word indices (preprocessed forms)
             
@@ -309,7 +281,8 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             input_ids_padded: Padded word indices (batch_size, max_len)
             lengths: Actual lengths of each sequence (batch_size,)
         """
-        # Use pre-processed input_ids
+
+        # Get pre processed input_ids
         batch_input_ids = [example["input_ids"] for example in batch]
         
         # Get lengths and max_len
@@ -324,6 +297,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         
         return input_ids_padded, lengths
 
+
     def train_model(
         self, 
         dataset: Dataset,
@@ -337,10 +311,7 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
         max_sentence_length: int = 40,
     ):
         """
-        Train the Neural HMM using Generalized EM (forward-backward + backpropagation).
-        
-        The gradient is computed as:
-        J(θ) = Σ_z p(z | x) ∂/∂θ ln p(x, z | θ)
+        Train the Neural HMM using Generalised EM (forward-backward + backpropagation).
         
         Hyperparameters:
         - Epochs: 5
@@ -356,10 +327,10 @@ class NeuralHMMClassifier(nn.Module, BaseUnsupervisedClassifier):
             lr: Learning rate for optimizer
             minibatch_size: Number of sentences per batch (default: 256)
             max_inner_loops: Maximum inner loop updates per batch (default: 6)
-            convergence_threshold: Stop if log prob change < this (default: 1e-4)
-            max_grad_norm: Clip gradients if norm exceeds this (default: 5.0)
-            max_sentence_length: Filter sentences longer than this (default: 40)
-            res_path: Path to save metrics CSV
+            convergence_threshold: Stop if log prob change < this value (default: 1e-4)
+            max_grad_norm: Clip gradients if norm exceeds this value (default: 5.0)
+            max_sentence_length: Filter sentences longer than this value (default: 40)
+            res_path: Path to save metrics
         """
         logger.info(f"Training Neural HMM for {max_epochs} epochs")
         logger.info(f"Learning rate: {lr}")

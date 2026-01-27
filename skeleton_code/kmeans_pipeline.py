@@ -31,7 +31,7 @@ def generate_bert_embeddings(
         sentences: List of sentences from PTB
         word_embedding_path: Path to the word embedding cache file
         batch_size: Batch size for processing sentences (default: 32)
-        device: Device to use for the model (default: auto-detect)
+        device: Device to use for the model
 
     Returns:
         all_word_embeddings: List of tensors, each containing word embeddings for one sentence
@@ -147,11 +147,11 @@ def generate_bert_embeddings(
                             # Add the pooled embedding to the result list
                             word_embeddings.append(word_embedding)
                         
-                        # Verify we got embeddings for all words
+                        # Raise error if mismatch between words and embeddings
                         if len(word_embeddings) != len(words):
                             raise RuntimeError(
                                 f"Sentence {i+j}: Expected {len(words)} word embeddings,", 
-                                f"got {len(word_embeddings)}. Padding/truncating."
+                                f"got {len(word_embeddings)}. Mismatch between words and embeddings."
                             )
                             
                         # Store embeddings for this sentence
@@ -180,7 +180,7 @@ def generate_bert_embeddings(
         embeddings_tensor = torch.empty((0, 768))
         logger.warning("No embeddings generated!")
 
-    # Return embeddings list, flattened tensor, and BERT model/tokenizer
+    # Return embeddings list, flattened tensor, and BERT model and tokenizer
     return all_word_embeddings, embeddings_tensor, bert_model, tokenizer
 
 
@@ -197,7 +197,7 @@ def train(
     
     Args:
         embeddings_tensor: Tensor of shape (total_word_tokens, hidden_dim) containing all contextual embeddings
-        num_clusters: Number of clusters (matches number of POS tags)
+        num_clusters: Number of clusters
         device: Device to run model on
         bert_model: Pre-loaded BERT model
         tokenizer: Pre-loaded BERT tokenizer
@@ -238,24 +238,14 @@ def eval(
 ):
     """
 
-    Evaluate a trained K-means model on the specified dataset split.
-    Writes results to res_path.
+    Evaluate a trained K-means model on the dataset split.
+    Saves results to res_path.
 
     Args:
         dataset_split: Dataset split to evaluate on
         load_path: Path to load the model from
         res_path: Path to save the results to
 
-    Returns:
-        Dictionary containing the evaluation metrics
-
-    Steps:
-        1. For each sentence in the evaluation dataset:
-           a. Predict cluster labels for each word using the model
-           b. Collect gold POS tags for each word
-        2. Compare predicted cluster labels with gold POS tags across all sentences
-        3. Compute evaluation metrics (Variation of Information, V-measure)
-        4. Save detailed predictions and computed metrics to `res_path`
     """
 
     logger.info("Evaluating K-means")
@@ -364,31 +354,21 @@ def test(
     Test or evaluate a trained K-means model on the specified dataset split.
 
     Args:
-        tag_name: "upos" or "xpos" (which POS tag type to use for evaluation)
+        tag_name: "upos" or "xpos"
         subset: How many examples to use for testing (None = use all)
-        load_path: Path to the saved K-means model (.pkl)
-        res_path: Path to save the results (e.g., CSV file)
-
-    Returns:
-        None (writes results/metrics to res_path)
-
-    Steps:
-        1. Load dataset split (e.g., PTB validation or test set)
-
-    Notes:
-        - The function assumes all necessary data and the trained model have already been generated/saved.
-        - This does _not_ retrain K-means; it only loads and applies an existing model.
+        load_path: Path to the saved K-means model
+        res_path: Path to save the results
     """
     
     logger.info("Testing K-means")
 
     logger.warning(f"Using {tag_name} as tag")
 
-    # 1. Load dataset split (e.g., PTB validation or test set)
+    # Load dataset
     sentences, upos_set, xpos_set = load_ptb_dataset(line_num=subset)
     dataset = wrap_dataset(sentences)
 
-    # 2. Create tag mapping
+    # Create tag mapping
     tag_mapping = {
         "upos": create_tag_mapping(upos_set),
         "xpos": create_tag_mapping(xpos_set),
@@ -405,7 +385,7 @@ def test(
 
     dataset_splits = DatasetDict({"train": dataset, "test": dataset})
     
-    # 3. Call eval() to do the actual evaluation
+    # Call eval() to do the actual evaluation
     with torch.no_grad():
         eval(
             dataset_splits["test"],
@@ -414,6 +394,7 @@ def test(
         )
 
     logger.info("K-means testing successful")
+
 
 def train_and_test(
     tag_name: str,
@@ -426,18 +407,11 @@ def train_and_test(
     Train and test a K-means model on the specified dataset split.
 
     Args:
-        tag_name: "upos" or "xpos" (which POS tag type to use for evaluation)
+        tag_name: "upos" or "xpos"
         subset: How many examples to use (None = use all)
-        word_embedding_path: Path to load/save BERT embeddings cache (.pt)
-        save_path: Path to save the K-means model (.pkl)
-        res_path: Path to save the results CSV
-
-    Steps:
-        1. Load PTB dataset
-        2. Generate/load BERT embeddings for all unique words
-        3. Create tag mapping
-        4. Train K-means model
-        5. Evaluate K-means model
+        word_embedding_path: Path to load/save BERT embeddings cache
+        save_path: Path to save the K-means model
+        res_path: Path to save the results
     """
 
     logger.info("Training and testing K-means")
@@ -446,11 +420,11 @@ def train_and_test(
     if save_path is None:
         raise ValueError("save_path must be provided for training and evaluation")
 
-    # 1. Load PTB dataset
+    # Load dataset
     sentences, upos_set, xpos_set = load_ptb_dataset(line_num=subset)
     dataset = wrap_dataset(sentences)
 
-    # 2. Generate/load context-dependent BERT embeddings for all sentences
+    # Generate/load context-dependent BERT embeddings for all sentences
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     all_word_embeddings, embeddings_tensor, bert_model, tokenizer = generate_bert_embeddings(
         sentences,
@@ -459,7 +433,7 @@ def train_and_test(
         device=device
     )
 
-    # 3. Create tag mapping
+    # Create tag mapping
     tag_mapping = {
         "upos": create_tag_mapping(upos_set),
         "xpos": create_tag_mapping(xpos_set),
@@ -476,7 +450,7 @@ def train_and_test(
     dataset_splits = DatasetDict({"train": dataset, "test": dataset})
     
     with torch.no_grad():
-        # 4. Train K-means model on contextual embeddings
+        # Train K-means model on contextual embeddings
         train(
             embeddings_tensor=embeddings_tensor,
             num_clusters=len(tag_mapping),
@@ -486,7 +460,7 @@ def train_and_test(
             save_path=save_path
         )
 
-        # 5. Evaluate K-means model
+        # Evaluate K-means model
         eval(
             dataset_splits["test"],
             load_path=save_path,

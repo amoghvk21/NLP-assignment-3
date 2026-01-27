@@ -19,25 +19,25 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             emission_prob: N * M
 
         Parameters:
-            num_states: number of hidden states
+            num_states: number of hidden states (POS tags)
             num_obs: number of observations
-            device: torch.device to use ('cuda', 'cpu', or None for auto-detect)
+            device: Device to run model on
         """
         self.num_states = num_states
         self.num_obs = num_obs
         
-        # Device handling: auto-detect CUDA if available, otherwise use CPU
+        # Device handling: auto detect CUDA if available
+        # otherwise use CPU
         if device is None:
             self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         else:
             self.device = device
 
-        # MANUAL DEVICE SETTING TO CPU
+        # MANUAL DEVICE SETTING TO CPU for testing
         self.device = torch.device('cpu')
 
         logger.info(f"Using device: {self.device}")
         
-        # Initialized to epsilon, so allowing unseen transition/emission to have p>0
         self.epsilon = 1e-5
         self.transition_prob = torch.full(
             [self.num_states + 1, self.num_states + 1], self.epsilon, device=self.device
@@ -45,7 +45,6 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         self.transition_prob[:, 0] = 0.0
         self.emission_prob = torch.full([self.num_states, self.num_obs], self.epsilon, device=self.device)
         self.log_scale = False
-        self.cnt = 0  # Number of updates in sEM
         
         # Variables for staged sEM training (persist across stages)
         self.sem_k = None  # Counter of batches performed - used for eta function
@@ -54,7 +53,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
     def reset_logspace_random(self):
         """
-        Reset the model parameters from self.epsilon to 1.
+        Reset the model parameters randomly from self.epsilon to 1 and normalise.
 
         """
 
@@ -75,9 +74,9 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
     def reset_logspace_dirichlet(self):
         """
-        Reset the model parameters using samples from the Dirichlet distribution.
+        Reset the model parameters using samples from the Dirichlet distribution with alpha=0.5. 
 
-        Sample each row of matricies from this dist
+        Sample each row of matricies from this distribution.
         """
 
         alpha = 0.5
@@ -100,12 +99,13 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         emit_linear = emit_linear / emit_linear.sum(dim=1, keepdim=True)
         self.emission_prob = torch.log(emit_linear)
 
-        
         self.log_scale = True
 
 
-
     def reset_logspace(self, method: str = "dirichlet"):
+        """
+        Reset the model parameters using the specified method.
+        """
 
         if method == "dirichlet":
             self.reset_logspace_dirichlet()
@@ -116,6 +116,11 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
 
     def reset_uniform(self, log_space: bool):
+        """
+        Reset the model parameters to uniform distribution.
+        Used by MLE
+        """
+        
         self.transition_prob = torch.full(
             [self.num_states + 1, self.num_states + 1], self.epsilon, device=self.device
         )
@@ -284,6 +289,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         self.emission_prob = self._normalize_log(self.emission_prob)
         self.log_scale = True
 
+
     def train_EM_log(
         self,
         inputs: Dataset,
@@ -315,8 +321,6 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             self.emission_prob = torch.log(self.emission_prob + self.epsilon)
             self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
             self.log_scale = True
-
-        # Complete your code here
 
         for i in range(num_iter):
             logger.info(f"Soft EM iteration {i + 1}/{num_iter}")
@@ -351,7 +355,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 soft_trans_counts += trans_expected
                 soft_emit_counts += emit_expected
 
-            # 5. M-step: update parameters from soft counts (use log version for log_scale)
+            # M-step - update parameters from soft counts
             self.transition_prob = self._normalize_log(soft_trans_counts)
             self.emission_prob = self._normalize_log(soft_emit_counts)
 
@@ -365,7 +369,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         reset_method: str = "dirichlet",
     ):
         """
-        Train an HMM with the hard EM algorithm (also called Viterbi EM)
+        Train an HMM with the hard EM algorithm.
         """
 
         # stage 1 or not using staged training
@@ -387,8 +391,6 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             self.emission_prob = torch.log(self.emission_prob + self.epsilon)
             self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
             self.log_scale = True
-
-        # Complete your code here
 
         for iter in range(num_iter):
             logger.info(f"Hard EM iteration {iter+1}/{num_iter}")
@@ -437,7 +439,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
                 )
 
 
-            # M-step: update parameters from hard counts
+            # M-step - update parameters from hard counts
             self.transition_prob = self._normalize_log(transition_counts)
             self.emission_prob = self._normalize_log(emission_counts)
 
@@ -476,7 +478,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             self.transition_prob[:, 0] = float("-inf")  # Can't transition to start state
             self.log_scale = True
 
-        # Only initialize when starting a new training (not continuing)
+        # Only initialise when starting a new training (not continuing)
         if not continue_training or self.sem_global_trans_stats is None:
             # Initialise mu
             self.sem_global_trans_stats = torch.zeros(self.num_states + 1, self.num_states + 1, device=self.device)
@@ -500,7 +502,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         for epoch in range(num_iter):
             logger.info(f"Stepwise EM epoch {epoch + 1}/{num_iter}")
 
-            # Shuffle input dataset for each epoch for stochasticity
+            # Shuffle input dataset for each epoch
             indices = list(range(len(inputs)))
             random.shuffle(indices)
 
@@ -565,6 +567,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
             log_alpha: Tensor of shape (num_states, T) where
                 log_alpha[s, t] = log P(x_1...x_t, y_t = s | theta)
         """
+
         T = len(input_ids)
         if T == 0:
             # Return empty tensor for empty sequence
@@ -626,7 +629,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         
         # Initialization: log_beta[:, T-1] = log(1) = 0
 
-        # Precompute transitions for speed
+        # Precompute transitions
         # transitions: (num_states, num_states)
         transitions = self.transition_prob[1:num_states + 1, 1:num_states + 1]  # [from_state, to_state]
         
@@ -702,7 +705,7 @@ class HMMClassifier(BaseUnsupervisedClassifier):
         xi0 = torch.exp(log_xi0)  # (num_states,)
         trans_expected[0, 1:self.num_states + 1] += xi0  # add initial transitions to counts
 
-        # Transitions between states (vectorised over all time steps)
+        # Transitions between states
         # Prepare emission for all next observations: (T-1, num_states)
         observations = torch.tensor(input_ids[1:], dtype=torch.long, device=self.device)                   # (T-1,)
         emission = self.emission_prob[:, observations].T             # (T-1, num_states)
@@ -746,8 +749,6 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
         # init 
         V[:, 0] = self.transition_prob[0, 1:] * self.emission_prob[:, input_ids[0]]  # Initial probabilities of going from start state to each other state
-
-        # Complete code here
 
         # transition_matrix shape (N, N)
         transitions = self.transition_prob[1:, 1:] # from 1...N to 1...N
@@ -804,8 +805,6 @@ class HMMClassifier(BaseUnsupervisedClassifier):
 
         # init 
         V[:, 0] = self.transition_prob[0, 1:] + self.emission_prob[:, input_ids[0]]  # Initial probabilities of going from start state to each other state
-
-        # Complete code here
 
         # transition_matrix shape (N, N)
         transitions = self.transition_prob[1:, 1:] # from 1...N to 1...N

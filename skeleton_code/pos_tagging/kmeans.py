@@ -56,7 +56,7 @@ class KMeansClassifier(BaseUnsupervisedClassifier):
         embeddings_np = embeddings_tensor.detach().cpu().numpy()
         
         # Fit sklearn KMeans model on all word embeddings
-        # This clusters word occurances, not word types
+        # This clusters word occurances
         logger.info("Starting KMeans fit")
         self.kmeans_model = KMeans(n_clusters=self.num_clusters, random_state=42, n_init=10)
         cluster_labels = self.kmeans_model.fit_predict(embeddings_np)
@@ -83,15 +83,15 @@ class KMeansClassifier(BaseUnsupervisedClassifier):
         
         # Tokenise the sentence with word alignment enabled
         # This allows us to map tokens back to words using word_ids()
-        # We need to encode first to get word_ids, then convert to tensors
-        encoded = self.tokenizer(
+        # We need to tokenise first to get word_ids, then convert to tensors
+        tokenised_sentences = self.tokenizer(
             word_list,
             is_split_into_words=True,  # tells tokenizer words are pre-split
             padding=True,
             truncation=True,
             return_tensors="pt"
         )
-        tokens = {k: v.to(self.device) for k, v in encoded.items()}
+        tokens = {k: v.to(self.device) for k, v in tokenised_sentences.items()}
         
         # Pass through BERT to get contextualised embeddings
         with torch.no_grad():
@@ -99,7 +99,7 @@ class KMeansClassifier(BaseUnsupervisedClassifier):
             hidden_states = outputs.last_hidden_state[0]  # (seq_len, hidden_dim); index 0 to get first (and only) sentence
 
         # For each word, align it to its subword tokens using word_ids()
-        word_ids = encoded.word_ids()  # (seq_len,)
+        word_ids = tokenised_sentences.word_ids()  # (seq_len,)
         
         # Mean pool subword token embeddings to get word embedding
         word_embeddings = []
@@ -141,7 +141,7 @@ class KMeansClassifier(BaseUnsupervisedClassifier):
             # Add the pooled word embedding to the result list
             word_embeddings.append(word_embedding)
         
-        # Handle edge cases: mismatch between words and embeddings
+        # Raise error if mismatch between words and embeddings
         if len(word_embeddings) != len(word_list):
             raise RuntimeError(
                 f"Inference: Expected {len(word_list)} word embeddings, "

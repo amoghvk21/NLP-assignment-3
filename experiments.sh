@@ -86,9 +86,9 @@ python -m main train-test kmeans xpos --word-embedding-path ./output/kmeans-xpos
 
 # ---------------------------------------------- #
 
-# NHMM UPOS
+# Neural HMM UPOS
 python -m main train-test nhmm upos --max-epochs 40 --save-path ./output/nhmm-upos/save/nhmm-upos.pt --res-path ./output/nhmm-upos/results/nhmm-upos.csv
-# NHMM XPOS
+# Neural HMM XPOS
 python -m main train-test nhmm xpos --max-epochs 40 --save-path ./output/nhmm-xpos/save/nhmm-xpos.pt --res-path ./output/nhmm-xpos/results/nhmm-xpos.csv
 
 # ---------------------------------------------- #
